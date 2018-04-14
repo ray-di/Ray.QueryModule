@@ -29,13 +29,15 @@ class SqlQueryModule extends AbstractModule
         parent::__construct($module);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         foreach ($this->files($this->sqlDir) as $fileInfo) {
             /* @var \SplFileInfo $fileInfo */
             $fullPath = $fileInfo->getPathname();
-            $path = pathinfo($fileInfo->getRealPath());
-            $name = $path['filename'];
+            $name = pathinfo($fileInfo->getRealPath())['filename'];
             $sqlId = 'sql-' . $name;
             $this->bind(QueryInterface::class)->annotatedWith($name)->toConstructor(
                 SqlQuery::class,
@@ -46,10 +48,7 @@ class SqlQueryModule extends AbstractModule
         }
     }
 
-    /**
-     * @return \RegexIterator
-     */
-    private function files($dir)
+    private function files($dir) : \RegexIterator
     {
         return
             new \RegexIterator(

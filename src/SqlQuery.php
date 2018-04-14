@@ -30,8 +30,6 @@ final class SqlQuery implements QueryInterface
 
     public function __invoke(array $query)
     {
-        $statement = $this->pdo->perform($this->sql, $query);
-
-        return $statement->fetchAll();
+        return $this->pdo->perform($this->sql, $query)->fetchAll();
     }
 }
