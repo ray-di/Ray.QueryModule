@@ -8,7 +8,7 @@ declare(strict_types=1);
  */
 $rm = function ($dir) use (&$rm) {
     foreach (glob($dir . '/*') as $file) {
-        is_dir($file) ? $rm($file) : unlink($file);
+        is_dir($file) ? $rm($file) : @unlink($file);
         @rmdir($file);
     }
 };
