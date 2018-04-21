@@ -43,6 +43,10 @@ class SqlQueryModule extends AbstractModule
                 SqlQuery::class,
                 "sql={$sqlId}"
             );
+            $this->bind('callable')->annotatedWith($name)->toConstructor(
+                SqlQuery::class,
+                "sql={$sqlId}"
+            );
             $sql = trim(file_get_contents($fullPath));
             $this->bind('')->annotatedWith($sqlId)->toInstance($sql);
         }
