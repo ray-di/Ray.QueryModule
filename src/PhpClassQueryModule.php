@@ -24,6 +24,7 @@ class PhpClassQueryModule extends AbstractModule
     {
         foreach ($this->configs as $name => $binding) {
             $this->bindQuery($name, $binding);
+            $this->bind()->annotatedWith($name)->to($binding);
         }
     }
 

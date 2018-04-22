@@ -45,12 +45,12 @@ SELECT * FROM todo WHERE id = :id
 class Todo
 {
     /**
-     * @var QueryInterface
+     * @var callable
      */
     private $todoInsert;
     
     /**
-     * @var QueryInterface
+     * @var callable
      */
     private $todoItem;
     
@@ -58,8 +58,8 @@ class Todo
      * @Named("todoInsert=todo_insert, todoItem=todo_item")
      */
     public function __construct(
-        QueryInterface $todoInsert,
-        QueryInterface $todoItem
+        callable $todoInsert,
+        callable $todoItem
     ){
         $this->todoInsert = $todoInsert;
         $this->todoItem = $todoItem;

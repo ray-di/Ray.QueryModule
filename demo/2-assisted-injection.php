@@ -11,8 +11,8 @@ use Ray\Di\AbstractModule;
 use Ray\Di\Di\Assisted;
 use Ray\Di\Di\Named;
 use Ray\Di\Injector;
-use Ray\Query\QueryInterface;
-use Ray\Query\SqlQueryModule;
+use Ray\Query\callable;
+use Ray\Query\SqlCallModule;
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
@@ -31,7 +31,7 @@ class Todo
      * @Assisted({"todoItem"})
      * @Named("todoItem=todo_item")
      */
-    public function get(string $uuid, QueryInterface $todoItem = null)
+    public function get(string $uuid, callable $todoItem = null)
     {
         return $todoItem([
             'id' => $uuid
@@ -42,7 +42,7 @@ class Todo
      * @Assisted({"todoInsert"})
      * @Named("todoInsert=todo_insert")
      */
-    public function create(string $uuid, string $title, QueryInterface $todoInsert = null)
+    public function create(string $uuid, string $title, callable $todoInsert = null)
     {
         $todoInsert([
             'id' => $uuid,

@@ -13,20 +13,20 @@ use Ray\Di\Di\Named;
 class FakeFoo implements QueryInterface
 {
     /**
-     * @var QueryInterface
+     * @var callable
      */
-    private $query;
+    private $func;
 
     /**
-     * @Named("todos_item")
+     * @Named("todo_item")
      */
-    public function __construct(QueryInterface $query)
+    public function __construct(callable $func)
     {
-        $this->query = $query;
+        $this->func = $func;
     }
 
     public function __invoke(array $query)
     {
-        return $this->query->__invoke($query);
+        return ($this->func)($query);
     }
 }

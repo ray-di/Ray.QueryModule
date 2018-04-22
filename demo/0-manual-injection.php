@@ -7,26 +7,26 @@ declare(strict_types=1);
  * @license http://opensource.org/licenses/MIT MIT
  */
 use Aura\Sql\ExtendedPdo;
-use Ray\Query\QueryInterface;
-use Ray\Query\SqlQuery;
+use Ray\Query\callable;
+use Ray\Query\SqlCall;
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
 class Todo
 {
     /**
-     * @var QueryInterface
+     * @var callable
      */
     private $todoInsert;
 
     /**
-     * @var QueryInterface
+     * @var callable
      */
     private $todoItem;
 
     public function __construct(
-        QueryInterface $todoInsert,
-        QueryInterface $todoItem
+        callable $todoInsert,
+        callable $todoItem
     ) {
         $this->todoInsert = $todoInsert;
         $this->todoItem = $todoItem;
@@ -52,11 +52,11 @@ $pdo->query('CREATE TABLE IF NOT EXISTS todo (
           title TEXT
 )');
 $todo = new Todo(
-    new SqlQuery(
+    new SqlCall(
         $pdo,
         trim(file_get_contents(__DIR__ . '/sql/todo_insert.sql'))
     ),
-    new SqlQuery(
+    new SqlCall(
         $pdo,
         trim(file_get_contents(__DIR__ . '/sql/todo_item.sql'))
     )
