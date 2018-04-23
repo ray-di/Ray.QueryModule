@@ -7,8 +7,7 @@ declare(strict_types=1);
  * @license http://opensource.org/licenses/MIT MIT
  */
 use Aura\Sql\ExtendedPdo;
-use Ray\Query\callable;
-use Ray\Query\SqlCall;
+use Ray\Query\SqlQuery;
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
@@ -52,11 +51,11 @@ $pdo->query('CREATE TABLE IF NOT EXISTS todo (
           title TEXT
 )');
 $todo = new Todo(
-    new SqlCall(
+    new SqlQuery(
         $pdo,
         trim(file_get_contents(__DIR__ . '/sql/todo_insert.sql'))
     ),
-    new SqlCall(
+    new SqlQuery(
         $pdo,
         trim(file_get_contents(__DIR__ . '/sql/todo_item.sql'))
     )

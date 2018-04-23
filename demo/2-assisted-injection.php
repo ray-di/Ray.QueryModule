@@ -11,8 +11,7 @@ use Ray\Di\AbstractModule;
 use Ray\Di\Di\Assisted;
 use Ray\Di\Di\Named;
 use Ray\Di\Injector;
-use Ray\Query\callable;
-use Ray\Query\SqlCallModule;
+use Ray\Query\SqlQueryModule;
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
