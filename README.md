@@ -1,4 +1,4 @@
-# Ray.Query
+# Ray.QueryModule
 
 Ray.QueryModule converts SQL string into invokable DB objects.
 
