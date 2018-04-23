@@ -1,19 +1,18 @@
 # Ray.Query
 
-Ray.Query converts SQL string into invokable DB objects.
+Ray.QueryModule converts SQL string into invokable DB objects.
 
 ## Installation
 
 ### Composer install
 
-    $ composer require ray/query
+    $ composer require ray/query-module 1.x-dev
  
 ### Module install
 
 ```php
 use Ray\Di\AbstractModule;
-use Ray\AuraSqlModule\AuraSqlModule;
-use Ray\AuraSqlModule\AuraSqlQueryModule;
+use Ray\Query\SqlQueryModule;
 
 class AppModule extends AbstractModule
 {
@@ -67,7 +66,7 @@ class Todo
     
     public function get(string $uuid)
     {
-        return ($this->todoItem)(['id' => $uuid]);
+        return ($this->todoItem)(['id' => $uuid])[0];
     }
 
     public function create(string $uuid, string $title)
