@@ -8,7 +8,6 @@ declare(strict_types=1);
  */
 namespace Ray\Query;
 
-use Ray\Di\Di\Assisted;
 use Ray\Di\Di\Named;
 
 class FakeTodos
