@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace Ray\Query;
 
 use Ray\Di\AbstractModule;
-use Ray\Query\Annotation\AliasSql;
+use Ray\Query\Annotation\AliasQuery;
 
 class SqlQueryModule extends AbstractModule
 {
@@ -52,7 +52,7 @@ class SqlQueryModule extends AbstractModule
         }
         $this->bindInterceptor(
             $this->matcher->any(),
-            $this->matcher->annotatedWith(AliasSql::class),
+            $this->matcher->annotatedWith(AliasQuery::class),
             [SqlAliasInterceptor::class]
         );
     }

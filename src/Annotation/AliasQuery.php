@@ -14,15 +14,10 @@ namespace Ray\Query\Annotation;
  * @Annotation
  * @Target("METHOD")
  */
-final class AliasSql
+final class AliasQuery
 {
     /**
      * @var string
      */
-    public $sql;
-
-    /**
-     * @var string
-     */
-    public $key;
+    public $id;
 }

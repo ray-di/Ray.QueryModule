@@ -12,7 +12,7 @@ use Ray\Aop\MethodInterceptor;
 use Ray\Aop\MethodInvocation;
 use Ray\Aop\ReflectionMethod;
 use Ray\Di\InjectorInterface;
-use Ray\Query\Annotation\AliasSql;
+use Ray\Query\Annotation\AliasQuery;
 
 class SqlAliasInterceptor implements MethodInterceptor
 {
@@ -30,10 +30,10 @@ class SqlAliasInterceptor implements MethodInterceptor
     {
         /** @var ReflectionMethod $method */
         $method = $invocation->getMethod();
-        /** @var AliasSql $aliasSql */
-        $aliasSql = $method->getAnnotation(AliasSql::class);
+        /** @var AliasQuery $aliasSql */
+        $aliasSql = $method->getAnnotation(AliasQuery::class);
         /** @var QueryInterface $query */
-        $query = $this->injector->getInstance('', $aliasSql->sql);
+        $query = $this->injector->getInstance('', $aliasSql->id);
         $args = $invocation->getArguments();
         $paramas = $invocation->getMethod()->getParameters();
         $namedParams = [];
