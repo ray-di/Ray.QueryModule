@@ -30,10 +30,10 @@ class SqlAliasInterceptor implements MethodInterceptor
     {
         /** @var ReflectionMethod $method */
         $method = $invocation->getMethod();
-        /** @var AliasQuery $aliasSql */
-        $aliasSql = $method->getAnnotation(AliasQuery::class);
+        /** @var AliasQuery $aliasQuery */
+        $aliasQuery = $method->getAnnotation(AliasQuery::class);
         /** @var QueryInterface $query */
-        $query = $this->injector->getInstance('', $aliasSql->id);
+        $query = $this->injector->getInstance('', $aliasQuery->id);
         $args = $invocation->getArguments();
         $paramas = $invocation->getMethod()->getParameters();
         $namedParams = [];
