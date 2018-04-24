@@ -45,7 +45,7 @@ SQL file name has the convention.
 
  * `symbol` is target ID, whcih can be table name of resource name. ex) 'users', 'entries'
  * `item` is fixed string option when the result of query expected to be single line.
- * `desciption` is option for the description. ex) 'most_stard_in_last_weeek'
+ * `description` is option for the description. ex) 'most_stard_in_last_weeek'
 
 ex) `entries_item_by_id.sql`, `entries_popular_in_last_weeek.sql`
 
