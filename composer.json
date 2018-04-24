@@ -14,7 +14,7 @@
     ],
     "require": {
         "php": ">=7.1.0",
-        "ray/di": "^2.6",
+        "ray/di": "^2.6.6",
         "ray/aura-sql-module": "^1.6"
     },
     "require-dev": {
