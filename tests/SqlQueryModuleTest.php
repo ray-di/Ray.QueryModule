@@ -64,4 +64,17 @@ class SqlQueryModuleTest extends TestCase
         $actual = $todo->get('1')[0]['title'];
         $this->assertSame('run', $actual);
     }
+
+    public function testSqlAliasInterceptor()
+    {
+        $injector = new Injector($this->module);
+        /* @var \Ray\Query\FakeAlias $fakeAlias */
+        $fakeAlias = $injector->getInstance(FakeAlias::class);
+        $actual = $fakeAlias->get('1');
+        $expected = [
+            'id' => '1',
+            'title' => 'run'
+        ];
+        $this->assertSame($expected, $actual);
+    }
 }
