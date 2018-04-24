@@ -28,7 +28,7 @@ class Todo
 {
     /**
      * @Assisted({"todoItem"})
-     * @Named("todoItem=todo_item")
+     * @Named("todoItem=todo_item_by_id")
      */
     public function get(string $uuid, callable $todoItem = null)
     {

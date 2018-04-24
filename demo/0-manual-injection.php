@@ -57,7 +57,7 @@ $todo = new Todo(
     ),
     new SqlQuery(
         $pdo,
-        trim(file_get_contents(__DIR__ . '/sql/todo_item.sql'))
+        trim(file_get_contents(__DIR__ . '/sql/todo_item_by_id.sql'))
     )
 );
 $todo->create('1', 'think');

@@ -15,7 +15,7 @@ class FakeTodo
 {
     /**
      * @Assisted({"todoSelect"})
-     * @Named("todoSelect=todo_item")
+     * @Named("todoSelect=todo_item_by_id")
      */
     public function get(string $uuid, QueryInterface $todoSelect = null)
     {

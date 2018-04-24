@@ -36,7 +36,7 @@ class Todo
     private $todoItem;
 
     /**
-     * @Named("todoInsert=todo_insert, todoItem=todo_item")
+     * @Named("todoInsert=todo_insert, todoItem=todo_item_by_id")
      */
     public function __construct(
         callable $todoInsert,

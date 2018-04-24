@@ -18,7 +18,7 @@ class FakeFoo implements QueryInterface
     private $func;
 
     /**
-     * @Named("todo_item")
+     * @Named("todo_item_by_id")
      */
     public function __construct(callable $func)
     {

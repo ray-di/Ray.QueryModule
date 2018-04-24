@@ -23,7 +23,7 @@ class FakeTodos
     private $todoCreate;
 
     /**
-     * @Named("todoGet=todo_item, todoCreate=todo_insert")
+     * @Named("todoGet=todo_item_by_id, todoCreate=todo_insert")
      */
     public function __construct(callable $todoGet, callable $todoCreate)
     {
