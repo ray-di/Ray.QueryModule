@@ -30,6 +30,8 @@ final class SqlQueryRow implements QueryInterface
 
     public function __invoke(array $query)
     {
-        return $this->pdo->fetchAssoc($this->pdo, $query);
+        $item = $this->pdo->fetchAssoc($this->sql, $query);
+
+        return array_pop($item);
     }
 }
