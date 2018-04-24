@@ -59,9 +59,13 @@ class SqlCallableModuleTest extends TestCase
     public function testGet()
     {
         $injector = new Injector($this->module);
-        $todo = $injector->getInstance(FakeTodo::class);
+        $todo = $injector->getInstance(FakeTodos::class);
         /* @var \Ray\Query\FakeTodo $todo */
-        $actual = $todo->get('1')[0]['title'];
-        $this->assertSame('run', $actual);
+        $actural = $todo->get('1');
+        $expected = [
+            'id' => '1',
+            'title' => 'run'
+        ];
+        $this->assertSame($expected, $actural);
     }
 }

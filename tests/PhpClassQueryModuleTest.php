@@ -20,7 +20,7 @@ class PhpClassQueryModuleTest extends TestCase
         $injector = new Injector(new class extends AbstractModule {
             protected function configure()
             {
-                $this->bind()->annotatedWith('todo_item')->to(FakePhpQuery::class);
+                $this->bind()->annotatedWith('todo_item_by_id')->to(FakePhpQuery::class);
             }
         });
         $foo = $injector->getInstance(FakeFoo::class);
@@ -34,7 +34,7 @@ class PhpClassQueryModuleTest extends TestCase
             protected function configure()
             {
                 $queryBindings = [
-                    'todo_item' => FakePhpQuery::class
+                    'todo_item_by_id' => FakePhpQuery::class
                 ];
                 $this->install(new PhpClassQueryModule($queryBindings));
             }

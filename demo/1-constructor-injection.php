@@ -36,7 +36,7 @@ class Todo
     private $todoItem;
 
     /**
-     * @Named("todoInsert=todo_insert, todoItem=todo_item")
+     * @Named("todoInsert=todo_insert, todoItem=todo_item_by_id")
      */
     public function __construct(
         callable $todoInsert,
@@ -70,7 +70,7 @@ $pdo->query('CREATE TABLE IF NOT EXISTS todo (
 $todo = $injector->getInstance(Todo::class);
 $todo->create('1', 'think');
 $todo->create('2', 'walk');
-var_dump($todo->get('1')[0]);
+var_dump($todo->get('1'));
 //array(4) {
 //    'id' =>
 //  string(1) "1"
