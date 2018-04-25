@@ -112,7 +112,7 @@ class Foo
 
 When parameter name is different method arguments and Query object arguments, uri_template style expression can solve it.
 
-```
+```php
 class Foo
 {
     /**
