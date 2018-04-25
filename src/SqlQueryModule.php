@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ray\Query;
 
 use Ray\Di\AbstractModule;
+use Ray\Query\Annotation\AliasQuery;
 
 class SqlQueryModule extends AbstractModule
 {
@@ -49,6 +50,11 @@ class SqlQueryModule extends AbstractModule
             $sql = trim(file_get_contents($fullPath));
             $this->bind('')->annotatedWith($sqlId)->toInstance($sql);
         }
+        $this->bindInterceptor(
+            $this->matcher->any(),
+            $this->matcher->annotatedWith(AliasQuery::class),
+            [SqlAliasInterceptor::class]
+        );
     }
 
     protected function bindCallableItem(string $name, string $sqlId)
