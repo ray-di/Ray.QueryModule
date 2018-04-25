@@ -11,6 +11,7 @@ use Ray\Di\AbstractModule;
 use Ray\Di\Di\Assisted;
 use Ray\Di\Di\Named;
 use Ray\Di\Injector;
+use Ray\Query\Annotation\AliasQuery;
 use Ray\Query\SqlQueryModule;
 
 require dirname(__DIR__) . '/vendor/autoload.php';
@@ -27,14 +28,10 @@ class AppModule extends AbstractModule
 class Todo
 {
     /**
-     * @Assisted({"todoItem"})
-     * @Named("todoItem=todo_item_by_id")
+     * @AliasQuery("todo_item_by_id")
      */
-    public function get(string $uuid, callable $todoItem = null)
+    public function get(string $id)
     {
-        return $todoItem([
-            'id' => $uuid
-        ]);
     }
 
     /**
