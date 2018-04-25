@@ -8,8 +8,6 @@ declare(strict_types=1);
  */
 use Aura\Sql\ExtendedPdoInterface;
 use Ray\Di\AbstractModule;
-use Ray\Di\Di\Assisted;
-use Ray\Di\Di\Named;
 use Ray\Di\Injector;
 use Ray\Query\Annotation\AliasQuery;
 use Ray\Query\SqlQueryModule;
@@ -35,15 +33,10 @@ class Todo
     }
 
     /**
-     * @Assisted({"todoInsert"})
-     * @Named("todoInsert=todo_insert")
+     * @AliasQuery(id="todo_insert?id={uuid}", templated=true)
      */
-    public function create(string $uuid, string $title, callable $todoInsert = null)
+    public function create(string $uuid, string $title)
     {
-        $todoInsert([
-            'id' => $uuid,
-            'title' => $title
-        ]);
     }
 }
 
