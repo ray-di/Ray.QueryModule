@@ -78,6 +78,6 @@ class SqlAliasInterceptor implements MethodInterceptor
         $queryId = $url['path'];
         isset($url['query']) ? parse_str($url['query'], $params) : $params = $namedArguments;
 
-        return [$queryId, $params];
+        return [$queryId, $params + $namedArguments];
     }
 }
