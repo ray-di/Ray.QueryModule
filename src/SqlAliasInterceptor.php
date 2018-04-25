@@ -72,11 +72,12 @@ class SqlAliasInterceptor implements MethodInterceptor
         return $ro;
     }
 
-    private function templated(AliasQuery $aliasQuery, array $namedArguments): array
+    private function templated(AliasQuery $aliasQuery, array $namedArguments) : array
     {
         $url = parse_url(uri_template($aliasQuery->id, $namedArguments));
         $queryId = $url['path'];
         isset($url['query']) ? parse_str($url['query'], $params) : $params = $namedArguments;
-        return array($queryId, $params);
+
+        return [$queryId, $params];
     }
 }
