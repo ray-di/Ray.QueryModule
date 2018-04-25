@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 namespace Ray\Query;
 
+use BEAR\Resource\ResourceObject;
 use Ray\Aop\MethodInterceptor;
 use Ray\Aop\MethodInvocation;
 use Ray\Aop\ReflectionMethod;
@@ -32,16 +33,44 @@ class SqlAliasInterceptor implements MethodInterceptor
         $method = $invocation->getMethod();
         /** @var AliasQuery $aliasQuery */
         $aliasQuery = $method->getAnnotation(AliasQuery::class);
-        /** @var QueryInterface $query */
-        $query = $this->injector->getInstance('', $aliasQuery->id);
-        $args = $invocation->getArguments();
-        $paramas = $invocation->getMethod()->getParameters();
-        $namedParams = [];
-        foreach ($paramas as $param) {
-            $namedParams[$param->getName()] = $args[$param->getPosition()];
+        $namedArguments = (array) $invocation->getNamedArguments();
+        $url = parse_url(uri_template($aliasQuery->id, $namedArguments));
+        $queryId = $url['path'];
+        isset($url['query']) ? parse_str($url['query'], $params) : $params = $namedArguments;
+        $query = $this->injector->getInstance('', $queryId);
+        if ($query instanceof QueryInterface) {
+            return $this->getQueryResult($invocation, $query, $params);
         }
-        $queryResult = $query($namedParams);
 
-        return $queryResult;
+        return $invocation->proceed();
+    }
+
+    private function getQueryResult(MethodInvocation $invocation, QueryInterface $query, array $param)
+    {
+        $result = $query($param);
+        $object = $invocation->getThis();
+        if ($object instanceof ResourceObject) {
+            return $this->returnRo($object, $result);
+        }
+
+        return $result;
+    }
+
+    private function returnRo(ResourceObject $ro, $result) : ResourceObject
+    {
+        if (! $result) {
+            return $this->return404($ro);
+        }
+        $ro->body = $result;
+
+        return $ro;
+    }
+
+    private function return404(ResourceObject $ro) : ResourceObject
+    {
+        $ro->code = 404;
+        $ro->body = [];
+
+        return $ro;
     }
 }
