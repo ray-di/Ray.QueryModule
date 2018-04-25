@@ -49,7 +49,11 @@ SQL file name has the convention.
 
 ex) `entries_item_by_id.sql`, `entries_popular_in_last_weeek.sql`
 
-### Usage
+## Usage
+
+## Inject callable object
+
+A callable object injected into the constructor. Those object was made in specified sql with `@Named` binding.
 
 ```php
 class Todo
@@ -86,6 +90,36 @@ class Todo
             'id' => $uuid,
             'title' => $title
         ]);
+    }
+}
+```
+
+## Override the method with callable object
+
+Entire method invocation can be override with callable object in specified with `@AliasQuery`.
+
+```php
+class Foo
+{
+    /**
+     * @AliasQuery(id="todo_item_by_id")
+     */
+    public function get(string $id)
+    {
+    }
+}
+```
+
+When parameter name is different method arguments and Query object arguments, uri_template style expression can solve it.
+
+```
+class Foo
+{
+    /**
+     * @AliasQuery(id="todo_item_by_id?id={a}", templated=true)
+     */
+    public function get(string $a)
+    {
     }
 }
 ```
