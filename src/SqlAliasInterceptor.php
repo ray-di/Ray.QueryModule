@@ -34,9 +34,7 @@ class SqlAliasInterceptor implements MethodInterceptor
         /** @var AliasQuery $aliasQuery */
         $aliasQuery = $method->getAnnotation(AliasQuery::class);
         $namedArguments = (array) $invocation->getNamedArguments();
-        $url = parse_url(uri_template($aliasQuery->id, $namedArguments));
-        $queryId = $url['path'];
-        isset($url['query']) ? parse_str($url['query'], $params) : $params = $namedArguments;
+        list($queryId, $params) = $aliasQuery->templated ? $this->templated($aliasQuery, $namedArguments) : [$aliasQuery->id, $namedArguments];
         $query = $this->injector->getInstance('', $queryId);
         if ($query instanceof QueryInterface) {
             return $this->getQueryResult($invocation, $query, $params);
@@ -72,5 +70,13 @@ class SqlAliasInterceptor implements MethodInterceptor
         $ro->body = [];
 
         return $ro;
+    }
+
+    private function templated(AliasQuery $aliasQuery, array $namedArguments): array
+    {
+        $url = parse_url(uri_template($aliasQuery->id, $namedArguments));
+        $queryId = $url['path'];
+        isset($url['query']) ? parse_str($url['query'], $params) : $params = $namedArguments;
+        return array($queryId, $params);
     }
 }

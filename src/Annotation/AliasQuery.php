@@ -17,7 +17,16 @@ namespace Ray\Query\Annotation;
 final class AliasQuery
 {
     /**
+     * Query ID
+     *
      * @var string
      */
     public $id;
+
+    /**
+     * Is ID templated ?
+     *
+     * @var bool
+     */
+    public $templated = false;
 }
