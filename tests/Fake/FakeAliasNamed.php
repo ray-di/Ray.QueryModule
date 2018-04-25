@@ -17,6 +17,5 @@ class FakeAliasNamed
      */
     public function get(string $a)
     {
-        return $this;
     }
 }
