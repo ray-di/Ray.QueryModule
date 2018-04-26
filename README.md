@@ -81,7 +81,7 @@ class Todo
     
     public function get(string $uuid)
     {
-        return ($this->todoItem)(['id' => $uuid])[0];
+        return ($this->todoItem)(['id' => $uuid]);
     }
 
     public function create(string $uuid, string $title)
