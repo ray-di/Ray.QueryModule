@@ -35,7 +35,8 @@ class SqlAliasInterceptor implements MethodInterceptor
         $aliasQuery = $method->getAnnotation(AliasQuery::class);
         $namedArguments = (array) $invocation->getNamedArguments();
         list($queryId, $params) = $aliasQuery->templated ? $this->templated($aliasQuery, $namedArguments) : [$aliasQuery->id, $namedArguments];
-        $query = $this->injector->getInstance('', $queryId);
+        $interface = $aliasQuery->type === 'item' ? ItemInterface::class : ListInterface::class;
+        $query = $this->injector->getInstance($interface, $queryId);
         if ($query instanceof QueryInterface) {
             return $this->getQueryResult($invocation, $query, $params);
         }

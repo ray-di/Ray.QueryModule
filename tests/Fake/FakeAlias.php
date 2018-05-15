@@ -13,7 +13,7 @@ use Ray\Query\Annotation\AliasQuery;
 class FakeAlias
 {
     /**
-     * @AliasQuery("todo_item_by_id")
+     * @AliasQuery("todo_item_by_id", type="item")
      */
     public function get(string $id)
     {

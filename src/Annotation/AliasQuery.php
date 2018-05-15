@@ -29,4 +29,11 @@ final class AliasQuery
      * @var bool
      */
     public $templated = false;
+
+    /**
+     * @Enum({"list", "item"})
+     *
+     * @var string
+     */
+    public $type = 'list';
 }
