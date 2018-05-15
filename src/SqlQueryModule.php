@@ -44,6 +44,18 @@ class SqlQueryModule extends AbstractModule
                 SqlQuery::class,
                 "sql={$sqlId}"
             );
+            $this->bind(ItemInterface::class)->annotatedWith($name)->toConstructor(
+                SqlQueryRow::class,
+                "sql={$sqlId}"
+            );
+            $this->bind(ListInterface::class)->annotatedWith($name)->toConstructor(
+                SqlQuery::class,
+                "sql={$sqlId}"
+            );
+            $this->bind()->annotatedWith($name)->toConstructor(
+                SqlQuery::class,
+                "sql={$sqlId}"
+            );
             $isItem = preg_match("/\w+_item_/", $name);
             $isItem === 1 ? $this->bindCallableItem($name, $sqlId) : $this->bindCallableList($name, $sqlId);
 

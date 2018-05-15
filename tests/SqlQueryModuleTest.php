@@ -65,6 +65,24 @@ class SqlQueryModuleTest extends TestCase
         $this->assertSame('run', $actual);
     }
 
+    public function testItemInterface()
+    {
+        $injector = new Injector($this->module);
+        $item = $injector->getInstance(FakeItem::class);
+        /* @var \Ray\Query\FakeItem $item */
+        $actual = $item(['id' => '1']);
+        $this->assertSame(['id' => '1', 'title' => 'run'], $actual);
+    }
+
+    public function testListInterface()
+    {
+        $injector = new Injector($this->module);
+        $item = $injector->getInstance(FakeList::class);
+        /* @var \Ray\Query\FakeItem $item */
+        $actual = $item(['id' => '1']);
+        $this->assertSame([['id' => '1', 'title' => 'run']], $actual);
+    }
+
     public function testSqlAliasInterceptor()
     {
         $injector = new Injector($this->module);

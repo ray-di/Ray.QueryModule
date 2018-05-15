@@ -10,7 +10,7 @@ namespace Ray\Query;
 
 use Aura\Sql\ExtendedPdoInterface;
 
-final class SqlQuery implements QueryInterface
+final class SqlQuery implements QueryInterface, ListInterface
 {
     /**
      * @var ExtendedPdoInterface
@@ -28,7 +28,7 @@ final class SqlQuery implements QueryInterface
         $this->sql = $sql;
     }
 
-    public function __invoke(array $query)
+    public function __invoke(array $query) : iterable
     {
         return $this->pdo->perform($this->sql, $query)->fetchAll(\PDO::FETCH_ASSOC);
     }
