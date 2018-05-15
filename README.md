@@ -98,7 +98,9 @@ class Todo
 You can speciafy expected return value type is eihter `item` or `list` with `ItemInterface` or `ListInterface`. 
 `ItemInterface` is handy to specify SQL which return single row.
 
-```
+```php
+use Ray\Query\ItemInterface;
+
 /**
  * @Named("todo_item_by_id")
  */
@@ -108,7 +110,9 @@ public function __construct(ItemInterface $todo)
 }
 ```
 
-```
+```php
+use Ray\Query\ListInterface;
+
 /**
  * @Named("todos")
  */
