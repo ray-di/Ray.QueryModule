@@ -93,6 +93,30 @@ class Todo
     }
 }
 ```
+## Item or List
+
+You can speciafy expected return value type is eihter `item` or `list` with `ItemInterface` or `ListInterface`. 
+`ItemInterface` is handy to specify SQL which return single row.
+
+```
+/**
+ * @Named("todo_item_by_id")
+ */
+public function __construct(ItemInterface $todo)
+{
+    $this->todo = $todo;
+}
+```
+
+```
+/**
+ * @Named("todos")
+ */
+public function __construct(ListInterface $todos)
+{
+    $this->todos = $tods;
+}
+```
 
 ## Override the method with callable object
 
