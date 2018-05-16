@@ -145,3 +145,8 @@ class Foo
 ```
 php demo/run.php
 ```
+
+## BEAR.Sunday example
+
+ * [Koriym.Ticketsan](https://github.com/koriym/Koriym.TicketSan/blob/master/src/Resource/App/Ticket.php)
+
