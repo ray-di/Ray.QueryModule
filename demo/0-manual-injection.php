@@ -7,7 +7,7 @@ declare(strict_types=1);
  * @license http://opensource.org/licenses/MIT MIT
  */
 use Aura\Sql\ExtendedPdo;
-use Ray\Query\SqlQuery;
+use Ray\Query\SqlQueryRowList;
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
@@ -51,11 +51,11 @@ $pdo->query('CREATE TABLE IF NOT EXISTS todo (
           title TEXT
 )');
 $todo = new Todo(
-    new SqlQuery(
+    new SqlQueryRowList(
         $pdo,
         trim(file_get_contents(__DIR__ . '/sql/todo_insert.sql'))
     ),
-    new SqlQuery(
+    new SqlQueryRowList(
         $pdo,
         trim(file_get_contents(__DIR__ . '/sql/todo_item_by_id.sql'))
     )

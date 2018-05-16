@@ -10,7 +10,7 @@ namespace Ray\Query;
 
 use Aura\Sql\ExtendedPdoInterface;
 
-final class SqlQuery implements QueryInterface, ListInterface
+final class SqlQueryRowList implements RowListInterface
 {
     /**
      * @var ExtendedPdoInterface

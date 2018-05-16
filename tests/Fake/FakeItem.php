@@ -13,14 +13,14 @@ use Ray\Di\Di\Named;
 class FakeItem implements QueryInterface
 {
     /**
-     * @var ItemInterface
+     * @var RowInterface
      */
     private $func;
 
     /**
      * @Named("todo_item_by_id")
      */
-    public function __construct(ItemInterface $func)
+    public function __construct(RowInterface $func)
     {
         $this->func = $func;
     }

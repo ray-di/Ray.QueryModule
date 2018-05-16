@@ -41,7 +41,7 @@ class SqlQueryModule extends AbstractModule
             $name = pathinfo($fileInfo->getRealPath())['filename'];
             $sqlId = 'sql-' . $name;
             $this->bind(QueryInterface::class)->annotatedWith($name)->toConstructor(
-                SqlQuery::class,
+                SqlQueryRowList::class,
                 "sql={$sqlId}"
             );
             $this->bindCallableItem($name, $sqlId);
@@ -59,7 +59,7 @@ class SqlQueryModule extends AbstractModule
 
     protected function bindCallableItem(string $name, string $sqlId)
     {
-        $this->bind(ItemInterface::class)->annotatedWith($name)->toConstructor(
+        $this->bind(RowInterface::class)->annotatedWith($name)->toConstructor(
             SqlQueryRow::class,
             "sql={$sqlId}"
         );
@@ -68,11 +68,11 @@ class SqlQueryModule extends AbstractModule
     protected function bindCallableList(string $name, string $sqlId)
     {
         $this->bind()->annotatedWith($name)->toConstructor(
-            SqlQuery::class,
+            SqlQueryRowList::class,
             "sql={$sqlId}"
         );
-        $this->bind(ListInterface::class)->annotatedWith($name)->toConstructor(
-            SqlQuery::class,
+        $this->bind(RowListInterface::class)->annotatedWith($name)->toConstructor(
+            SqlQueryRowList::class,
             "sql={$sqlId}"
         );
     }

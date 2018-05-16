@@ -31,9 +31,9 @@ final class AliasQuery
     public $templated = false;
 
     /**
-     * @Enum({"list", "item"})
+     * @Enum({"row", "row_list"})
      *
      * @var string
      */
-    public $type = 'list';
+    public $type = 'row_list';
 }

@@ -8,7 +8,7 @@ declare(strict_types=1);
  */
 namespace Ray\Query;
 
-interface ListInterface extends QueryInterface
+interface RowInterface extends QueryInterface
 {
     public function __invoke(array $query) : iterable;
 }

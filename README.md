@@ -107,20 +107,20 @@ class Todo
     }
 }
 ```
-## Item or List
+## Row or RowList
 
-You can speciafy expected return value type is eihter `item` or `list` with `ItemInterface` or `ListInterface`. 
-`ItemInterface` is handy to specify SQL which return single row.
+You can speciafy expected return value type is eihter `Row` or `RowList` with `RowInterface` or `RowListInterface`. 
+`RowInterface` is handy to specify SQL which return single row.
 
 ```php
-use Ray\Query\ItemInterface;
+use Ray\Query\RowInterface;
 
 class Todo
 {
     /**
      * @Named("todo_item_by_id")
      */
-    public function __construct(ItemInterface $todo)
+    public function __construct(RowInterface $todo)
     {
         $this->todo = $todo;
     }
@@ -133,14 +133,14 @@ class Todo
 ```
 
 ```php
-use Ray\Query\ListInterface;
+use Ray\Query\RowListInterface;
 
 class Todos
 {
     /**
      * @Named("todos")
      */
-    public function __construct(ListInterface $todos)
+    public function __construct(RowListInterface $todos)
     {
         $this->todos = $todos;
     }
@@ -185,10 +185,10 @@ class FooTempalted
 Specify `type='item'` when single row result is expected to return.
 
 ```php
-class FooItem
+class FooRow
 {
     /**
-     * @AliasQuery(id="ticket_item_by_id", type="item")
+     * @AliasQuery(id="ticket_item_by_id", type="row")
      */
     public function onGet(string $id) : ResourceObject
     {

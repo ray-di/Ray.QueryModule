@@ -25,7 +25,7 @@ class FakeTodo
     /**
      * @Named("todoGet=todo_item_by_id, todoCreate=todo_insert")
      */
-    public function __construct(ItemInterface $todoGet, callable $todoCreate)
+    public function __construct(RowInterface $todoGet, callable $todoCreate)
     {
         $this->todoGet = $todoGet;
         $this->todoCreate = $todoCreate;
