@@ -10,7 +10,7 @@ namespace Ray\Query;
 
 use Ray\Di\AbstractModule;
 
-class PhpClassQueryModule extends AbstractModule
+class PhpQueryModule extends AbstractModule
 {
     private $configs;
 

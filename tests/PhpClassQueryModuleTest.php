@@ -36,7 +36,7 @@ class PhpClassQueryModuleTest extends TestCase
                 $queryBindings = [
                     'todo_item_by_id' => FakePhpQuery::class
                 ];
-                $this->install(new PhpClassQueryModule($queryBindings));
+                $this->install(new PhpQueryModule($queryBindings));
             }
         });
         $foo = $injector->getInstance(FakeFoo::class);
