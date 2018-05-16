@@ -49,7 +49,7 @@ class Todo
     /**
      * @var callable
      */
-    private $todoInsert;
+    private $createTodo;
     
     /**
      * @var callable
@@ -57,13 +57,13 @@ class Todo
     private $todoItem;
     
     /**
-     * @Named("todoInsert=todo_insert, todoItem=todo_item_by_id")
+     * @Named("createTodo=todo_insert, todoItem=todo_item_by_id")
      */
     public function __construct(
-        callable $todoInsert,
+        callable $createTodo,
         callable $todoItem
     ){
-        $this->todoInsert = $todoInsert;
+        $this->createTodo = $createTodo;
         $this->todoItem = $todoItem;
     }
     
@@ -74,7 +74,7 @@ class Todo
 
     public function create(string $uuid, string $title)
     {
-        ($this->todoInsert)([
+        ($this->createTodo)([
             'id' => $uuid,
             'title' => $title
         ]);

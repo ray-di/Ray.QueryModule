@@ -25,12 +25,12 @@ class FakeTodo
     }
 
     /**
-     * @Assisted({"todoInsert"})
-     * @Named("todoInsert=todo_insert")
+     * @Assisted({"createTodo"})
+     * @Named("createTodo=todo_insert")
      */
-    public function create(string $uuid, string $title, QueryInterface $todoInsert = null)
+    public function create(string $uuid, string $title, QueryInterface $createTodo = null)
     {
-        return $todoInsert([
+        return $createTodo([
             'id' => $uuid,
             'title' => $title
         ]);
