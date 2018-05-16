@@ -140,6 +140,17 @@ class Foo
 }
 ```
 
+Specify `type='item'` when single row result is expected to return.
+
+```
+/**
+ * @AliasQuery("ticket_item_by_id", type="item")
+ */
+public function onGet(string $id) : ResourceObject
+{
+}
+```
+
 ## Demo
 
 ```
