@@ -47,11 +47,33 @@ class SqlQueryModuleTest extends TestCase
         };
     }
 
-    public function testCreate()
+    public function testItemInterfaceInject()
     {
         $injector = new Injector($this->module);
         $todo = $injector->getInstance(FakeTodo::class);
-        /* @var \Ray\Query\FakeTodo $todo */
+        /* @var \Ray\Query\FakeQuery $todo */
+        $actual = $todo->create('2', 'think');
+        $this->assertSame([], $actual);
+    }
+
+    public function testCallableInject()
+    {
+        $injector = new Injector($this->module);
+        $todo = $injector->getInstance(FakeTodo::class);
+        /* @var \Ray\Query\FakeQuery $todo */
+        $actural = $todo->get('1');
+        $expected = [
+            'id' => '1',
+            'title' => 'run'
+        ];
+        $this->assertSame($expected, $actural);
+    }
+
+    public function testCreate()
+    {
+        $injector = new Injector($this->module);
+        $todo = $injector->getInstance(FakeQuery::class);
+        /* @var \Ray\Query\FakeQuery $todo */
         $actual = $todo->create('2', 'think');
         $this->assertSame([], $actual);
     }
@@ -59,8 +81,8 @@ class SqlQueryModuleTest extends TestCase
     public function testGet()
     {
         $injector = new Injector($this->module);
-        $todo = $injector->getInstance(FakeTodo::class);
-        /* @var \Ray\Query\FakeTodo $todo */
+        $todo = $injector->getInstance(FakeQuery::class);
+        /* @var \Ray\Query\FakeQuery $todo */
         $actual = $todo->get('1')[0]['title'];
         $this->assertSame('run', $actual);
     }

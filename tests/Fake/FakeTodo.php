@@ -8,29 +8,39 @@ declare(strict_types=1);
  */
 namespace Ray\Query;
 
-use Ray\Di\Di\Assisted;
 use Ray\Di\Di\Named;
 
 class FakeTodo
 {
     /**
-     * @Assisted({"todoSelect"})
-     * @Named("todoSelect=todo_item_by_id")
+     * @var callable
      */
-    public function get(string $uuid, QueryInterface $todoSelect = null)
+    private $todoGet;
+
+    /**
+     * @var callable
+     */
+    private $todoCreate;
+
+    /**
+     * @Named("todoGet=todo_item_by_id, todoCreate=todo_insert")
+     */
+    public function __construct(ItemInterface $todoGet, callable $todoCreate)
     {
-        return $todoSelect([
+        $this->todoGet = $todoGet;
+        $this->todoCreate = $todoCreate;
+    }
+
+    public function get(string $uuid)
+    {
+        return ($this->todoGet)([
             'id' => $uuid
         ]);
     }
 
-    /**
-     * @Assisted({"createTodo"})
-     * @Named("createTodo=todo_insert")
-     */
-    public function create(string $uuid, string $title, QueryInterface $createTodo = null)
+    public function create(string $uuid, string $title)
     {
-        return $createTodo([
+        return ($this->todoCreate)([
             'id' => $uuid,
             'title' => $title
         ]);

@@ -13,7 +13,7 @@ use Ray\Di\AbstractModule;
 use Ray\Di\Injector;
 use Ray\Query\Fake\FakePhpQuery;
 
-class PhpClassQueryModuleTest extends TestCase
+class PhpQueryModuleTest extends TestCase
 {
     public function testHandBind()
     {
