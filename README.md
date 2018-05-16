@@ -182,7 +182,7 @@ class FooTempalted
 }
 ```
 
-Specify `type='item'` when single row result is expected to return.
+Specify `type='row'` when single row result is expected to return.
 
 ```php
 class FooRow
