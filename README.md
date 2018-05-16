@@ -96,6 +96,11 @@ public function __construct(ItemInterface $todo)
 {
     $this->todo = $todo;
 }
+
+public function get(string $uuid)
+{
+    $todo = ($this->todo)(['id' => $uuid]); // single row data
+}
 ```
 
 ```php
@@ -106,8 +111,14 @@ use Ray\Query\ListInterface;
  */
 public function __construct(ListInterface $todos)
 {
-    $this->todos = $tods;
+    $this->todos = $todos;
 }
+
+public function get(string $uuid)
+{
+    $todos = ($this->todos)(['id' => $uuid]); // multiple row data
+}
+
 ```
 
 ## Override the method with callable object
@@ -142,7 +153,7 @@ class Foo
 
 Specify `type='item'` when single row result is expected to return.
 
-```
+```php
 /**
  * @AliasQuery("ticket_item_by_id", type="item")
  */
