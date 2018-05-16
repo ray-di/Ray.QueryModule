@@ -115,36 +115,41 @@ You can speciafy expected return value type is eihter `item` or `list` with `Ite
 ```php
 use Ray\Query\ItemInterface;
 
-/**
- * @Named("todo_item_by_id")
- */
-public function __construct(ItemInterface $todo)
+class Todo
 {
-    $this->todo = $todo;
-}
-
-public function get(string $uuid)
-{
-    $todo = ($this->todo)(['id' => $uuid]); // single row data
+    /**
+     * @Named("todo_item_by_id")
+     */
+    public function __construct(ItemInterface $todo)
+    {
+        $this->todo = $todo;
+    }
+    
+    public function get(string $uuid)
+    {
+        $todo = ($this->todo)(['id' => $uuid]); // single row data
+    }
 }
 ```
 
 ```php
 use Ray\Query\ListInterface;
 
-/**
- * @Named("todos")
- */
-public function __construct(ListInterface $todos)
+class Todos
 {
-    $this->todos = $todos;
+    /**
+     * @Named("todos")
+     */
+    public function __construct(ListInterface $todos)
+    {
+        $this->todos = $todos;
+    }
+    
+    public function get(string $uuid)
+    {
+        $todos = ($this->todos)(['id' => $uuid]); // multiple row data
+    }
 }
-
-public function get(string $uuid)
-{
-    $todos = ($this->todos)(['id' => $uuid]); // multiple row data
-}
-
 ```
 
 ## Override the method with callable object
@@ -166,7 +171,7 @@ class Foo
 When parameter name is different method arguments and Query object arguments, uri_template style expression can solve it.
 
 ```php
-class Foo
+class FooTempalted
 {
     /**
      * @AliasQuery(id="todo_item_by_id?id={a}", templated=true)
@@ -180,11 +185,14 @@ class Foo
 Specify `type='item'` when single row result is expected to return.
 
 ```php
-/**
- * @AliasQuery(id="ticket_item_by_id", type="item")
- */
-public function onGet(string $id) : ResourceObject
+class FooItem
 {
+    /**
+     * @AliasQuery(id="ticket_item_by_id", type="item")
+     */
+    public function onGet(string $id) : ResourceObject
+    {
+    }
 }
 ```
 
