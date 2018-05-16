@@ -155,7 +155,7 @@ Specify `type='item'` when single row result is expected to return.
 
 ```php
 /**
- * @AliasQuery("ticket_item_by_id", type="item")
+ * @AliasQuery(id="ticket_item_by_id", type="item")
  */
 public function onGet(string $id) : ResourceObject
 {
