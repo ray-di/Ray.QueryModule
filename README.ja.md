@@ -3,29 +3,29 @@
 [![Code Coverage](https://scrutinizer-ci.com/g/bearsunday/BEAR.QueryRepository/badges/coverage.png?b=1.x)](https://scrutinizer-ci.com/g/bearsunday/BEAR.QueryRepository/?branch=1.x)
 [![Build Status](https://travis-ci.org/ray-di/Ray.QueryModule.svg?branch=1.x)](https://travis-ci.org/ray-di/Ray.QueryModule)
 
-[Japanese](README.ja.md)
+[English](README.md)
 
-## Overview
+## 概要
 
-`Ray.QueryModule` makes a query to an external media such as a database or Web API with a function object to be injected.
+`Ray.QueryModule`はデータベースなど外部メディアへの問い合わせを、インジェクトされる関数オブジェクトで行うようにします。
 
- * `SqlQueryModule` is DB specialized. Convert the SQL file to a function object that executes that SQL.
- * `PhpQueryModule` is a generic module. It provides storage access which can not be provided by static conversion by PHP function object.
+ * `SqlQueryModule`はDBに特化していています。SQLファイルをそのSQLを実行する単純な関数オブジェクトに変換します。
+ * `PhpQueryModule`は汎用のモジュールです。静的な変換では提供できないストレージアクセスをPHPの関数オブジェクトとして提供します。
+
+## モチベーション
+
+ * コードにドメイン層（利用コード）とインフラストラクチャ層（インジェクトされる関数）の明確な境界を持たせることが出来ます。
+ * 実行オブジェクトは自動で生成されるので実行のための手続きコードを記述する必要がありません。
+ * 利用コードは外部メディアの実態に無関心なので、ストレージを後で変更することができます。平行開発やスタブ化が容易です。
 
 
-## Motivation
+## インストール
 
- * You can have a clear boundary between domain layer (usage code) and infrastructure layer (injected function) in code.
- * Execution objects are generated automatically so you do not need to write procedural code for execution.
- * Since usage codes are indifferent to the actual state of external media, storage can be changed later. Easy parallel development and stabbing.
-
-## Installation
-
-### Composer install
+### Composerインストール
 
     $ composer require ray/query-module ^0.1
  
-### Module install
+### Moduleインストール
 
 ```php
 use Ray\Di\AbstractModule;
@@ -40,7 +40,7 @@ class AppModule extends AbstractModule
 }
 ```
 
-### SQL files
+### SQLファイル
 
 $sqlDir/**todo_insert.sql**
 
@@ -54,12 +54,12 @@ $sqlDir/**todo_item_by_id.sql**
 SELECT * FROM todo WHERE id = :id
 ```
 
-## Usage
+## 利用
 
-## Inject callable object
+## callableオブジェクトとしてインジェクション
 
-A callable object injected into the constructor. Those object was made in specified sql with `@Named` binding.
-For example in the following example, the `todo_insert.sql` file is converted and injected into the `$createTodo` execution object nd injected it into constructor.
+SQLのファイル名によって束縛されたSQL実行関数がインジェクトされます。
+例えば以下の例なら、`todo_insert.sql`ファイルが`$createTodo`の実行オブジェクトに変換されインジェクトされます
 
 ```php
 class Todo
@@ -99,10 +99,9 @@ class Todo
     }
 }
 ```
-## Row or RowList
+## 単一行と複数行
 
-You can speciafy expected return value type is eihter `Row` or `RowList` with `RowInterface` or `RowListInterface`. 
-`RowInterface` is handy to specify SQL which return single row.
+得られる値が`単一行(Row)`か`複数行(Rowのリスト`)に応じて`RowInterface`か`RowListInterface`を指定することができます。
 
 ```php
 use Ray\Query\RowInterface;
@@ -119,7 +118,7 @@ class Todo
     
     public function get(string $uuid)
     {
-        $todo = ($this->todo)(['id' => $uuid]); // single row data
+        $todo = ($this->todo)(['id' => $uuid]); // 単一行
     }
 }
 ```
@@ -139,14 +138,14 @@ class Todos
     
     public function get(string $uuid)
     {
-        $todos = ($this->todos)(); // multiple row data
+        $todos = ($this->todos)(); // 複数行
     }
 }
 ```
 
-## Override the method with callable object
+## メソッドをSQL実行に置き換える
 
-Entire method invocation can be override with callable object in specified with `@AliasQuery`.
+`@AliasQuery`でメソッド全体をSQLの実行に置き換えることができます。
 
 ```php
 class Foo
@@ -160,7 +159,7 @@ class Foo
 }
 ```
 
-When parameter name is different method arguments and Query object arguments, uri_template style expression can solve it.
+メソッド引数とSQLのバインドする変数名が違う時は`templated=true`を指定すると`uri_template`と同じように変数名を変えることができます。
 
 ```php
 class FooTempalted
@@ -174,7 +173,7 @@ class FooTempalted
 }
 ```
 
-Specify `type='row'` when single row result is expected to return.
+単一行の時は`type='row'`を指定します。
 
 ```php
 class FooRow
@@ -188,13 +187,13 @@ class FooRow
 }
 ```
 
-## Demo
+## デモ
 
 ```
 php demo/run.php
 ```
 
-## BEAR.Sunday example
+## BEAR.Sunday
 
  * [Koriym.Ticketsan](https://github.com/koriym/Koriym.TicketSan/blob/master/src/Resource/App/Ticket.php)
 
