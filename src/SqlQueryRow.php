@@ -32,6 +32,6 @@ final class SqlQueryRow implements RowInterface
     {
         $item = $this->pdo->fetchAssoc($this->sql, $query);
 
-        return array_pop($item);
+        return count($item) ? array_pop($item) : [];
     }
 }
