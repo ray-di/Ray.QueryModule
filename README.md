@@ -11,25 +11,25 @@
  * `PhpQueryModule` is a generic module. It provides storage access which can not be provided by static conversion by PHP function object.
 
 
-### motivation
+## Motivation
 
  * You can have a clear boundary between domain layer (usage code) and infrastructure layer (injected function) in code.
- * Since usage codes are indifferent to the actual state of external media, storage can be changed later.
- * Easy parallel development and stabbing.
+ * Execution objects are generated automatically so you do not need to write procedural code for execution.
+ * Since usage codes are indifferent to the actual state of external media, storage can be changed later. Easy parallel development and stabbing.
 
 ## 概要
 
 `Ray.QueryModule`はデータベースなど外部メディアへの問い合わせを、インジェクトされる関数オブジェクトで行うようにします。
 
- * `SqlQueryModule`はDBに特化していています。SQLファイルをそのSQLを実行する関数オブジェクトに変換します。
+ * `SqlQueryModule`はDBに特化していています。SQLファイルをそのSQLを実行する単純な関数オブジェクトに変換します。
  * `PhpQueryModule`は汎用のモジュールです。静的な変換では提供できないストレージアクセスをPHPの関数オブジェクトとして提供します。
 
-### 利点
+## モチベーション
 
  * コードにドメイン層（利用コード）とインフラストラクチャ層（インジェクトされる関数）の明確な境界を持たせることが出来ます。
- * 利用コードは外部メディアの実態に無関心なので、ストレージを後で変更することができます。
- * 平行開発やスタブ化が容易です。
- 
+ * 実行オブジェクトは自動で生成されるので実行のための手続きコードを記述する必要がありません。
+ * 利用コードは外部メディアの実態に無関心なので、ストレージを後で変更することができます。平行開発やスタブ化が容易です。
+
 
 ## Installation
 
@@ -71,6 +71,13 @@ SELECT * FROM todo WHERE id = :id
 ## Inject callable object
 
 A callable object injected into the constructor. Those object was made in specified sql with `@Named` binding.
+
+SQLのファイル名によって束縛されたSQL実行関数がインジェクトされます。
+An SQL execution function bound by the SQL file name is made an injection.
+
+例えば以下の例なら、`todo_insert.sql`ファイルが`$createTodo`の実行オブジェクトに変換されインジェクトされます
+
+For example in the following example, the `todo_insert.sql` file is converted and injected into the `$createTodo` execution object nd injected it into constructor.
 
 ```php
 class Todo
@@ -150,7 +157,7 @@ class Todos
     
     public function get(string $uuid)
     {
-        $todos = ($this->todos)(['id' => $uuid]); // multiple row data
+        $todos = ($this->todos)(); // multiple row data
     }
 }
 ```
