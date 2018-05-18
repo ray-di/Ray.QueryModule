@@ -101,7 +101,7 @@ class Todo
 ```
 ## Row or RowList
 
-You can speciafy expected return value type is eihter `Row` or `RowList` with `RowInterface` or `RowListInterface`. 
+You can specify expected return value type is either `Row` or `RowList` with `RowInterface` or `RowListInterface`. 
 `RowInterface` is handy to specify SQL which return single row.
 
 ```php
