@@ -67,6 +67,26 @@ class WebQueryModule extends AbstractModule
                     'uri' => $prefixedName . '-uri',
                 ]
             );
+        $this
+            ->bind(RowInterface::class)
+            ->annotatedWith($name)
+            ->toConstructor(
+                WebQuery::class,
+                [
+                    'method' => $prefixedName . '-method',
+                    'uri' => $prefixedName . '-uri',
+                ]
+            );
+        $this
+            ->bind(RowListInterface::class)
+            ->annotatedWith($name)
+            ->toConstructor(
+                WebQuery::class,
+                [
+                    'method' => $prefixedName . '-method',
+                    'uri' => $prefixedName . '-uri',
+                ]
+            );
         $this->bind()->annotatedWith($prefixedName . '-method')->toInstance($method);
         $this->bind()->annotatedWith($prefixedName . '-uri')->toInstance($uri);
     }
