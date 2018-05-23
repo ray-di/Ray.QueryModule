@@ -9,7 +9,8 @@
 
 `Ray.QueryModule` makes a query to an external media such as a database or Web API with a function object to be injected.
 
- * `SqlQueryModule` is DB specialized. Convert the SQL file to a function object that executes that SQL.
+ * `SqlQueryModule` is for DB. Convert the SQL file to a simple function object that executes that SQL.
+ * `WebQueryModule` is for the Web API. Convert the URI and method set into a simple function object that Web requests to that URI.
  * `PhpQueryModule` is a generic module. It provides storage access which can not be provided by static conversion by PHP function object.
 
 
@@ -35,7 +36,16 @@ class AppModule extends AbstractModule
 {
     protected function configure()
     {
+        // SqlQueryModule install
         $this->install(new SqlQueryModule($sqlDir));
+
+        // WebQueryModule install
+        $webQueryConfig = [
+            'post_todo' => ['POST', 'https://httpbin.org/todo'],
+            'get_todo' => ['GET', 'https://httpbin.org/todo']
+        ];
+        $guzzleConfig = [];
+        $this->install(new WebQueryModule($webQueryConfig, $guzzleConfig));
     }
 }
 ```
@@ -54,12 +64,10 @@ $sqlDir/**todo_item_by_id.sql**
 SELECT * FROM todo WHERE id = :id
 ```
 
-## Usage
+## Convert SQL to SQL invocation object
 
-## Inject callable object
 
 A callable object injected into the constructor. Those object was made in specified sql with `@Named` binding.
-For example in the following example, the `todo_insert.sql` file is converted and injected into the `$createTodo` execution object nd injected it into constructor.
 
 ```php
 class Todo
@@ -187,6 +195,91 @@ class FooRow
     }
 }
 ```
+
+## Convert URI to Web request object
+
+With `WebQueryModule`, it converts the URI bound in the configuration into an invocation object for web access and injects it.
+In the following example, an invocation object of `$createTodo` which makes` POST` request to `https://httpbin.org/todo` is injected as `$createTodo`.
+
+```php
+use Ray\Di\AbstractModule;
+use Ray\Query\SqlQueryModule;
+
+class AppModule extends AbstractModule
+{
+    protected function configure()
+    {
+        // WebQueryModuleインストール
+        $webQueryConfig = [
+            'todo_post' => ['POST', 'https://httpbin.org/todo'],
+            'todo_get' => ['GET', 'https://httpbin.org/todo']
+        ];
+        $guzzleConfig = [];
+        $this->install(new WebQueryModule($webQueryConfig, $guzzleConfig));
+    }
+}
+```
+
+The usage code is the same as for `SqlQueryModule`.
+
+
+```php
+/**
+ * @Named("createTodo=todo_post, todo=todo_get")
+ */
+public function __construct(
+    callable $createTodo,
+    callable $todo
+){
+    $this->createTodo = $createTodo;
+    $this->todo = $todo;
+}
+```
+
+```php
+// POST
+($this->createTodo)([
+    'id' => $uuid,
+    'title' => $title
+]);
+
+// GET
+($this->todo)(['id' => $uuid]);
+```
+
+The usage code of `@AliasQuery` does not change either.
+
+## Bind to PHP class
+
+If other dependencies are needed, we bind to PHP class and use dependency as a service.
+
+```php
+class CreateTodo implements QueryInterface
+{
+    private $pdo;
+    private $builder;
+
+    public function __construct(PdoInterface $pdo, QueryBuilderInferface $builder)
+    {
+        $this->pdo = $pdo;
+        $this->builder = $builder;
+    }
+
+    public function __invoke(array $query)
+    {
+        // Query execution using $pdo and $builder
+        return $result;
+    }
+}
+```
+
+Bind to `callable`.
+
+```php
+$this->bind('')->annotatedWith('cretate_todo')->to(CreateTodo::class); // callableはインターフェイスなし
+```
+
+The usage codes are the same. The usage code of `@AliasQuery` does not change either.
 
 ## Demo
 

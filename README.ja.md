@@ -9,7 +9,8 @@
 
 `Ray.QueryModule`はデータベースなど外部メディアへの問い合わせを、インジェクトされる関数オブジェクトで行うようにします。
 
- * `SqlQueryModule`はDBに特化していています。SQLファイルをそのSQLを実行する単純な関数オブジェクトに変換します。
+ * `SqlQueryModule`はDB用です。SQLファイルをそのSQLを実行する単純な関数オブジェクトに変換します。
+ * `WebQueryModule`はWeb API用です。URIをそのURIにWebレクエストする単純な関数オブジェクトに変換します。
  * `PhpQueryModule`は汎用のモジュールです。静的な変換では提供できないストレージアクセスをPHPの関数オブジェクトとして提供します。
 
 ## モチベーション
@@ -24,7 +25,7 @@
 ### Composerインストール
 
     $ composer require ray/query-module ^0.1
- 
+
 ### Moduleインストール
 
 ```php
@@ -35,7 +36,16 @@ class AppModule extends AbstractModule
 {
     protected function configure()
     {
+        // SqlQueryModule インストール
         $this->install(new SqlQueryModule($sqlDir));
+
+        // WebQueryModuleインストール
+        $webQueryConfig = [
+            'post_todo' => ['POST', 'https://httpbin.org/todo'],
+            'get_todo' => ['GET', 'https://httpbin.org/todo']
+        ];
+        $guzzleConfig = [];
+        $this->install(new WebQueryModule($webQueryConfig, $guzzleConfig));
     }
 }
 ```
@@ -58,7 +68,7 @@ SELECT * FROM todo WHERE id = :id
 
 ## SQLを実行オブジェクトに
 
-SQLのファイル名によって束縛されたSQL実行関数がインジェクトされます。
+`SqlQueryModule`をインストールするとSQLのファイル名によって束縛されたSQL実行関数がインジェクトされます。
 例えば以下の例なら、`todo_insert.sql`ファイルが`$createTodo`の実行オブジェクトに変換されインジェクトされます
 
 ```php
@@ -186,6 +196,90 @@ class FooRow
     }
 }
 ```
+
+## URIを実行オブジェクトに
+
+`WebQueryModule`は設定で束縛したURIをWebアクセスする実行関数がインジェクトされます。
+例えば以下の例なら、`https://httpbin.org/todo`を`POST`リクエストする`$createTodo`の実行オブジェクトに変換されインジェクトされます
+
+```php
+use Ray\Di\AbstractModule;
+use Ray\Query\SqlQueryModule;
+
+class AppModule extends AbstractModule
+{
+    protected function configure()
+    {
+        // WebQueryModuleインストール
+        $webQueryConfig = [
+            'todo_post' => ['POST', 'https://httpbin.org/todo'],
+            'todo_get' => ['GET', 'https://httpbin.org/todo']
+        ];
+        $guzzleConfig = [];
+        $this->install(new WebQueryModule($webQueryConfig, $guzzleConfig));
+    }
+}
+```
+
+利用コードは`SqlQueryModule`の時と同じです。
+
+```php
+/**
+ * @Named("createTodo=todo_post, todo=todo_get")
+ */
+public function __construct(
+    callable $createTodo,
+    callable $todo
+){
+    $this->createTodo = $createTodo;
+    $this->todo = $todo;
+}
+```
+
+```php
+// POST
+($this->createTodo)([
+    'id' => $uuid,
+    'title' => $title
+]);
+
+// GET
+($this->todo)(['id' => $uuid]);
+```
+
+`@AliasQuery`の利用コードも変わりません。
+
+## PHPクラスを束縛
+
+複数のクエリーを実行したり、他の依存が必要な場合にはPHPクラスに束縛し依存を利用します。
+
+```php
+class CreateTodo implements QueryInterface
+{
+    private $pdo;
+    private $builder;
+    
+    public function __construct(PdoInterface $pdo, QueryBuilderInferface $builder)
+    {
+        $this->pdo = $pdo;
+        $this->builder = $builder;
+    }
+    
+    public function __invoke(array $query)
+    {
+        // $pdoと$builderを使ったクエリ実行
+        return $result;
+    }
+}
+```
+
+`callable`に束縛します。
+
+```php
+$this->bind('')->annotatedWith('cretate_todo')->to(CreateTodo::class); // callableはインターフェイスなし
+```
+
+利用コードは同じです。`@AliasQuery`の利用コードも変わりません。
 
 ## デモ
 
