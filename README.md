@@ -41,10 +41,10 @@ class AppModule extends AbstractModule
 
         // WebQueryModule install
         $webQueryConfig = [
-            'post_todo' => ['POST', 'https://httpbin.org/todo'],
+            'post_todo' => ['POST', 'https://httpbin.org/todo'], // bind-name => [method, uri]
             'get_todo' => ['GET', 'https://httpbin.org/todo']
         ];
-        $guzzleConfig = [];
+        $guzzleConfig = []; // @see http://docs.guzzlephp.org/en/stable/request-options.html
         $this->install(new WebQueryModule($webQueryConfig, $guzzleConfig));
     }
 }

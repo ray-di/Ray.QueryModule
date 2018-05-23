@@ -212,10 +212,10 @@ class AppModule extends AbstractModule
     {
         // WebQueryModuleインストール
         $webQueryConfig = [
-            'todo_post' => ['POST', 'https://httpbin.org/todo'],
+            'todo_post' => ['POST', 'https://httpbin.org/todo'], // bind-name => [method, uri]
             'todo_get' => ['GET', 'https://httpbin.org/todo']
         ];
-        $guzzleConfig = [];
+        $guzzleConfig = []; // @see http://docs.guzzlephp.org/en/stable/request-options.html
         $this->install(new WebQueryModule($webQueryConfig, $guzzleConfig));
     }
 }
@@ -248,6 +248,9 @@ public function __construct(
 ```
 
 `@AliasQuery`の利用コードも変わりません。
+
+## クライアントオプション
+
 
 ## PHPクラスを束縛
 
