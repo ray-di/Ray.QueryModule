@@ -15,7 +15,8 @@
     "require": {
         "php": ">=7.1.0",
         "ray/di": "^2.6.6",
-        "ray/aura-sql-module": "^1.6"
+        "ray/aura-sql-module": "^1.6",
+        "guzzlehttp/guzzle": "^6.3"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.5",
