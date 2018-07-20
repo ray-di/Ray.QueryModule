@@ -8,7 +8,6 @@ declare(strict_types=1);
  */
 namespace Ray\Query;
 
-use MongoDB\Driver\Query;
 use PHPUnit\Framework\TestCase;
 use Ray\Di\AbstractModule;
 use Ray\Di\Injector;
