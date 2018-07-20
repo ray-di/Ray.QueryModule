@@ -30,6 +30,11 @@ final class SqlQueryRowList implements RowListInterface
 
     public function __invoke(array $query) : iterable
     {
-        return $this->pdo->perform($this->sql, $query)->fetchAll(\PDO::FETCH_ASSOC);
+        $result = $this->pdo->perform($this->sql, $query);
+        if (strpos(strtolower($result->queryString), 'select') === 0) {
+            return $result->fetchAll(\PDO::FETCH_ASSOC);
+        }
+
+        return [];
     }
 }
