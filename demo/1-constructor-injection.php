@@ -6,6 +6,7 @@ declare(strict_types=1);
  *
  * @license http://opensource.org/licenses/MIT MIT
  */
+
 use Aura\Sql\ExtendedPdoInterface;
 use Ray\Di\AbstractModule;
 use Ray\Di\Di\Named;
