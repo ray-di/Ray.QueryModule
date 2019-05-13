@@ -28,7 +28,7 @@ class SqlQueryTest extends TestCase
 
     public function test__invoke()
     {
-        $sql = file_get_contents(__DIR__ . '/Fake/sql/todo_item_by_id.sql');
+        $sql = (string) file_get_contents(__DIR__ . '/Fake/sql/todo_item_by_id.sql');
         $query = new SqlQueryRowList($this->pdo, $sql);
         $row = $query(['id' => 1])[0];
         $this->assertSame('run', $row['title']);
