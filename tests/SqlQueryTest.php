@@ -37,7 +37,7 @@ class SqlQueryTest extends TestCase
 
     public function testNotFound()
     {
-        $sql = file_get_contents(__DIR__ . '/Fake/sql/todo_item_by_id.sql');
+        $sql = (string) file_get_contents(__DIR__ . '/Fake/sql/todo_item_by_id.sql');
         $query = new SqlQueryRowList($this->pdo, $sql);
         $row = $query(['id' => '__invalid__']);
         $this->assertSame([], $row);
