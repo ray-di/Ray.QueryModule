@@ -28,7 +28,7 @@ class WebQueryTest extends TestCase
     {
         $webQuery = new WebQuery(new Client, 'GET', 'https://httpbin.org/json');
         $result = $webQuery([]);
-        $this->assertArrayHasKey('slideshow', $result);
+        $this->assertArrayHasKey('slideshow', (array) $result);
     }
 
     public function test404()
@@ -36,6 +36,6 @@ class WebQueryTest extends TestCase
         $this->expectException(WebQueryException::class);
         $webQuery = new WebQuery(new Client, 'GET', 'https://httpbin.org/status/404');
         $result = $webQuery([]);
-        $this->assertArrayHasKey('slideshow', $result);
+        $this->assertArrayHasKey('slideshow', (array) $result);
     }
 }
