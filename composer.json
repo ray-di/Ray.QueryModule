@@ -27,7 +27,8 @@
         "phpmd/phpmd": "^2.6",
         "phpstan/phpstan-shim": "^0.9",
         "bear/resource": "^1.9.2",
-        "ray/aop": "^2.7"
+        "ray/aop": "^2.7",
+        "bear/cs": "^1.1"
     },
     "autoload": {
         "psr-4": {
