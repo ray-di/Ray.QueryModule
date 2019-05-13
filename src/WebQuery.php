@@ -39,8 +39,9 @@ final class WebQuery implements QueryInterface
     /**
      * {@inheritdoc}
      */
-    public function __invoke(array $query) : iterable
+    public function __invoke(array ...$queries) : iterable
     {
+        $query = $queries[0];
         try {
             $response = $this->client->request($this->method, $this->uri, ['query' => $query]);
             $body = $response->getBody()->getContents();

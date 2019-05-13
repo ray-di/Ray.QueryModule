@@ -12,8 +12,10 @@ use Ray\Query\QueryInterface;
 
 class FakePhpQuery implements QueryInterface
 {
-    public function __invoke(array $query)
+    public function __invoke(array ...$queries)
     {
+        $query = $queries[0];
+
         return $query;
     }
 }

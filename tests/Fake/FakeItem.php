@@ -25,8 +25,10 @@ class FakeItem implements QueryInterface
         $this->func = $func;
     }
 
-    public function __invoke(array $query)
+    public function __invoke(array ...$queries)
     {
+        $query = $queries[0];
+
         return ($this->func)($query);
     }
 }

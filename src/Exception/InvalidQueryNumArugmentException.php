@@ -6,9 +6,8 @@ declare(strict_types=1);
  *
  * @license http://opensource.org/licenses/MIT MIT
  */
-namespace Ray\Query;
+namespace Ray\Query\Exception;
 
-interface QueryInterface
+class QueryNumException extends \InvalidArgumentException
 {
-    public function __invoke(array ...$query);
 }
