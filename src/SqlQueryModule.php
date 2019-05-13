@@ -47,7 +47,7 @@ class SqlQueryModule extends AbstractModule
             $this->bindCallableItem($name, $sqlId);
             $this->bindCallableList($name, $sqlId);
 
-            $sql = trim(file_get_contents($fullPath));
+            $sql = trim((string) file_get_contents($fullPath));
             $this->bind('')->annotatedWith($sqlId)->toInstance($sql);
         }
         $this->bindInterceptor(
