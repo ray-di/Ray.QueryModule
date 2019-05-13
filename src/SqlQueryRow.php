@@ -28,8 +28,9 @@ final class SqlQueryRow implements RowInterface
         $this->sql = $sql;
     }
 
-    public function __invoke(array $query) : iterable
+    public function __invoke(array ...$queies) : iterable
     {
+        $query = $queies[0];
         $item = $this->pdo->fetchAssoc($this->sql, $query);
 
         return count($item) ? array_pop($item) : [];
