@@ -49,20 +49,20 @@ class SqlAliasInterceptor implements MethodInterceptor
         $result = $query($param);
         $object = $invocation->getThis();
         if ($object instanceof ResourceObject) {
-            return $this->returnRo($object, $result);
+            return $this->returnRo($object, $invocation, $result);
         }
 
         return $result;
     }
 
-    private function returnRo(ResourceObject $ro, $result) : ResourceObject
+    private function returnRo(ResourceObject $ro, MethodInvocation $invocation, $result) : ResourceObject
     {
         if (! $result) {
             return $this->return404($ro);
         }
         $ro->body = $result;
 
-        return $ro;
+        return $invocation->proceed();
     }
 
     private function return404(ResourceObject $ro) : ResourceObject
