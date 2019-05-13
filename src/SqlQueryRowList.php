@@ -9,9 +9,9 @@ declare(strict_types=1);
 namespace Ray\Query;
 
 use Aura\Sql\ExtendedPdoInterface;
+use Ray\Query\Exception\QueryNumException;
 use function count;
 use function explode;
-use Ray\Query\Exception\UnmatchQueryNumException;
 use function strpos;
 
 final class SqlQueryRowList implements RowListInterface
