@@ -7,9 +7,10 @@ declare(strict_types=1);
  * @license http://opensource.org/licenses/MIT MIT
  */
 $rm = function ($dir) use (&$rm) {
-    foreach (glob($dir . '/*') as $file) {
-        is_dir($file) ? $rm($file) : @unlink($file);
-        @rmdir($file);
+    foreach ((array) glob($dir . '/*') as $file) {
+        $f = (string) $file;
+        is_dir($f) ? $rm($f) : @unlink($f);
+        @rmdir($f);
     }
 };
 $rm(sys_get_temp_dir());
