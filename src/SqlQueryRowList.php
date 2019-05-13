@@ -39,10 +39,11 @@ final class SqlQueryRowList implements RowListInterface
         }
         $sqls = explode(';', trim($this->sql, "\ \t\n\r\0\x0B"));
         array_pop($sqls);
-        if (count($sqls) !== count($queries)) {
+        $numQueris = count($queries);
+        if (count($sqls) !== $numQueris) {
             throw new QueryNumException($this->sql);
         }
-        for ($i = 0; $i < count($queries); $i++) {
+        for ($i = 0; $i < $numQueris; $i++) {
             $sql = $sqls[$i];
             $query = $queries[$i];
             $result = $this->pdo->perform($sql, $query);
