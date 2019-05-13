@@ -14,6 +14,8 @@
     ],
     "require": {
         "php": ">=7.1.0",
+        "ext-pdo": "*",
+        "ext-json": "*",
         "ray/di": "^2.6.6",
         "ray/aura-sql-module": "^1.6",
         "guzzlehttp/guzzle": "^6.3"
