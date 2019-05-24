@@ -17,7 +17,7 @@ class FakeQuery
      * @Assisted({"todo"})
      * @Named("todo=todo_item_by_id")
      */
-    public function get(string $uuid, QueryInterface $todo = null)
+    public function get(string $uuid, QueryInterface $todo)
     {
         return $todo([
             'id' => $uuid
@@ -28,7 +28,7 @@ class FakeQuery
      * @Assisted({"createTodo"})
      * @Named("createTodo=todo_insert")
      */
-    public function create(string $uuid, string $title, QueryInterface $createTodo = null)
+    public function create(string $uuid, string $title, QueryInterface $createTodo)
     {
         return $createTodo([
             'id' => $uuid,
