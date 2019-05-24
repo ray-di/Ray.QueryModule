@@ -14,23 +14,40 @@ use Ray\Di\Di\Named;
 class FakeQuery
 {
     /**
-     * @Assisted({"todo"})
-     * @Named("todo=todo_item_by_id")
+     * @var QueryInterface
      */
-    public function get(string $uuid, QueryInterface $todo)
+    private $todo;
+
+    /**
+     * @var QueryInterface
+     */
+    private $createTodo;
+
+    /**
+     * @Named("todo=todo_item_by_id, createTodo=todo_insert")
+     */
+    public function __construct(QueryInterface $todo, QueryInterface $createTodo)
     {
-        return $todo([
+        $this->todo = $todo;
+        $this->createTodo = $createTodo;
+    }
+
+    /**
+     * @Assisted({"todo"})
+     */
+    public function get(string $uuid)
+    {
+        return ($this->todo)([
             'id' => $uuid
         ]);
     }
 
     /**
      * @Assisted({"createTodo"})
-     * @Named("createTodo=todo_insert")
      */
-    public function create(string $uuid, string $title, QueryInterface $createTodo)
+    public function create(string $uuid, string $title)
     {
-        return $createTodo([
+        return ($this->createTodo)([
             'id' => $uuid,
             'title' => $title
         ]);
