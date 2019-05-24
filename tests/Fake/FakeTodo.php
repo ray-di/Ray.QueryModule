@@ -28,7 +28,7 @@ class FakeTodo
     private $todoGet2;
 
     /**
-     * @Named("todoGet=todo_item_by_id, todoGet2=todo\item\by_id, todoCreate=todo_insert")
+     * @Named("todoGet=todo_item_by_id, todoGet2=todo/item/by_id, todoCreate=todo_insert")
      */
     public function __construct(RowInterface $todoGet, RowInterface $todoGet2, callable $todoCreate)
     {
