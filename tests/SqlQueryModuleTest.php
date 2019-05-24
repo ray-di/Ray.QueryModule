@@ -51,7 +51,7 @@ class SqlQueryModuleTest extends TestCase
     {
         $injector = new Injector($this->module);
         $todo = $injector->getInstance(FakeTodo::class);
-        /* @var \Ray\Query\FakeQuery $todo */
+        /* @var \Ray\Query\FakeTodo $todo */
         $actual = $todo->create('2', 'think');
         $this->assertSame([], $actual);
     }
@@ -60,8 +60,21 @@ class SqlQueryModuleTest extends TestCase
     {
         $injector = new Injector($this->module);
         $todo = $injector->getInstance(FakeTodo::class);
-        /* @var \Ray\Query\FakeQuery $todo */
+        /* @var \Ray\Query\FakeTodo $todo */
         $actural = $todo->get('1');
+        $expected = [
+            'id' => '1',
+            'title' => 'run'
+        ];
+        $this->assertSame($expected, $actural);
+    }
+
+    public function testNestedDirectory()
+    {
+        $injector = new Injector($this->module);
+        $todo = $injector->getInstance(FakeTodo::class);
+        /* @var \Ray\Query\FakeTodo $todo */
+        $actural = $todo->get2('1');
         $expected = [
             'id' => '1',
             'title' => 'run'

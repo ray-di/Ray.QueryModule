@@ -38,7 +38,12 @@ class SqlQueryModule extends AbstractModule
         foreach ($this->files($this->sqlDir) as $fileInfo) {
             /* @var \SplFileInfo $fileInfo */
             $fullPath = $fileInfo->getPathname();
-            $name = pathinfo($fileInfo->getRealPath())['filename'];
+            $pathInfo = pathinfo($fileInfo->getRealPath());
+            $name = str_replace(
+                '/',
+                '\\',
+                str_replace($this->sqlDir . '/', '', $pathInfo['dirname'] . '/') . $pathInfo['filename']
+            );
             $sqlId = 'sql-' . $name;
             $this->bind(QueryInterface::class)->annotatedWith($name)->toConstructor(
                 SqlQueryRowList::class,
