@@ -22,7 +22,7 @@ class Iso8601InterceptorTest extends TestCase
         $interceptor = new Iso8601Interceptor(['created']);
         $invocation = new ReflectiveMethodInvocation($object, 'run', [], [$interceptor]);
         $result = $invocation->proceed();
-        $this->assertSame('1970-01-01T00:00:00+01:00', $result[0]['created']);
+        $this->assertSame('1970-01-01T00:00:00+00:00', $result[0]['created']);
     }
 
     public function testRowInterfaceConvert()
@@ -41,6 +41,6 @@ class Iso8601InterceptorTest extends TestCase
         $interceptor = new Iso8601Interceptor(['created']);
         $invocation = new ReflectiveMethodInvocation($object, '__invoke', [], [$interceptor]);
         $result = $invocation->proceed();
-        $this->assertSame('1970-01-01T00:00:00+01:00', $result['created']);
+        $this->assertSame('1970-01-01T00:00:00+00:00', $result['created']);
     }
 }
