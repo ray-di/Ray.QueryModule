@@ -19,7 +19,7 @@ class WebQueryModuleTest extends TestCase
      */
     private $module;
 
-    public function setUp()
+    protected function setUp() : void
     {
         $webQueryConfig = [
             'foo' => ['GET', 'https://httpbin.org/anything/foo'],

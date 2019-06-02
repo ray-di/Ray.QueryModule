@@ -15,7 +15,7 @@ class SqlQueryTest extends TestCase
 {
     private $pdo;
 
-    public function setUp()
+    protected function setUp() : void
     {
         $pdo = new ExtendedPdo('sqlite::memory:');
         $pdo->query('CREATE TABLE IF NOT EXISTS todo (

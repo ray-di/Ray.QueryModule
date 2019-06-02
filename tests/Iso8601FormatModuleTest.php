@@ -17,7 +17,7 @@ class Iso8601FormatModuleTest extends TestCase
 
     protected $module;
 
-    protected function setUp()
+    protected function setUp() : void
     {
         $pdo = new ExtendedPdo('sqlite::memory:');
         $pdo->query('CREATE TABLE IF NOT EXISTS todo (
