@@ -22,7 +22,7 @@ class PhpQueryModuleTest extends TestCase
             {
                 $this->bind()->annotatedWith('todo_item_by_id')->to(FakePhpQuery::class);
             }
-        });
+        }, __DIR__ . '/tmp');
         $foo = $injector->getInstance(FakeFoo::class);
         $query = ['id' => '1'];
         $this->assertSame($query, $foo(['id' => '1']));
@@ -38,7 +38,7 @@ class PhpQueryModuleTest extends TestCase
                 ];
                 $this->install(new PhpQueryModule($queryBindings));
             }
-        });
+        }, __DIR__ . '/tmp');
         $foo = $injector->getInstance(FakeFoo::class);
         $query = ['id' => '1'];
         $this->assertSame($query, $foo($query));
