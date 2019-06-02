@@ -15,15 +15,6 @@ use Ray\Query\SqlQueryModule;
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
-class AppModule extends AbstractModule
-{
-    protected function configure()
-    {
-        $this->install(new Ray\AuraSqlModule\AuraSqlModule('sqlite::memory:'));
-        $this->install(new SqlQueryModule(dirname(__DIR__ . '/sql')));
-    }
-}
-
 class Todo
 {
     /**
@@ -61,7 +52,14 @@ class Todo
     }
 }
 
-$injector = new Injector(new AppModule);
+$injector = new Injector(new class extends AbstractModule
+{
+    protected function configure()
+    {
+        $this->install(new Ray\AuraSqlModule\AuraSqlModule('sqlite::memory:'));
+        $this->install(new SqlQueryModule(dirname(__DIR__ . '/sql')));
+    }
+});
 /** @var Todo $todo */
 $pdo = $injector->getInstance(ExtendedPdoInterface::class);
 $pdo->query('CREATE TABLE IF NOT EXISTS todo (
@@ -72,6 +70,7 @@ $todo = $injector->getInstance(Todo::class);
 $todo->create('1', 'think');
 $todo->create('2', 'walk');
 var_dump($todo->get('1'));
+
 //array(4) {
 //    'id' =>
 //  string(1) "1"
