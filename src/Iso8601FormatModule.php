@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace Ray\Query;
 
 use Ray\Di\AbstractModule;
-use Ray\Query\Annotation\Iso8601;
 
 class Iso8601FormatModule extends AbstractModule
 {
@@ -27,7 +26,6 @@ class Iso8601FormatModule extends AbstractModule
 
     protected function configure()
     {
-        $this->bind('')->annotatedWith(Iso8601::class)->toInstance($this->datetimeColumns);
         $this->bind('')->annotatedWith('iso8601_date_time_columns')->toInstance($this->datetimeColumns);
         $this->bindInterceptor(
             $this->matcher->logicalOr(

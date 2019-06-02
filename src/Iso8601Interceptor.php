@@ -27,7 +27,6 @@ final class Iso8601Interceptor implements MethodInterceptor
     private $datetimeColumns;
 
     /**
-     * @Iso8601
      * @Named("datetimeColumns=iso8601_date_time_columns")
      * @param string[] $datetimeColumns
      */
