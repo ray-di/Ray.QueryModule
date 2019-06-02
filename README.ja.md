@@ -46,6 +46,9 @@ class AppModule extends AbstractModule
         ];
         $guzzleConfig = [];
         $this->install(new WebQueryModule($webQueryConfig, $guzzleConfig));
+        
+        // ISO8601 DateTimeフォーマット
+        $this->>install(new Iso8601FormatModule(['created_at', 'updated_at']);
     }
 }
 ```
@@ -280,6 +283,15 @@ $this->bind('')->annotatedWith('cretate_todo')->to(CreateTodo::class); // callab
 ```
 
 利用コードは同じです。`@AliasQuery`の利用コードも変わりません。
+
+## ISO8601 DateTimeモジュール
+
+指定したコラム名の値を[ISO8601](https://www.iso.org/iso-8601-date-and-time-format.html)形式に変換します。PHPでは[DateTime::ATOM](https://www.php.net/manual/ja/class.datetime.php#datetime.constants.atom)の定数で定義されているフォーマットです。
+日付のコラム名を配列にして`Iso8601FormatModule`の引数に渡してインストールします。
+
+```php
+$this->install(new Iso8601FormatModule(['created_at', 'updated_at']));
+```
 
 ## デモ
 
