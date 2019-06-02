@@ -19,7 +19,7 @@ class WebQueryTest extends TestCase
      */
     private $webQuery;
 
-    public function setUp()
+    protected function setUp() : void
     {
         $this->webQuery = new WebQuery(new Client, 'GET', 'https://httpbin.org/json');
     }

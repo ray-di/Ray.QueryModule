@@ -23,17 +23,30 @@ class FakeTodo
     private $todoCreate;
 
     /**
-     * @Named("todoGet=todo_item_by_id, todoCreate=todo_insert")
+     * @var RowListInterface
      */
-    public function __construct(RowInterface $todoGet, callable $todoCreate)
+    private $todoList;
+
+    /**
+     * @Named("todoGet=todo_item_by_id, todoList=todo_list, todoCreate=todo_insert")
+     */
+    public function __construct(RowInterface $todoGet, RowListInterface $todoList, callable $todoCreate)
     {
         $this->todoGet = $todoGet;
         $this->todoCreate = $todoCreate;
+        $this->todoList = $todoList;
     }
 
     public function get(string $uuid)
     {
         return ($this->todoGet)([
+            'id' => $uuid
+        ]);
+    }
+
+    public function getList(string $uuid)
+    {
+        return ($this->todoList)([
             'id' => $uuid
         ]);
     }

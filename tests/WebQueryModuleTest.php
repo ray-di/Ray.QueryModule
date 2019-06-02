@@ -19,7 +19,7 @@ class WebQueryModuleTest extends TestCase
      */
     private $module;
 
-    public function setUp()
+    protected function setUp() : void
     {
         $webQueryConfig = [
             'foo' => ['GET', 'https://httpbin.org/anything/foo'],
@@ -31,7 +31,7 @@ class WebQueryModuleTest extends TestCase
 
     public function testQueryInterface()
     {
-        $foo = (new Injector($this->module))->getInstance(QueryInterface::class, 'foo');
+        $foo = (new Injector($this->module, __DIR__ . '/tmp'))->getInstance(QueryInterface::class, 'foo');
         $this->assertInstanceOf(QueryInterface::class, $foo);
         $result = $foo([]);
         $this->assertSame('https://httpbin.org/anything/foo', $result['url']);
@@ -39,7 +39,7 @@ class WebQueryModuleTest extends TestCase
 
     public function testCallable()
     {
-        $foo = (new Injector($this->module))->getInstance('', 'foo');
+        $foo = (new Injector($this->module, __DIR__ . '/tmp'))->getInstance('', 'foo');
         $this->assertInternalType('callable', $foo);
         $result = $foo([]);
         $this->assertSame('https://httpbin.org/anything/foo', $result['url']);

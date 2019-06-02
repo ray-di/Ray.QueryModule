@@ -13,4 +13,4 @@ $rm = function ($dir) use (&$rm) {
         @rmdir($f);
     }
 };
-$rm(sys_get_temp_dir());
+$rm(__DIR__ . '/tmp');

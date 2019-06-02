@@ -23,7 +23,7 @@ class SqlQueryModuleTest extends TestCase
 
     protected $module;
 
-    protected function setUp()
+    protected function setUp() : void
     {
         $pdo = new ExtendedPdo('sqlite::memory:');
         $pdo->query('CREATE TABLE IF NOT EXISTS todo (
@@ -49,7 +49,7 @@ class SqlQueryModuleTest extends TestCase
 
     public function testRowInterfaceInject()
     {
-        $injector = new Injector($this->module);
+        $injector = new Injector($this->module, __DIR__ . '/tmp');
         $todo = $injector->getInstance(FakeTodo::class);
         /* @var \Ray\Query\FakeQuery $todo */
         $actual = $todo->create('2', 'think');
@@ -58,7 +58,7 @@ class SqlQueryModuleTest extends TestCase
 
     public function testCallableInject()
     {
-        $injector = new Injector($this->module);
+        $injector = new Injector($this->module, __DIR__ . '/tmp');
         $todo = $injector->getInstance(FakeTodo::class);
         /* @var \Ray\Query\FakeQuery $todo */
         $actural = $todo->get('1');
@@ -71,7 +71,7 @@ class SqlQueryModuleTest extends TestCase
 
     public function testAssistedQueryInterface()
     {
-        $injector = new Injector($this->module);
+        $injector = new Injector($this->module, __DIR__ . '/tmp');
         $todo = $injector->getInstance(FakeQuery::class);
         /* @var \Ray\Query\FakeQuery $todo */
         $actual = $todo->create('2', 'think');
@@ -80,7 +80,7 @@ class SqlQueryModuleTest extends TestCase
 
     public function testAssistedQuery()
     {
-        $injector = new Injector($this->module);
+        $injector = new Injector($this->module, __DIR__ . '/tmp');
         $todo = $injector->getInstance(FakeQuery::class);
         /* @var \Ray\Query\FakeQuery $todo */
         $actual = $todo->get('1')[0]['title'];
@@ -89,7 +89,7 @@ class SqlQueryModuleTest extends TestCase
 
     public function testRowInterface()
     {
-        $injector = new Injector($this->module);
+        $injector = new Injector($this->module, __DIR__ . '/tmp');
         $item = $injector->getInstance(FakeItem::class);
         /* @var \Ray\Query\FakeItem $item */
         $actual = $item(['id' => '1']);
@@ -98,7 +98,7 @@ class SqlQueryModuleTest extends TestCase
 
     public function testRowListInterface()
     {
-        $injector = new Injector($this->module);
+        $injector = new Injector($this->module, __DIR__ . '/tmp');
         $item = $injector->getInstance(FakeList::class);
         /* @var \Ray\Query\FakeItem $item */
         $actual = $item(['id' => '1']);
@@ -107,7 +107,7 @@ class SqlQueryModuleTest extends TestCase
 
     public function testSqlAliasInterceptor()
     {
-        $injector = new Injector($this->module);
+        $injector = new Injector($this->module, __DIR__ . '/tmp');
         /* @var \Ray\Query\FakeAlias $fakeAlias */
         $fakeAlias = $injector->getInstance(FakeAlias::class);
         $actual = $fakeAlias->get('1');
@@ -120,7 +120,7 @@ class SqlQueryModuleTest extends TestCase
 
     public function testSqlAliasInterceptorWithNamed()
     {
-        $injector = new Injector($this->module);
+        $injector = new Injector($this->module, __DIR__ . '/tmp');
         /* @var \Ray\Query\FakeAlias $fakeAlias */
         $fakeAlias = $injector->getInstance(FakeAliasNamed::class);
         $actual = $fakeAlias->get('1');
