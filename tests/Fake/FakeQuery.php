@@ -19,6 +19,7 @@ class FakeQuery
      */
     public function get(string $uuid, QueryInterface $todo = null)
     {
+        assert(is_callable($todo));
         return $todo([
             'id' => $uuid
         ]);
@@ -30,6 +31,7 @@ class FakeQuery
      */
     public function create(string $uuid, string $title, QueryInterface $createTodo = null)
     {
+        assert(is_callable($createTodo));
         return $createTodo([
             'id' => $uuid,
             'title' => $title

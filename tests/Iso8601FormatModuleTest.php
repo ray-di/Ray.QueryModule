@@ -4,7 +4,6 @@ namespace Ray\Query;
 
 use Aura\Sql\ExtendedPdo;
 use Aura\Sql\ExtendedPdoInterface;
-use function parent;
 use PHPUnit\Framework\TestCase;
 use Ray\Di\AbstractModule;
 use Ray\Di\Injector;
@@ -24,8 +23,7 @@ class Iso8601FormatModuleTest extends TestCase
         $pdo->query('CREATE TABLE IF NOT EXISTS todo (
           id INTEGER,
           title TEXT,
-          created_at TIMESTAMP)'
-        );
+          created_at TIMESTAMP)');
         $pdo->perform('INSERT INTO todo (id, title, created_at) VALUES (:id, :title, :created_at)', ['id' => '1', 'title' => 'run', 'created_at' => '1970-01-01 00:00:00']);
         $this->module = new class($pdo) extends AbstractModule {
             private $pdo;
