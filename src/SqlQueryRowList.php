@@ -14,7 +14,7 @@ use function count;
 use function explode;
 use function strpos;
 
-final class SqlQueryRowList implements RowListInterface
+class SqlQueryRowList implements RowListInterface
 {
     /**
      * @var ExtendedPdoInterface
