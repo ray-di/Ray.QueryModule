@@ -8,12 +8,12 @@ declare(strict_types=1);
  */
 namespace Ray\Query;
 
-use Ray\Query\Annotation\AliasQuery;
+use Ray\Query\Annotation\Query;
 
 class FakeAlias
 {
     /**
-     * @AliasQuery("todo_item_by_id", type="row")
+     * @Query("todo_item_by_id", type="row")
      */
     public function get(string $id)
     {

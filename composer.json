@@ -27,7 +27,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Ray\\Query\\": "src/"
+            "Ray\\Query\\": ["src/", "src-deprecated"]
         }
     },
     "autoload-dev": {
