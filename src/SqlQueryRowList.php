@@ -1,17 +1,13 @@
 <?php
 
 declare(strict_types=1);
-/**
- * This file is part of the Ray.Query.
- *
- * @license http://opensource.org/licenses/MIT MIT
- */
+
 namespace Ray\Query;
 
 use Aura\Sql\ExtendedPdoInterface;
-use Ray\Query\Exception\QueryNumException;
 use function count;
 use function explode;
+use Ray\Query\Exception\QueryNumException;
 use function strpos;
 
 class SqlQueryRowList implements RowListInterface
@@ -37,7 +33,7 @@ class SqlQueryRowList implements RowListInterface
         if (! strpos($this->sql, ';')) {
             $this->sql .= ';';
         }
-        $sqls = explode(';', trim($this->sql, "\ \t\n\r\0\x0B"));
+        $sqls = explode(';', trim($this->sql, "\\ \t\n\r\0\x0B"));
         array_pop($sqls);
         $numQueris = count($queries);
         if (count($sqls) !== $numQueris) {

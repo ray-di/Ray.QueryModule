@@ -1,14 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Ray\Query;
 
-use function date;
 use PHPUnit\Framework\TestCase;
 use Ray\Aop\ReflectiveMethodInvocation;
 
 class Iso8601InterceptorTest extends TestCase
 {
-
     public function testDateTimeFieldConvertedIso8601()
     {
         $object = new class {
@@ -28,7 +28,6 @@ class Iso8601InterceptorTest extends TestCase
     public function testRowInterfaceConvert()
     {
         $object = new class implements RowInterface {
-
             public function __invoke(array ...$query) : iterable
             {
                 return ['created' => '1970-01-01 00:00:00'];
