@@ -1,11 +1,6 @@
 <?php
 
 declare(strict_types=1);
-/**
- * This file is part of the Ray.Query.
- *
- * @license http://opensource.org/licenses/MIT MIT
- */
 
 use Aura\Sql\ExtendedPdoInterface;
 use Ray\Di\AbstractModule;
@@ -52,8 +47,7 @@ class Todo
     }
 }
 
-$injector = new Injector(new class extends AbstractModule
-{
+$injector = new Injector(new class extends AbstractModule {
     protected function configure()
     {
         $this->install(new Ray\AuraSqlModule\AuraSqlModule('sqlite::memory:'));

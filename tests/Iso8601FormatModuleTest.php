@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Ray\Query;
 
 use Aura\Sql\ExtendedPdo;
@@ -42,12 +44,13 @@ class Iso8601FormatModuleTest extends TestCase
             }
         };
     }
+
     public function testItem()
     {
         $injector = new Injector($this->module, __DIR__ . '/tmp');
         $todo = $injector->getInstance(FakeTodo::class);
         /* @var \Ray\Query\FakeTodo $todo */
-        $actural = $todo->get(1);
+        $actural = $todo->get('1');
         $expected = [
             'id' => '1',
             'title' => 'run',
@@ -61,7 +64,7 @@ class Iso8601FormatModuleTest extends TestCase
         $injector = new Injector($this->module, __DIR__ . '/tmp');
         $todo = $injector->getInstance(FakeTodo::class);
         /* @var \Ray\Query\FakeTodo $todo */
-        $actural = $todo->getList(1);
+        $actural = $todo->getList('1');
         $expected = [
             [
                 'id' => '1',

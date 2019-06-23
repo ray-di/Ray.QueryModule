@@ -1,11 +1,7 @@
 <?php
 
 declare(strict_types=1);
-/**
- * This file is part of the Ray.Query.
- *
- * @license http://opensource.org/licenses/MIT MIT
- */
+
 namespace Ray\Query;
 
 use Ray\Di\AbstractModule;
@@ -14,10 +10,6 @@ class Iso8601FormatModule extends AbstractModule
 {
     private $datetimeColumns;
 
-    /**
-     * @param array               $datetimeColumns
-     * @param AbstractModule|null $module
-     */
     public function __construct(array $datetimeColumns, AbstractModule $module = null)
     {
         $this->datetimeColumns = $datetimeColumns;
