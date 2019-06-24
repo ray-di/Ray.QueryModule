@@ -154,13 +154,13 @@ class Todos
 
 ## Override the method with callable object
 
-Entire method invocation can be override with callable object in specified with `@AliasQuery`.
+Entire method invocation can be override with callable object in specified with `@Query`.
 
 ```php
 class Foo
 {
     /**
-     * @AliasQuery(id="todo_item_by_id")
+     * @Query(id="todo_item_by_id")
      */
     public function get(string $id)
     {
@@ -174,7 +174,7 @@ When parameter name is different method arguments and Query object arguments, ur
 class FooTempalted
 {
     /**
-     * @AliasQuery(id="todo_item_by_id?id={a}", templated=true)
+     * @Query(id="todo_item_by_id?id={a}", templated=true)
      */
     public function get(string $a)
     {
@@ -188,13 +188,15 @@ Specify `type='row'` when single row result is expected to return.
 class FooRow
 {
     /**
-     * @AliasQuery(id="ticket_item_by_id", type="row")
+     * @Query(id="ticket_item_by_id", type="row")
      */
     public function onGet(string $id) : ResourceObject
     {
     }
 }
 ```
+
+If there is no SELECT result, it returns `404 Not Found`.
 
 ## Convert URI to Web request object
 
@@ -247,7 +249,7 @@ public function __construct(
 ($this->todo)(['id' => $uuid]);
 ```
 
-The usage code of `@AliasQuery` does not change either.
+The usage code of `@Query` does not change either.
 
 ## Bind to PHP class
 
@@ -279,7 +281,7 @@ Bind to `callable`.
 $this->bind('')->annotatedWith('cretate_todo')->to(CreateTodo::class); // callableはインターフェイスなし
 ```
 
-The usage codes are the same. The usage code of `@AliasQuery` does not change either.
+The usage codes are the same. The usage code of `@Query` does not change either.
 
 ## ISO8601 DateTimeモジュール
 

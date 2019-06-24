@@ -158,13 +158,13 @@ class Todos
 
 ## メソッドをオーバーライド
 
-`@AliasQuery`でメソッド全体をSQLの実行に置き換えることができます。
+`@Query`でメソッド全体をSQLの実行に置き換えることができます。
 
 ```php
 class Foo
 {
     /**
-     * @AliasQuery(id="todo_item_by_id")
+     * @Query(id="todo_item_by_id")
      */
     public function get(string $id)
     {
@@ -178,7 +178,7 @@ class Foo
 class FooTempalted
 {
     /**
-     * @AliasQuery(id="todo_item_by_id?id={a}", templated=true)
+     * @Query(id="todo_item_by_id?id={a}", templated=true)
      */
     public function get(string $a)
     {
@@ -192,13 +192,15 @@ class FooTempalted
 class FooRow
 {
     /**
-     * @AliasQuery(id="ticket_item_by_id", type="row")
+     * @Query(id="ticket_item_by_id", type="row")
      */
     public function onGet(string $id) : ResourceObject
     {
     }
 }
 ```
+
+SELETした結果が無い場合にはcode 404が返ります。
 
 ## URIを実行オブジェクトに
 
@@ -250,7 +252,7 @@ public function __construct(
 ($this->todo)(['id' => $uuid]);
 ```
 
-`@AliasQuery`の利用コードも変わりません。
+`@Query`の利用コードも変わりません。
 
 ## PHPクラスを束縛
 
@@ -282,7 +284,7 @@ class CreateTodo implements QueryInterface
 $this->bind('')->annotatedWith('cretate_todo')->to(CreateTodo::class); // callableはインターフェイスなし
 ```
 
-利用コードは同じです。`@AliasQuery`の利用コードも変わりません。
+利用コードは同じです。`@Query`の利用コードも変わりません。
 
 ## ISO8601 DateTimeモジュール
 
