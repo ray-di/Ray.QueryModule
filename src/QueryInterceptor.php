@@ -9,9 +9,9 @@ use Ray\Aop\MethodInterceptor;
 use Ray\Aop\MethodInvocation;
 use Ray\Aop\ReflectionMethod;
 use Ray\Di\InjectorInterface;
-use Ray\Query\Annotation\AliasQuery;
+use Ray\Query\Annotation\Query;
 
-class SqlAliasInterceptor implements MethodInterceptor
+class QueryInterceptor implements MethodInterceptor
 {
     /**
      * @var InjectorInterface
@@ -27,11 +27,11 @@ class SqlAliasInterceptor implements MethodInterceptor
     {
         /** @var ReflectionMethod $method */
         $method = $invocation->getMethod();
-        /** @var AliasQuery $aliasQuery */
-        $aliasQuery = $method->getAnnotation(AliasQuery::class);
+        /** @var Query $query */
+        $query = $method->getAnnotation(Query::class);
         $namedArguments = (array) $invocation->getNamedArguments();
-        list($queryId, $params) = $aliasQuery->templated ? $this->templated($aliasQuery, $namedArguments) : [$aliasQuery->id, $namedArguments];
-        $interface = $aliasQuery->type === 'row' ? RowInterface::class : RowListInterface::class;
+        list($queryId, $params) = $query->templated ? $this->templated($query, $namedArguments) : [$query->id, $namedArguments];
+        $interface = $query->type === 'row' ? RowInterface::class : RowListInterface::class;
         $query = $this->injector->getInstance($interface, $queryId);
         if ($query instanceof QueryInterface) {
             return $this->getQueryResult($invocation, $query, $params);
@@ -69,11 +69,11 @@ class SqlAliasInterceptor implements MethodInterceptor
         return $ro;
     }
 
-    private function templated(AliasQuery $aliasQuery, array $namedArguments) : array
+    private function templated(Query $query, array $namedArguments) : array
     {
-        $url = parse_url(uri_template($aliasQuery->id, $namedArguments));
+        $url = parse_url(uri_template($query->id, $namedArguments));
         if (! $url) {
-            throw new \InvalidArgumentException($aliasQuery->id);
+            throw new \InvalidArgumentException($query->id);
         }
         $queryId = $url['path'];
         isset($url['query']) ? parse_str($url['query'], $params) : $params = $namedArguments;

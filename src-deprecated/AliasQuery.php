@@ -9,6 +9,8 @@ namespace Ray\Query\Annotation;
  *
  * @Annotation
  * @Target("METHOD")
+ *
+ * @deprecated use MapQuery instead
  */
 final class AliasQuery
 {
