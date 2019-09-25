@@ -38,4 +38,21 @@ class SqlQueryTest extends TestCase
         $row = $query(['id' => '__invalid__']);
         $this->assertSame([], $row);
     }
+
+    public function testMultipleQuery()
+    {
+        $sql = (string) file_get_contents(__DIR__ . '/Fake/sql/multiple_query.sql');
+        $query = new SqlQueryRowList($this->pdo, $sql);
+        $row = ((array) $query(
+            [
+                'id' => 2,
+                'title' => 'test'
+            ],
+            [
+                'id' => 2
+            ]
+        ))[0];
+        $this->assertSame('test', $row['title']);
+        $this->assertSame('2', $row['id']);
+    }
 }
