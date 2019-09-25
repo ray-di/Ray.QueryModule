@@ -44,7 +44,8 @@ class SqlQueryRowList implements RowListInterface
             $query = $queries[$i];
             $result = $this->pdo->perform($sql, $query);
         }
-        if (isset($result) && strpos(strtolower($result->queryString), 'select') === 0) {
+        $lastQuery = isset($result) ? strtolower(trim($result->queryString, "\\ \t\n\r\0\x0B")) : '';
+        if ($lastQuery && strpos($lastQuery, 'select') === 0) {
             return (array) $result->fetchAll(\PDO::FETCH_ASSOC);
         }
 
