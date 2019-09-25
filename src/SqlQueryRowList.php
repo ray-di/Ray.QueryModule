@@ -39,13 +39,16 @@ class SqlQueryRowList implements RowListInterface
         if (count($sqls) !== $numQueris) {
             throw new QueryNumException($this->sql);
         }
+        $result = null;
         for ($i = 0; $i < $numQueris; $i++) {
             $sql = $sqls[$i];
             $query = $queries[$i];
             $result = $this->pdo->perform($sql, $query);
         }
-        $lastQuery = isset($result) ? strtolower(trim($result->queryString, "\\ \t\n\r\0\x0B")) : '';
-        if ($lastQuery && strpos($lastQuery, 'select') === 0) {
+        $lastQuery = $result
+            ? strtolower(trim($result->queryString, "\\ \t\n\r\0\x0B"))
+            : '';
+        if ($result instanceof \PDOStatement && strpos($lastQuery, 'select') === 0) {
             return (array) $result->fetchAll(\PDO::FETCH_ASSOC);
         }
 
