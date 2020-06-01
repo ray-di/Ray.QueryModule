@@ -19,6 +19,7 @@
         "ray/aura-sql-module": "^1.6",
         "guzzlehttp/guzzle": "^6.3",
         "ray/aop": "^2.8.4",
+        "bear/resource": "1.x-dev",
         "koriym/query-locator": "^1.4"
     },
     "require-dev": {
