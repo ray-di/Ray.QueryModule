@@ -11,8 +11,8 @@ use Ray\Query\Fake\FakePhpQuery;
 
 class PhpQueryModuleTest extends TestCase
 {
-    public function testHandBind()
-    {
+    public function testHandBind() : void
+{
         $injector = new Injector(new class extends AbstractModule {
             protected function configure()
             {
@@ -24,8 +24,8 @@ class PhpQueryModuleTest extends TestCase
         $this->assertSame($query, $foo(['id' => '1']));
     }
 
-    public function testModule()
-    {
+    public function testModule() : void
+{
         $injector = new Injector(new class extends AbstractModule {
             protected function configure()
             {

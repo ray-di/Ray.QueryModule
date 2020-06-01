@@ -20,15 +20,15 @@ class WebQueryTest extends TestCase
         $this->webQuery = new WebQuery(new Client, 'GET', 'https://httpbin.org/json');
     }
 
-    public function test__invoke()
-    {
+    public function test__invoke() : void
+{
         $webQuery = new WebQuery(new Client, 'GET', 'https://httpbin.org/json');
         $result = $webQuery([]);
         $this->assertArrayHasKey('slideshow', (array) $result);
     }
 
-    public function test404()
-    {
+    public function test404() : void
+{
         $this->expectException(WebQueryException::class);
         $webQuery = new WebQuery(new Client, 'GET', 'https://httpbin.org/status/404');
         $result = $webQuery([]);
