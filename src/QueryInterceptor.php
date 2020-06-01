@@ -30,7 +30,7 @@ class QueryInterceptor implements MethodInterceptor
         /** @var Query $query */
         $query = $method->getAnnotation(Query::class);
         $namedArguments = (array) $invocation->getNamedArguments();
-        list($queryId, $params) = $query->templated ? $this->templated($query, $namedArguments) : [$query->id, $namedArguments];
+        [$queryId, $params] = $query->templated ? $this->templated($query, $namedArguments) : [$query->id, $namedArguments];
         $interface = $query->type === 'row' ? RowInterface::class : RowListInterface::class;
         $query = $this->injector->getInstance($interface, $queryId);
         if ($query instanceof QueryInterface) {
@@ -40,6 +40,11 @@ class QueryInterceptor implements MethodInterceptor
         return $invocation->proceed();
     }
 
+    /**
+     * @param array<int,mixed> $param
+     *
+     * @return mixed
+     */
     private function getQueryResult(MethodInvocation $invocation, QueryInterface $query, array $param)
     {
         $result = $query($param);
@@ -51,6 +56,9 @@ class QueryInterceptor implements MethodInterceptor
         return $result;
     }
 
+    /**
+     * @param mixed $result
+     */
     private function returnRo(ResourceObject $ro, MethodInvocation $invocation, $result) : ResourceObject
     {
         if (! $result) {
@@ -69,10 +77,15 @@ class QueryInterceptor implements MethodInterceptor
         return $ro;
     }
 
+    /**
+     * @param array<string, mixed> $namedArguments
+     *
+     * @return array{0: string, 1: array}
+     */
     private function templated(Query $query, array $namedArguments) : array
     {
         $url = parse_url(uri_template($query->id, $namedArguments));
-        if (! $url) {
+        if (! isset($url['path'])) { // @phpstan-ignore-line
             throw new \InvalidArgumentException($query->id);
         }
         $queryId = $url['path'];

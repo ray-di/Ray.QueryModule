@@ -60,7 +60,7 @@ class SqlQueryModule extends AbstractModule
         );
     }
 
-    protected function bindCallableItem(string $name, string $sqlId)
+    protected function bindCallableItem(string $name, string $sqlId) : void
     {
         $this->bind(RowInterface::class)->annotatedWith($name)->toConstructor(
             SqlQueryRow::class,
@@ -68,7 +68,7 @@ class SqlQueryModule extends AbstractModule
         );
     }
 
-    protected function bindCallableList(string $name, string $sqlId)
+    protected function bindCallableList(string $name, string $sqlId) : void
     {
         $this->bind()->annotatedWith($name)->toConstructor(
             SqlQueryRowList::class,
@@ -80,7 +80,7 @@ class SqlQueryModule extends AbstractModule
         );
     }
 
-    private function files($dir) : \RegexIterator
+    private function files(string $dir) : \RegexIterator
     {
         return
             new \RegexIterator(

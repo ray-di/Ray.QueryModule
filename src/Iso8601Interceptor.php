@@ -40,6 +40,11 @@ final class Iso8601Interceptor implements MethodInterceptor
         return $this->convert($list);
     }
 
+    /**
+     * @param array<mixed> $list
+     *
+     * @return array<mixed>
+     */
     private function convert(array $list) : array
     {
         foreach ($list as &$row) {

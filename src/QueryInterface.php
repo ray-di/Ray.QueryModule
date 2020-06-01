@@ -6,5 +6,8 @@ namespace Ray\Query;
 
 interface QueryInterface
 {
+    /**
+     * @return array<mixed>
+     */
     public function __invoke(array ...$query);
 }
