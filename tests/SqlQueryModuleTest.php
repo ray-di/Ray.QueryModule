@@ -50,7 +50,7 @@ class SqlQueryModuleTest extends TestCase
     }
 
     public function testRowInterfaceInject() : void
-{
+    {
         $injector = new Injector($this->module, __DIR__ . '/tmp');
         $todo = $injector->getInstance(FakeTodo::class);
         /* @var \Ray\Query\FakeQuery $todo */
@@ -59,7 +59,7 @@ class SqlQueryModuleTest extends TestCase
     }
 
     public function testCallableInject() : void
-{
+    {
         $injector = new Injector($this->module, __DIR__ . '/tmp');
         $todo = $injector->getInstance(FakeTodo::class);
         /* @var \Ray\Query\FakeQuery $todo */
@@ -72,7 +72,7 @@ class SqlQueryModuleTest extends TestCase
     }
 
     public function testAssistedQueryInterface() : void
-{
+    {
         $injector = new Injector($this->module, __DIR__ . '/tmp');
         $todo = $injector->getInstance(FakeQuery::class);
         /* @var \Ray\Query\FakeQuery $todo */
@@ -81,7 +81,7 @@ class SqlQueryModuleTest extends TestCase
     }
 
     public function testAssistedQuery() : void
-{
+    {
         $injector = new Injector($this->module, __DIR__ . '/tmp');
         $todo = $injector->getInstance(FakeQuery::class);
         /* @var \Ray\Query\FakeQuery $todo */
@@ -90,7 +90,7 @@ class SqlQueryModuleTest extends TestCase
     }
 
     public function testRowInterface() : void
-{
+    {
         $injector = new Injector($this->module, __DIR__ . '/tmp');
         $item = $injector->getInstance(FakeItem::class);
         /* @var \Ray\Query\FakeItem $item */
@@ -99,7 +99,7 @@ class SqlQueryModuleTest extends TestCase
     }
 
     public function testRowListInterface() : void
-{
+    {
         $injector = new Injector($this->module, __DIR__ . '/tmp');
         $item = $injector->getInstance(FakeList::class);
         /* @var \Ray\Query\FakeItem $item */
@@ -108,7 +108,7 @@ class SqlQueryModuleTest extends TestCase
     }
 
     public function testSqlAliasInterceptor() : void
-{
+    {
         $injector = new Injector($this->module, __DIR__ . '/tmp');
         /* @var \Ray\Query\FakeAlias $fakeAlias */
         $fakeAlias = $injector->getInstance(FakeAlias::class);
@@ -121,7 +121,7 @@ class SqlQueryModuleTest extends TestCase
     }
 
     public function testSqlAliasInterceptorWithNamed() : void
-{
+    {
         $injector = new Injector($this->module, __DIR__ . '/tmp');
         /* @var \Ray\Query\FakeAlias $fakeAlias */
         $fakeAlias = $injector->getInstance(FakeAliasNamed::class);

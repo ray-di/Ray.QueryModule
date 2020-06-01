@@ -12,7 +12,7 @@ use Ray\Query\Fake\FakePhpQuery;
 class PhpQueryModuleTest extends TestCase
 {
     public function testHandBind() : void
-{
+    {
         $injector = new Injector(new class extends AbstractModule {
             protected function configure()
             {
@@ -25,7 +25,7 @@ class PhpQueryModuleTest extends TestCase
     }
 
     public function testModule() : void
-{
+    {
         $injector = new Injector(new class extends AbstractModule {
             protected function configure()
             {

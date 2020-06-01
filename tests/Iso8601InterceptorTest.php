@@ -10,7 +10,7 @@ use Ray\Aop\ReflectiveMethodInvocation;
 class Iso8601InterceptorTest extends TestCase
 {
     public function testDateTimeFieldConvertedIso8601() : void
-{
+    {
         $object = new class {
             /**
              * @return array<array<string>>
@@ -29,7 +29,7 @@ class Iso8601InterceptorTest extends TestCase
     }
 
     public function testRowInterfaceConvert() : void
-{
+    {
         $object = new class implements RowInterface {
             public function __invoke(array ...$query) : iterable
             {

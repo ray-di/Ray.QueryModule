@@ -26,7 +26,7 @@ class WebQueryModuleTest extends TestCase
     }
 
     public function testQueryInterface() : void
-{
+    {
         $foo = (new Injector($this->module, __DIR__ . '/tmp'))->getInstance(QueryInterface::class, 'foo');
         $this->assertInstanceOf(QueryInterface::class, $foo);
         $result = $foo([]);
@@ -34,7 +34,7 @@ class WebQueryModuleTest extends TestCase
     }
 
     public function testCallable() : void
-{
+    {
         $foo = (new Injector($this->module, __DIR__ . '/tmp'))->getInstance('', 'foo');
         $this->assertInternalType('callable', $foo);
         $result = $foo([]);

@@ -26,7 +26,7 @@ class SqlQueryTest extends TestCase
     }
 
     public function test__invoke() : void
-{
+    {
         $sql = (string) file_get_contents(__DIR__ . '/Fake/sql/todo_item_by_id.sql');
         $query = new SqlQueryRowList($this->pdo, $sql);
         $row = ((array) $query(['id' => 1]))[0];
@@ -35,7 +35,7 @@ class SqlQueryTest extends TestCase
     }
 
     public function testNotFound() : void
-{
+    {
         $sql = (string) file_get_contents(__DIR__ . '/Fake/sql/todo_item_by_id.sql');
         $query = new SqlQueryRowList($this->pdo, $sql);
         $row = $query(['id' => '__invalid__']);
@@ -43,7 +43,7 @@ class SqlQueryTest extends TestCase
     }
 
     public function testMultipleQuery() : void
-{
+    {
         $sql = (string) file_get_contents(__DIR__ . '/Fake/sql/multiple_query.sql');
         $query = new SqlQueryRowList($this->pdo, $sql);
         $row = ((array) $query(

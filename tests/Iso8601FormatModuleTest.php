@@ -52,7 +52,7 @@ class Iso8601FormatModuleTest extends TestCase
     }
 
     public function testItem() : void
-{
+    {
         $injector = new Injector($this->module, __DIR__ . '/tmp');
         $todo = $injector->getInstance(FakeTodo::class);
         /* @var \Ray\Query\FakeTodo $todo */
@@ -66,7 +66,7 @@ class Iso8601FormatModuleTest extends TestCase
     }
 
     public function testList() : void
-{
+    {
         $injector = new Injector($this->module, __DIR__ . '/tmp');
         $todo = $injector->getInstance(FakeTodo::class);
         /* @var \Ray\Query\FakeTodo $todo */
