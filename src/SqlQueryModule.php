@@ -53,6 +53,7 @@ class SqlQueryModule extends AbstractModule
             [QueryInterceptor::class]
         );
         // <=0.4.0
+        /** @psalm-suppress DeprecatedClass */
         $this->bindInterceptor(
             $this->matcher->any(),
             $this->matcher->annotatedWith(AliasQuery::class),

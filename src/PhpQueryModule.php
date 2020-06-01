@@ -30,6 +30,9 @@ class PhpQueryModule extends AbstractModule
         }
     }
 
+    /**
+     * @param mixed $binding
+     */
     private function bindQuery(string $name, $binding) : void
     {
         if (is_string($binding) && class_exists($binding) && (new \ReflectionClass($binding))->implementsInterface(QueryInterface::class)) {

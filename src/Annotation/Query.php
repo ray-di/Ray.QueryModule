@@ -9,6 +9,8 @@ namespace Ray\Query\Annotation;
  *
  * @Annotation
  * @Target("METHOD")
+ *
+ * @psalm-suppress MissingConstructor
  */
 final class Query
 {
