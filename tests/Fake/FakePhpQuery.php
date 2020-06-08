@@ -12,7 +12,7 @@ use Ray\Query\QueryInterface;
 
 class FakePhpQuery implements QueryInterface
 {
-    public function __invoke(array ...$queries)
+    public function __invoke(array ...$queries) : iterable
     {
         $query = $queries[0];
 

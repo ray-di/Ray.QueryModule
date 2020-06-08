@@ -25,7 +25,7 @@ class FakeFoo implements QueryInterface
         $this->func = $func;
     }
 
-    public function __invoke(array ...$queries)
+    public function __invoke(array ...$queries) : iterable
     {
         $query = $queries[0];
 

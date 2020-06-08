@@ -1,5 +1,8 @@
 parameters:
-    ignoreErrors:
-        - '#does not call parent constructor#'
-    excludes_analyse:
-        - */tests/tmp/*
+  level: max
+  paths:
+    - src
+    - tests
+  excludes_analyse:
+    - %currentWorkingDirectory%/tests/tmp/*
+    - %currentWorkingDirectory%/tests/Fake/*

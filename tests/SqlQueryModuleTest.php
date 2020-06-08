@@ -17,6 +17,9 @@ class SqlQueryModuleTest extends TestCase
      */
     protected $pdo;
 
+    /**
+     * @var AbstractModule
+     */
     protected $module;
 
     protected function setUp() : void
@@ -28,6 +31,9 @@ class SqlQueryModuleTest extends TestCase
 )');
         $pdo->perform('INSERT INTO todo (id, title) VALUES (:id, :title)', ['id' => '1', 'title' => 'run']);
         $this->module = new class($pdo) extends AbstractModule {
+            /**
+             * @var ExtendedPdo
+             */
             private $pdo;
 
             public function __construct(ExtendedPdo $pdo)
@@ -43,7 +49,7 @@ class SqlQueryModuleTest extends TestCase
         };
     }
 
-    public function testRowInterfaceInject()
+    public function testRowInterfaceInject() : void
     {
         $injector = new Injector($this->module, __DIR__ . '/tmp');
         $todo = $injector->getInstance(FakeTodo::class);
@@ -52,7 +58,7 @@ class SqlQueryModuleTest extends TestCase
         $this->assertSame([], $actual);
     }
 
-    public function testCallableInject()
+    public function testCallableInject() : void
     {
         $injector = new Injector($this->module, __DIR__ . '/tmp');
         $todo = $injector->getInstance(FakeTodo::class);
@@ -65,7 +71,7 @@ class SqlQueryModuleTest extends TestCase
         $this->assertSame($expected, $actural);
     }
 
-    public function testAssistedQueryInterface()
+    public function testAssistedQueryInterface() : void
     {
         $injector = new Injector($this->module, __DIR__ . '/tmp');
         $todo = $injector->getInstance(FakeQuery::class);
@@ -74,7 +80,7 @@ class SqlQueryModuleTest extends TestCase
         $this->assertSame([], $actual);
     }
 
-    public function testAssistedQuery()
+    public function testAssistedQuery() : void
     {
         $injector = new Injector($this->module, __DIR__ . '/tmp');
         $todo = $injector->getInstance(FakeQuery::class);
@@ -83,7 +89,7 @@ class SqlQueryModuleTest extends TestCase
         $this->assertSame('run', $actual);
     }
 
-    public function testRowInterface()
+    public function testRowInterface() : void
     {
         $injector = new Injector($this->module, __DIR__ . '/tmp');
         $item = $injector->getInstance(FakeItem::class);
@@ -92,7 +98,7 @@ class SqlQueryModuleTest extends TestCase
         $this->assertSame(['id' => '1', 'title' => 'run'], $actual);
     }
 
-    public function testRowListInterface()
+    public function testRowListInterface() : void
     {
         $injector = new Injector($this->module, __DIR__ . '/tmp');
         $item = $injector->getInstance(FakeList::class);
@@ -101,7 +107,7 @@ class SqlQueryModuleTest extends TestCase
         $this->assertSame([['id' => '1', 'title' => 'run']], $actual);
     }
 
-    public function testSqlAliasInterceptor()
+    public function testSqlAliasInterceptor() : void
     {
         $injector = new Injector($this->module, __DIR__ . '/tmp');
         /* @var \Ray\Query\FakeAlias $fakeAlias */
@@ -114,7 +120,7 @@ class SqlQueryModuleTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function testSqlAliasInterceptorWithNamed()
+    public function testSqlAliasInterceptorWithNamed() : void
     {
         $injector = new Injector($this->module, __DIR__ . '/tmp');
         /* @var \Ray\Query\FakeAlias $fakeAlias */

@@ -25,7 +25,7 @@ class WebQueryModuleTest extends TestCase
         $this->module = new WebQueryModule($webQueryConfig, $guzzleConfig);
     }
 
-    public function testQueryInterface()
+    public function testQueryInterface() : void
     {
         $foo = (new Injector($this->module, __DIR__ . '/tmp'))->getInstance(QueryInterface::class, 'foo');
         $this->assertInstanceOf(QueryInterface::class, $foo);
@@ -33,7 +33,7 @@ class WebQueryModuleTest extends TestCase
         $this->assertSame('https://httpbin.org/anything/foo', $result['url']);
     }
 
-    public function testCallable()
+    public function testCallable() : void
     {
         $foo = (new Injector($this->module, __DIR__ . '/tmp'))->getInstance('', 'foo');
         $this->assertInternalType('callable', $foo);
