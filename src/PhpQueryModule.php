@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Ray\Query;
 
 use Ray\Di\AbstractModule;
+use ReflectionClass;
 
 class PhpQueryModule extends AbstractModule
 {
@@ -35,7 +36,7 @@ class PhpQueryModule extends AbstractModule
      */
     private function bindQuery(string $name, $binding) : void
     {
-        if (is_string($binding) && class_exists($binding) && (new \ReflectionClass($binding))->implementsInterface(QueryInterface::class)) {
+        if (is_string($binding) && class_exists($binding) && (new ReflectionClass($binding))->implementsInterface(QueryInterface::class)) {
             $this->bind(QueryInterface::class)->annotatedWith($name)->to($binding);
         }
     }

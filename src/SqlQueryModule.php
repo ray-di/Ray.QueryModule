@@ -4,9 +4,14 @@ declare(strict_types=1);
 
 namespace Ray\Query;
 
+use FilesystemIterator;
 use Ray\Di\AbstractModule;
 use Ray\Query\Annotation\AliasQuery;
 use Ray\Query\Annotation\Query;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
+use RecursiveRegexIterator;
+use RegexIterator;
 
 class SqlQueryModule extends AbstractModule
 {
@@ -81,19 +86,19 @@ class SqlQueryModule extends AbstractModule
         );
     }
 
-    private function files(string $dir) : \RegexIterator
+    private function files(string $dir) : RegexIterator
     {
         return
-            new \RegexIterator(
-                new \RecursiveIteratorIterator(
-                    new \RecursiveDirectoryIterator(
+            new RegexIterator(
+                new RecursiveIteratorIterator(
+                    new RecursiveDirectoryIterator(
                         $dir,
-                        \FilesystemIterator::CURRENT_AS_FILEINFO | \FilesystemIterator::KEY_AS_PATHNAME | \FilesystemIterator::SKIP_DOTS
+                        FilesystemIterator::CURRENT_AS_FILEINFO | FilesystemIterator::KEY_AS_PATHNAME | FilesystemIterator::SKIP_DOTS
                     ),
-                    \RecursiveIteratorIterator::LEAVES_ONLY
+                    RecursiveIteratorIterator::LEAVES_ONLY
                 ),
                 '/^.+\.sql$/',
-                \RecursiveRegexIterator::MATCH
+                RecursiveRegexIterator::MATCH
             );
     }
 }

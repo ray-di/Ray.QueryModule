@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Ray\Query\Exception;
 
-class QueryNumException extends \InvalidArgumentException
+use InvalidArgumentException;
+
+class QueryNumException extends InvalidArgumentException
 {
 }

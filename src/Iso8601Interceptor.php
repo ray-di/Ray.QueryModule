@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Ray\Query;
 
+use DateTime;
+use DateTimeImmutable;
 use function is_array;
 use Ray\Aop\MethodInterceptor;
 use Ray\Aop\MethodInvocation;
@@ -50,7 +52,7 @@ final class Iso8601Interceptor implements MethodInterceptor
         foreach ($list as &$row) {
             foreach ($row as $column => &$value) {
                 if (in_array($column, $this->datetimeColumns, true)) {
-                    $value = (new \DateTime($value))->format(\DateTime::ATOM);
+                    $value = (new DateTimeImmutable($value))->format(DateTime::ATOM);
                 }
             }
         }

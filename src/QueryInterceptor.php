@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Ray\Query;
 
 use BEAR\Resource\ResourceObject;
+use InvalidArgumentException;
 use Ray\Aop\MethodInterceptor;
 use Ray\Aop\MethodInvocation;
 use Ray\Aop\ReflectionMethod;
@@ -86,7 +87,7 @@ class QueryInterceptor implements MethodInterceptor
     {
         $url = parse_url(uri_template($query->id, $namedArguments));
         if (! isset($url['path'])) { // @phpstan-ignore-line
-            throw new \InvalidArgumentException($query->id);
+            throw new InvalidArgumentException($query->id);
         }
         $queryId = $url['path'];
         isset($url['query']) ? parse_str($url['query'], $params) : $params = $namedArguments;

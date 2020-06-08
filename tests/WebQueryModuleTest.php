@@ -36,7 +36,7 @@ class WebQueryModuleTest extends TestCase
     public function testCallable() : void
     {
         $foo = (new Injector($this->module, __DIR__ . '/tmp'))->getInstance('', 'foo');
-        $this->assertInternalType('callable', $foo);
+        $this->assertIsCallable($foo);
         $result = $foo([]);
         $this->assertSame('https://httpbin.org/anything/foo', $result['url']);
     }

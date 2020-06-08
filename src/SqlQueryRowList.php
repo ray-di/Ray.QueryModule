@@ -7,6 +7,8 @@ namespace Ray\Query;
 use Aura\Sql\ExtendedPdoInterface;
 use function count;
 use function explode;
+use PDO;
+use PDOStatement;
 use Ray\Query\Exception\QueryNumException;
 use function strpos;
 
@@ -48,8 +50,8 @@ class SqlQueryRowList implements RowListInterface
         $lastQuery = $result
             ? strtolower(trim($result->queryString, "\\ \t\n\r\0\x0B"))
             : '';
-        if ($result instanceof \PDOStatement && strpos($lastQuery, 'select') === 0) {
-            return (array) $result->fetchAll(\PDO::FETCH_ASSOC);
+        if ($result instanceof PDOStatement && strpos($lastQuery, 'select') === 0) {
+            return (array) $result->fetchAll(PDO::FETCH_ASSOC);
         }
 
         return [];
