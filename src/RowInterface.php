@@ -11,5 +11,5 @@ interface RowInterface extends QueryInterface
      *
      * @return array<string, scalar>
      */
-    public function __invoke(array ...$query);
+    public function __invoke(array ...$query) : array;
 }
