@@ -30,6 +30,7 @@ class SqlQueryModuleTest extends TestCase
           title TEXT
 )');
         $pdo->perform('INSERT INTO todo (id, title) VALUES (:id, :title)', ['id' => '1', 'title' => 'run']);
+        /** @psalm-suppress PropertyNotSetInConstructor */
         $this->module = new class($pdo) extends AbstractModule {
             /**
              * @var ExtendedPdo
