@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Ray\Query;
 
-interface RowListInterface extends QueryInterface
+interface RowListInterface
 {
     /**
      * @return array

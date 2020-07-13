@@ -43,7 +43,7 @@ class SqlQueryModule extends AbstractModule
             $name = pathinfo($fileInfo->getRealPath())['filename'];
             $sqlId = 'sql-' . $name;
             $this->bind(QueryInterface::class)->annotatedWith($name)->toConstructor(
-                SqlQueryRowList::class,
+                SqlQueryRow::class,
                 "sql={$sqlId}"
             );
             $this->bindCallableItem($name, $sqlId);
