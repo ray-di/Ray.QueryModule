@@ -7,7 +7,7 @@ namespace Ray\Query;
 interface RowListInterface
 {
     /**
-     * @return array
+     * @return list<array<string, scalar>>
      */
     public function __invoke(array ...$query);
 }
