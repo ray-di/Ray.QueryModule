@@ -37,8 +37,8 @@ final class WebQuery implements QueryInterface
      */
     public function __invoke(array ...$queries)
     {
-        /** @psalm-suppress InvalidCatch */
         $query = $queries[0];
+        /** @psalm-suppress InvalidCatch */
         try {
             $response = $this->client->request($this->method, $this->uri, ['query' => $query]);
             $body = $response->getBody()->getContents();
