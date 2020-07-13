@@ -24,7 +24,7 @@ class SqlQueryRow implements RowInterface
         $this->sql = $sql;
     }
 
-    public function __invoke(array ...$queries)
+    public function __invoke(array ...$queries) : array
     {
         $query = $queries[0];
         $item = $this->pdo->fetchAssoc($this->sql, $query);

@@ -35,7 +35,7 @@ final class WebQuery implements QueryInterface
     /**
      * {@inheritdoc}
      */
-    public function __invoke(array ...$queries)
+    public function __invoke(array ...$queries) : array
     {
         $query = $queries[0];
         /** @psalm-suppress InvalidCatch */
