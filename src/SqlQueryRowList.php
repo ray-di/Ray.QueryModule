@@ -30,7 +30,7 @@ class SqlQueryRowList implements RowListInterface
         $this->sql = $sql;
     }
 
-    public function __invoke(array ...$queries) : iterable
+    public function __invoke(array ...$queries) : array
     {
         if (! strpos($this->sql, ';')) {
             $this->sql .= ';';

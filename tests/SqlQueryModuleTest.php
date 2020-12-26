@@ -30,6 +30,7 @@ class SqlQueryModuleTest extends TestCase
           title TEXT
 )');
         $pdo->perform('INSERT INTO todo (id, title) VALUES (:id, :title)', ['id' => '1', 'title' => 'run']);
+        /** @psalm-suppress PropertyNotSetInConstructor */
         $this->module = new class($pdo) extends AbstractModule {
             /**
              * @var ExtendedPdo
@@ -85,7 +86,8 @@ class SqlQueryModuleTest extends TestCase
         $injector = new Injector($this->module, __DIR__ . '/tmp');
         $todo = $injector->getInstance(FakeQuery::class);
         /* @var \Ray\Query\FakeQuery $todo */
-        $actual = $todo->get('1')[0]['title'];
+        $uuid = $todo->get('1');
+        $actual = $todo->get('1')['title'];
         $this->assertSame('run', $actual);
     }
 
