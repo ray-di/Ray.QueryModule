@@ -1,0 +1,37 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Method Ray\\\\Query\\\\QueryInterface\\:\\:__invoke\\(\\) has parameter \\$query with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/QueryInterface.php
+
+		-
+			message: "#^Method Ray\\\\Query\\\\RowInterface\\:\\:__invoke\\(\\) has parameter \\$query with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/RowInterface.php
+
+		-
+			message: "#^Method Ray\\\\Query\\\\RowListInterface\\:\\:__invoke\\(\\) has parameter \\$query with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/RowListInterface.php
+
+		-
+			message: "#^Method Ray\\\\Query\\\\SqlQueryRow\\:\\:__invoke\\(\\) has parameter \\$queries with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/SqlQueryRow.php
+
+		-
+			message: "#^Method Ray\\\\Query\\\\SqlQueryRowList\\:\\:__invoke\\(\\) has parameter \\$queries with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/SqlQueryRowList.php
+
+		-
+			message: "#^Method Ray\\\\Query\\\\WebQuery\\:\\:__invoke\\(\\) has parameter \\$queries with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/WebQuery.php
+
+		-
+			message: "#^Method class@anonymous/tests/Iso8601InterceptorTest\\.php\\:33\\:\\:__invoke\\(\\) has parameter \\$query with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: tests/Iso8601InterceptorTest.php
+
