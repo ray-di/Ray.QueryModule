@@ -118,7 +118,7 @@ class SqlQueryModuleTest extends TestCase
     public function testSqlAliasInterceptorWithNamed(): FakeAliasNamed
     {
         $injector = new Injector($this->module, __DIR__ . '/tmp');
-        /** @var FakeAlias $fakeAlias */
+        /** @var FakeAliasNamed $fakeAlias */
         $fakeAlias = $injector->getInstance(FakeAliasNamed::class);
         $actual = $fakeAlias->get('1');
         $expected = [

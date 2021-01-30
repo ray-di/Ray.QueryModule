@@ -43,6 +43,7 @@ class QueryInterceptor implements MethodInterceptor
         assert(is_string($queryId));
         /** @var RowInterface|RowListInterface|object  $query */
         $query = $this->injector->getInstance($interface, $queryId);
+        assert($query instanceof QueryInterface);
 
         /** @var array<string, mixed> $params */
         return $this->getQueryResult($invocation, $query, $params);
