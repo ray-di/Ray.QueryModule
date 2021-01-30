@@ -1,4 +1,5 @@
 /vendor/
+/vendor-bin/tools/vendor/
 /build/
 /tests/tmp/
 !/tests/tmp/.gitkeep
@@ -6,3 +7,4 @@
 /phpunit.xml
 /.php_cs.cache
 /.phpunit.result.cache
+/.phpcs-cache
