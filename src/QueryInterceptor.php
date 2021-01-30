@@ -12,6 +12,7 @@ use Ray\Aop\ReflectionMethod;
 use Ray\Di\InjectorInterface;
 use Ray\Query\Annotation\Query;
 
+use function assert;
 use function is_string;
 use function parse_str;
 use function parse_url;
@@ -106,8 +107,6 @@ class QueryInterceptor implements MethodInterceptor
         $queryId = $url['path'];
         isset($url['query']) ? parse_str($url['query'], $params) : $params = $namedArguments;
 
-        $a = [$queryId, $params + $namedArguments];
-
-        return $a;
+        return [$queryId, $params + $namedArguments];
     }
 }

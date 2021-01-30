@@ -20,7 +20,7 @@ class WebQueryModule extends AbstractModule
 
     /**
      * @param array<string, string> $webQueryConfig
-     * @param array<string, mixed> $guzzleConfig
+     * @param array<string, mixed>  $guzzleConfig
      */
     public function __construct(array $webQueryConfig, array $guzzleConfig, ?AbstractModule $module = null)
     {

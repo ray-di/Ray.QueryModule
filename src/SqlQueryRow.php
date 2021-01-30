@@ -7,6 +7,7 @@ namespace Ray\Query;
 use Aura\Sql\ExtendedPdoInterface;
 
 use function array_pop;
+use function assert;
 use function count;
 use function is_iterable;
 
@@ -35,6 +36,7 @@ class SqlQueryRow implements RowInterface
         if (! count($item)) {
             return [];
         }
+
         $list = array_pop($item);
         assert(is_iterable($list));
 

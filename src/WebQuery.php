@@ -8,6 +8,7 @@ use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use Ray\Query\Exception\WebQueryException;
 
+use function assert;
 use function is_iterable;
 use function json_decode;
 
