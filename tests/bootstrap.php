@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+use Koriym\Attributes\AttributeReader;
+use Ray\ServiceLocator\ServiceLocator;
+
 $rm = function ($dir) use (&$rm) {
     foreach ((array) glob($dir . '/*') as $file) {
         $f = (string) $file;
@@ -10,3 +13,8 @@ $rm = function ($dir) use (&$rm) {
     }
 };
 $rm(__DIR__ . '/tmp');
+
+// no annotation in PHP 8
+if (PHP_MAJOR_VERSION >= 8) {
+    ServiceLocator::setReader(new AttributeReader());
+}

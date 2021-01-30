@@ -20,6 +20,7 @@ class FakeFoo implements QueryInterface
     /**
      * @Named("todo_item_by_id")
      */
+    #[Named('todo_item_by_id')]
     public function __construct(callable $func)
     {
         $this->func = $func;
