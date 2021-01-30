@@ -126,4 +126,26 @@ class SqlQueryModuleTest extends TestCase
         ];
         $this->assertSame($expected, $actual);
     }
+
+    public function testResourceObject200(): void
+    {
+        $injector = new Injector($this->module, __DIR__ . '/tmp');
+        /** @var FakeRo $ro */
+        $ro = $injector->getInstance(FakeRo::class);
+        $response = $ro->onGet('1');
+        $this->assertSame(200, $response->code);
+        $this->assertSame(['id' => '1', 'title' => 'run'], $response->body);
+        $this->assertSame('{"id":"1","title":"run"}', (string) $response);
+    }
+
+    public function testResourceObject404(): void
+    {
+        $injector = new Injector($this->module, __DIR__ . '/tmp');
+        /** @var FakeRo $ro */
+        $ro = $injector->getInstance(FakeRo::class);
+        $response = $ro->onGet('2');
+        $this->assertSame(404, $response->code);
+        $this->assertSame([], $response->body);
+        $this->assertSame('[]', (string) $response);
+    }
 }
