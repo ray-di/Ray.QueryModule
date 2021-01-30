@@ -8,15 +8,13 @@ use Ray\Di\AbstractModule;
 
 class Iso8601FormatModule extends AbstractModule
 {
-    /**
-     * @var array<string>
-     */
+    /** @var array<string> */
     private $datetimeColumns;
 
     /**
      * @param array<string> $datetimeColumns
      */
-    public function __construct(array $datetimeColumns, AbstractModule $module = null)
+    public function __construct(array $datetimeColumns, ?AbstractModule $module = null)
     {
         $this->datetimeColumns = $datetimeColumns;
         parent::__construct($module);

@@ -12,23 +12,20 @@ use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use RecursiveRegexIterator;
 use RegexIterator;
+use SplFileInfo;
+
+use function file_get_contents;
+use function pathinfo;
+use function trim;
 
 class SqlQueryModule extends AbstractModule
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     private $sqlDir;
 
-    /**
-     * @var string
-     */
-    private $queryBuilderDir;
-
-    public function __construct(string $sqlDir, string $queryBuilderDir = '', AbstractModule $module = null)
+    public function __construct(string $sqlDir, ?AbstractModule $module = null)
     {
         $this->sqlDir = $sqlDir;
-        $this->queryBuilderDir = $queryBuilderDir;
         parent::__construct($module);
     }
 
@@ -38,9 +35,9 @@ class SqlQueryModule extends AbstractModule
     protected function configure()
     {
         foreach ($this->files($this->sqlDir) as $fileInfo) {
-            /* @var \SplFileInfo $fileInfo */
+            /** @var SplFileInfo $fileInfo */
             $fullPath = $fileInfo->getPathname();
-            $name = pathinfo($fileInfo->getRealPath())['filename'];
+            $name = pathinfo((string) $fileInfo->getRealPath())['filename'];
             $sqlId = 'sql-' . $name;
             $this->bind(QueryInterface::class)->annotatedWith($name)->toConstructor(
                 SqlQueryRowList::class,
@@ -52,6 +49,7 @@ class SqlQueryModule extends AbstractModule
             $sql = trim((string) file_get_contents($fullPath));
             $this->bind('')->annotatedWith($sqlId)->toInstance($sql);
         }
+
         $this->bindInterceptor(
             $this->matcher->any(),
             $this->matcher->annotatedWith(Query::class),
@@ -66,7 +64,7 @@ class SqlQueryModule extends AbstractModule
         );
     }
 
-    protected function bindCallableItem(string $name, string $sqlId) : void
+    protected function bindCallableItem(string $name, string $sqlId): void
     {
         $this->bind(RowInterface::class)->annotatedWith($name)->toConstructor(
             SqlQueryRow::class,
@@ -74,7 +72,7 @@ class SqlQueryModule extends AbstractModule
         );
     }
 
-    protected function bindCallableList(string $name, string $sqlId) : void
+    protected function bindCallableList(string $name, string $sqlId): void
     {
         $this->bind()->annotatedWith($name)->toConstructor(
             SqlQueryRowList::class,
@@ -86,19 +84,18 @@ class SqlQueryModule extends AbstractModule
         );
     }
 
-    private function files(string $dir) : RegexIterator
+    private function files(string $dir): RegexIterator
     {
-        return
-            new RegexIterator(
-                new RecursiveIteratorIterator(
-                    new RecursiveDirectoryIterator(
-                        $dir,
-                        FilesystemIterator::CURRENT_AS_FILEINFO | FilesystemIterator::KEY_AS_PATHNAME | FilesystemIterator::SKIP_DOTS
-                    ),
-                    RecursiveIteratorIterator::LEAVES_ONLY
+        return new RegexIterator(
+            new RecursiveIteratorIterator(
+                new RecursiveDirectoryIterator(
+                    $dir,
+                    FilesystemIterator::CURRENT_AS_FILEINFO | FilesystemIterator::KEY_AS_PATHNAME | FilesystemIterator::SKIP_DOTS
                 ),
-                '/^.+\.sql$/',
-                RecursiveRegexIterator::MATCH
-            );
+                RecursiveIteratorIterator::LEAVES_ONLY
+            ),
+            '/^.+\.sql$/',
+            RecursiveRegexIterator::MATCH
+        );
     }
 }

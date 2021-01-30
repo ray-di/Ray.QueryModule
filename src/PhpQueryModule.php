@@ -7,23 +7,24 @@ namespace Ray\Query;
 use Ray\Di\AbstractModule;
 use ReflectionClass;
 
+use function class_exists;
+use function is_string;
+
 class PhpQueryModule extends AbstractModule
 {
-    /**
-     * @var iterable<string, mixed>
-     */
+    /** @var iterable<string, mixed> */
     private $configs;
 
     /**
      * @param iterable<string, mixed> $configs
      */
-    public function __construct(iterable $configs, AbstractModule $module = null)
+    public function __construct(iterable $configs, ?AbstractModule $module = null)
     {
         $this->configs = $configs;
         parent::__construct($module);
     }
 
-    protected function configure() : void
+    protected function configure(): void
     {
         foreach ($this->configs as $name => $binding) {
             $this->bindQuery($name, $binding);
@@ -34,7 +35,7 @@ class PhpQueryModule extends AbstractModule
     /**
      * @param mixed $binding
      */
-    private function bindQuery(string $name, $binding) : void
+    private function bindQuery(string $name, $binding): void
     {
         if (is_string($binding) && class_exists($binding) && (new ReflectionClass($binding))->implementsInterface(QueryInterface::class)) {
             $this->bind(QueryInterface::class)->annotatedWith($name)->to($binding);

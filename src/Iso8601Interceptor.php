@@ -6,23 +6,22 @@ namespace Ray\Query;
 
 use DateTime;
 use DateTimeImmutable;
-use function is_array;
 use Ray\Aop\MethodInterceptor;
 use Ray\Aop\MethodInvocation;
 use Ray\Di\Di\Named;
-use Ray\Query\Annotation\Iso8601;
+
+use function in_array;
+use function is_array;
 
 final class Iso8601Interceptor implements MethodInterceptor
 {
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     private $datetimeColumns;
 
     /**
-     * @Named("datetimeColumns=iso8601_date_time_columns")
-     *
      * @param string[] $datetimeColumns
+     *
+     * @Named("datetimeColumns=iso8601_date_time_columns")
      */
     #[Named('datetimeColumns=iso8601_date_time_columns')]
     public function __construct(array $datetimeColumns)
@@ -30,12 +29,16 @@ final class Iso8601Interceptor implements MethodInterceptor
         $this->datetimeColumns = $datetimeColumns;
     }
 
+    /**
+     * @return mixed
+     */
     public function invoke(MethodInvocation $invocation)
     {
         $list = $invocation->proceed();
         if (! is_array($list)) {
             return $list;
         }
+
         if ($invocation->getThis() instanceof RowInterface) {
             return $list = $this->convert([$list])[0];
         }
@@ -48,7 +51,7 @@ final class Iso8601Interceptor implements MethodInterceptor
      *
      * @return array<mixed>
      */
-    private function convert(array $list) : array
+    private function convert(array $list): array
     {
         foreach ($list as &$row) {
             foreach ($row as $column => &$value) {

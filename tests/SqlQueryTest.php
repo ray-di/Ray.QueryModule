@@ -7,14 +7,14 @@ namespace Ray\Query;
 use Aura\Sql\ExtendedPdo;
 use PHPUnit\Framework\TestCase;
 
+use function file_get_contents;
+
 class SqlQueryTest extends TestCase
 {
-    /**
-     * @var ExtendedPdo
-     */
+    /** @var ExtendedPdo */
     private $pdo;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $pdo = new ExtendedPdo('sqlite::memory:');
         $pdo->query('CREATE TABLE IF NOT EXISTS todo (
@@ -25,7 +25,7 @@ class SqlQueryTest extends TestCase
         $this->pdo = $pdo;
     }
 
-    public function test__invoke() : void
+    public function testInvoke(): void
     {
         $sql = (string) file_get_contents(__DIR__ . '/Fake/sql/todo_item_by_id.sql');
         $query = new SqlQueryRowList($this->pdo, $sql);
@@ -34,7 +34,7 @@ class SqlQueryTest extends TestCase
         $this->assertSame('1', $row['id']);
     }
 
-    public function testNotFound() : void
+    public function testNotFound(): void
     {
         $sql = (string) file_get_contents(__DIR__ . '/Fake/sql/todo_item_by_id.sql');
         $query = new SqlQueryRowList($this->pdo, $sql);
@@ -42,18 +42,16 @@ class SqlQueryTest extends TestCase
         $this->assertSame([], $row);
     }
 
-    public function testMultipleQuery() : void
+    public function testMultipleQuery(): void
     {
         $sql = (string) file_get_contents(__DIR__ . '/Fake/sql/multiple_query.sql');
         $query = new SqlQueryRowList($this->pdo, $sql);
         $row = ((array) $query(
             [
                 'id' => 2,
-                'title' => 'test'
+                'title' => 'test',
             ],
-            [
-                'id' => 2
-            ]
+            ['id' => 2]
         ))[0];
         $this->assertSame('test', $row['title']);
         $this->assertSame('2', $row['id']);
