@@ -24,6 +24,7 @@ final class Iso8601Interceptor implements MethodInterceptor
      *
      * @param string[] $datetimeColumns
      */
+    #[Named('datetimeColumns=iso8601_date_time_columns')]
     public function __construct(array $datetimeColumns)
     {
         $this->datetimeColumns = $datetimeColumns;

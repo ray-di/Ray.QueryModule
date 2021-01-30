@@ -20,6 +20,7 @@ class FakeItem implements QueryInterface
     /**
      * @Named("todo_item_by_id")
      */
+    #[Named('todo_item_by_id')]
     public function __construct(RowInterface $func)
     {
         $this->func = $func;
