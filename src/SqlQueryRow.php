@@ -6,16 +6,15 @@ namespace Ray\Query;
 
 use Aura\Sql\ExtendedPdoInterface;
 
+use function array_pop;
+use function count;
+
 class SqlQueryRow implements RowInterface
 {
-    /**
-     * @var ExtendedPdoInterface
-     */
+    /** @var ExtendedPdoInterface */
     private $pdo;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $sql;
 
     public function __construct(ExtendedPdoInterface $pdo, string $sql)
@@ -24,7 +23,7 @@ class SqlQueryRow implements RowInterface
         $this->sql = $sql;
     }
 
-    public function __invoke(array ...$queries) : iterable
+    public function __invoke(array ...$queries): iterable
     {
         $query = $queries[0];
         $item = $this->pdo->fetchAssoc($this->sql, $query);

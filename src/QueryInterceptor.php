@@ -12,11 +12,12 @@ use Ray\Aop\ReflectionMethod;
 use Ray\Di\InjectorInterface;
 use Ray\Query\Annotation\Query;
 
+use function parse_str;
+use function parse_url;
+
 class QueryInterceptor implements MethodInterceptor
 {
-    /**
-     * @var InjectorInterface
-     */
+    /** @var InjectorInterface */
     private $injector;
 
     public function __construct(InjectorInterface $injector)
@@ -60,17 +61,18 @@ class QueryInterceptor implements MethodInterceptor
     /**
      * @param mixed $result
      */
-    private function returnRo(ResourceObject $ro, MethodInvocation $invocation, $result) : ResourceObject
+    private function returnRo(ResourceObject $ro, MethodInvocation $invocation, $result): ResourceObject
     {
         if (! $result) {
             return $this->return404($ro);
         }
+
         $ro->body = $result;
 
         return $invocation->proceed();
     }
 
-    private function return404(ResourceObject $ro) : ResourceObject
+    private function return404(ResourceObject $ro): ResourceObject
     {
         $ro->code = 404;
         $ro->body = [];
@@ -83,12 +85,13 @@ class QueryInterceptor implements MethodInterceptor
      *
      * @return array{0: string, 1: array}
      */
-    private function templated(Query $query, array $namedArguments) : array
+    private function templated(Query $query, array $namedArguments): array
     {
         $url = parse_url(uri_template($query->id, $namedArguments));
         if (! isset($url['path'])) { // @phpstan-ignore-line
             throw new InvalidArgumentException($query->id);
         }
+
         $queryId = $url['path'];
         isset($url['query']) ? parse_str($url['query'], $params) : $params = $namedArguments;
 

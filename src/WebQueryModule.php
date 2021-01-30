@@ -12,20 +12,17 @@ use Ray\Query\Annotation\GuzzleConfig;
 
 class WebQueryModule extends AbstractModule
 {
-    /**
-     * @var array<string, mixed>
-     */
+    /** @var array<string, mixed> */
     private $guzzleConfig;
-    /**
-     * @var array<string, mixed>
-     */
+
+    /** @var array<string, mixed> */
     private $webQueryConfig;
 
     /**
      * @param array<string, mixed> $webQueryConfig
      * @param array<string, mixed> $guzzleConfig
      */
-    public function __construct(array $webQueryConfig, array $guzzleConfig, AbstractModule $module = null)
+    public function __construct(array $webQueryConfig, array $guzzleConfig, ?AbstractModule $module = null)
     {
         $this->guzzleConfig = $guzzleConfig;
         $this->webQueryConfig = $webQueryConfig;
@@ -44,7 +41,7 @@ class WebQueryModule extends AbstractModule
         }
     }
 
-    private function configureWebQuery(string $name, string $method, string $uri) : void
+    private function configureWebQuery(string $name, string $method, string $uri): void
     {
         $prefixedName = 'wq-' . $name;
         $this
@@ -94,7 +91,7 @@ class WebQueryModule extends AbstractModule
     /**
      * {@inheritdoc}
      */
-    private function configureClient() : void
+    private function configureClient(): void
     {
         $this
             ->bind(ClientInterface::class)

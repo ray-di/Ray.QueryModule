@@ -12,7 +12,6 @@ use Doctrine\Common\Annotations\NamedArgumentConstructorAnnotation;
  *
  * @Annotation
  * @Target("METHOD")
- *
  * @psalm-suppress MissingConstructor
  */
 #[Attribute(Attribute::TARGET_METHOD)]
@@ -34,12 +33,11 @@ final class Query implements NamedArgumentConstructorAnnotation
 
     /**
      * @Enum({"row", "row_list"})
-     *
      * @var 'row'|'row_list'
      */
     public $type = 'row_list';
 
-    public function __construct(string $id, string $type,  bool $templated = false)
+    public function __construct(string $id, string $type, bool $templated = false)
     {
         $this->id = $id;
         $this->templated = $templated;

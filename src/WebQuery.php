@@ -8,21 +8,17 @@ use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use Ray\Query\Exception\WebQueryException;
 
+use function json_decode;
+
 final class WebQuery implements QueryInterface
 {
-    /**
-     * @var ClientInterface
-     */
+    /** @var ClientInterface */
     private $client;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $method;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $uri;
 
     public function __construct(ClientInterface $client, string $method, string $uri)
@@ -35,7 +31,7 @@ final class WebQuery implements QueryInterface
     /**
      * {@inheritdoc}
      */
-    public function __invoke(array ...$queries) : iterable
+    public function __invoke(array ...$queries): iterable
     {
         /** @psalm-suppress InvalidCatch */
         $query = $queries[0];
