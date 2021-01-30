@@ -54,7 +54,8 @@
         "cs-fix": [
             "php-cs-fixer fix -v",
             "phpcbf src tests"
-        ]
+        ],
+        "baseline": "phpstan analyse -configuration -c phpstan.neon --generate-baseline && psalm --set-baseline=psalm-baseline.xml"
     },
     "extra": {
         "branch-alias": {
