@@ -38,7 +38,7 @@ final class Query implements NamedArgumentConstructorAnnotation
      */
     public $type = 'row_list';
 
-    public function __construct(string $id, string $type, bool $templated = false)
+    public function __construct(string $id, string $type = 'row', bool $templated = false)
     {
         $this->id = $id;
         $this->templated = $templated;
