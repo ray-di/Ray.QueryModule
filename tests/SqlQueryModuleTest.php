@@ -6,6 +6,7 @@ namespace Ray\Query;
 
 use Aura\Sql\ExtendedPdo;
 use Aura\Sql\ExtendedPdoInterface;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Ray\Di\AbstractModule;
 use Ray\Di\Injector;
@@ -114,7 +115,7 @@ class SqlQueryModuleTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function testSqlAliasInterceptorWithNamed(): void
+    public function testSqlAliasInterceptorWithNamed(): FakeAliasNamed
     {
         $injector = new Injector($this->module, __DIR__ . '/tmp');
         /** @var FakeAlias $fakeAlias */
@@ -125,6 +126,17 @@ class SqlQueryModuleTest extends TestCase
             'title' => 'run',
         ];
         $this->assertSame($expected, $actual);
+
+        return $fakeAlias;
+    }
+
+    /**
+     * @depends testSqlAliasInterceptorWithNamed
+     */
+    public function testTempalteError(FakeAliasNamed $ro): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $ro->templteError('1');
     }
 
     public function testResourceObject200(): void
