@@ -1,9 +1,7 @@
 {
     "name": "ray/query-module",
     "description": "An external media access framework",
-    "keywords": [
-        "repository"
-    ],
+    "keywords": ["repository"],
     "homepage": "https://github.com/koriym/Koriym.PhpSkeleton",
     "license": "MIT",
     "authors": [
