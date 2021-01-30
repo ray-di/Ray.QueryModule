@@ -40,9 +40,10 @@ class FakeTodo
 
     public function get(string $uuid)
     {
-        return ($this->todoGet)([
+        $queries = [
             'id' => $uuid
-        ]);
+        ];
+        return ($this->todoGet)($queries);
     }
 
     public function getList(string $uuid)

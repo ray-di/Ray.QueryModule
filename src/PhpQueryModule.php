@@ -26,6 +26,7 @@ class PhpQueryModule extends AbstractModule
 
     protected function configure(): void
     {
+        /** @var string $binding */
         foreach ($this->configs as $name => $binding) {
             $this->bindQuery($name, $binding);
             $this->bind()->annotatedWith($name)->to($binding);

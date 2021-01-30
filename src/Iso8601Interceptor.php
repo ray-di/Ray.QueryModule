@@ -39,17 +39,19 @@ final class Iso8601Interceptor implements MethodInterceptor
             return $list;
         }
 
+        /** @var array<string, string> $list */
         if ($invocation->getThis() instanceof RowInterface) {
-            return $list = $this->convert([$list])[0];
+            return $this->convert([$list])[0];
         }
 
+        /** @var array<array<string, string>> $list */
         return $this->convert($list);
     }
 
     /**
-     * @param array<mixed> $list
+     * @param array<array<string, string>> $list
      *
-     * @return array<mixed>
+     * @return array<array<string, string>>
      */
     private function convert(array $list): array
     {

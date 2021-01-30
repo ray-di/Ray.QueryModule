@@ -31,9 +31,7 @@ class SqlQueryRowList implements RowListInterface
     }
 
     /**
-     * @param array<string, scalar> ...$queries
-     *
-     * @return iterable<mixed>
+     * @param array<string, mixed> $queries
      */
     public function __invoke(array ...$queries): iterable
     {
@@ -51,12 +49,13 @@ class SqlQueryRowList implements RowListInterface
         $result = null;
         for ($i = 0; $i < $numQueris; $i++) {
             $sql = $sqls[$i];
+            /** @var array<string, mixed> $query */
             $query = $queries[$i];
             $result = $this->pdo->perform($sql, $query);
         }
 
         $lastQuery = $result
-            ? strtolower(trim($result->queryString, "\\ \t\n\r\0\x0B"))
+            ? strtolower(trim((string) $result->queryString, "\\ \t\n\r\0\x0B"))
             : '';
         if ($result instanceof PDOStatement && strpos($lastQuery, 'select') === 0) {
             return (array) $result->fetchAll(PDO::FETCH_ASSOC);
