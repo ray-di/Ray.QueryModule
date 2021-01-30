@@ -40,7 +40,7 @@ class QueryInterceptor implements MethodInterceptor
         [$queryId, $params] = $query->templated ? $this->templated($query, $namedArguments) : [$query->id, $namedArguments];
         $interface = $query->type === 'row' ? RowInterface::class : RowListInterface::class;
         assert(is_string($queryId));
-        /** @var RowInterface|RowListInterface  $query */
+        /** @var RowInterface|RowListInterface|object  $query */
         $query = $this->injector->getInstance($interface, $queryId);
         if ($query instanceof QueryInterface) {
             /** @var array<string, mixed> $params */
