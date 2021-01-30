@@ -31,6 +31,11 @@ class Iso8601InterceptorTest extends TestCase
     public function testRowInterfaceConvert(): void
     {
         $object = new class implements RowInterface {
+            /**
+             * @param array<string, scalar> $query
+             *
+             * @return iterable<string, string>
+             */
             public function __invoke(array ...$query): iterable
             {
                 return ['created' => '1970-01-01 00:00:00'];

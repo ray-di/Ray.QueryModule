@@ -29,6 +29,9 @@ final class Iso8601Interceptor implements MethodInterceptor
         $this->datetimeColumns = $datetimeColumns;
     }
 
+    /**
+     * @return mixed
+     */
     public function invoke(MethodInvocation $invocation)
     {
         $list = $invocation->proceed();

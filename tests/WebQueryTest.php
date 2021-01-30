@@ -10,15 +10,7 @@ use Ray\Query\Exception\WebQueryException;
 
 class WebQueryTest extends TestCase
 {
-    /** @var WebQuery */
-    private $webQuery;
-
-    protected function setUp(): void
-    {
-        $this->webQuery = new WebQuery(new Client(), 'GET', 'https://httpbin.org/json');
-    }
-
-    public function test__invoke(): void
+    public function testInvoke(): void
     {
         $webQuery = new WebQuery(new Client(), 'GET', 'https://httpbin.org/json');
         $result = $webQuery([]);

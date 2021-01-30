@@ -23,13 +23,9 @@ class SqlQueryModule extends AbstractModule
     /** @var string */
     private $sqlDir;
 
-    /** @var string */
-    private $queryBuilderDir;
-
-    public function __construct(string $sqlDir, string $queryBuilderDir = '', ?AbstractModule $module = null)
+    public function __construct(string $sqlDir, ?AbstractModule $module = null)
     {
         $this->sqlDir = $sqlDir;
-        $this->queryBuilderDir = $queryBuilderDir;
         parent::__construct($module);
     }
 
@@ -41,7 +37,7 @@ class SqlQueryModule extends AbstractModule
         foreach ($this->files($this->sqlDir) as $fileInfo) {
             /** @var SplFileInfo $fileInfo */
             $fullPath = $fileInfo->getPathname();
-            $name = pathinfo($fileInfo->getRealPath())['filename'];
+            $name = pathinfo((string) $fileInfo->getRealPath())['filename'];
             $sqlId = 'sql-' . $name;
             $this->bind(QueryInterface::class)->annotatedWith($name)->toConstructor(
                 SqlQueryRowList::class,

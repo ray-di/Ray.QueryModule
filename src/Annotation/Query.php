@@ -6,6 +6,7 @@ namespace Ray\Query\Annotation;
 
 use Attribute;
 use Doctrine\Common\Annotations\NamedArgumentConstructorAnnotation;
+use Ray\Query\Exception\QueryTypeException;
 
 /**
  * Annotates your class methods into which the Injector should inject values
@@ -41,6 +42,10 @@ final class Query implements NamedArgumentConstructorAnnotation
     {
         $this->id = $id;
         $this->templated = $templated;
+        if (! ($type === 'row') && ! ($type === 'row_list')) {
+            throw new QueryTypeException($type);
+        }
+
         $this->type = $type;
     }
 }

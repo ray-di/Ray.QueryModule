@@ -23,6 +23,11 @@ class SqlQueryRow implements RowInterface
         $this->sql = $sql;
     }
 
+    /**
+     * @param array<string, scalar> ...$queries
+     *
+     * @return iterable<mixed>
+     */
     public function __invoke(array ...$queries): iterable
     {
         $query = $queries[0];

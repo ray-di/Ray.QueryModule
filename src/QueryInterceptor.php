@@ -25,6 +25,9 @@ class QueryInterceptor implements MethodInterceptor
         $this->injector = $injector;
     }
 
+    /**
+     * @return ResourceObject|mixed
+     */
     public function invoke(MethodInvocation $invocation)
     {
         /** @var ReflectionMethod $method */
@@ -43,7 +46,7 @@ class QueryInterceptor implements MethodInterceptor
     }
 
     /**
-     * @param array<int,mixed> $param
+     * @param array<string, scalar> $param
      *
      * @return mixed
      */
@@ -83,7 +86,7 @@ class QueryInterceptor implements MethodInterceptor
     /**
      * @param array<string, mixed> $namedArguments
      *
-     * @return array{0: string, 1: array}
+     * @return array{0: string, 1: array<string, scalar>}
      */
     private function templated(Query $query, array $namedArguments): array
     {
