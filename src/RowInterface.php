@@ -6,5 +6,10 @@ namespace Ray\Query;
 
 interface RowInterface extends QueryInterface
 {
-    public function __invoke(array ...$query) : iterable;
+    /**
+     * @param array ...$query
+     *
+     * @return array<string, scalar>
+     */
+    public function __invoke(array ...$query);
 }

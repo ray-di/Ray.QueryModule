@@ -5,7 +5,7 @@ declare(strict_types=1);
 use Koriym\Attributes\AttributeReader;
 use Ray\ServiceLocator\ServiceLocator;
 
-$rm = function ($dir) use (&$rm) {
+$rm = function (string $dir) use (&$rm) : void {
     foreach ((array) glob($dir . '/*') as $file) {
         $f = (string) $file;
         is_dir($f) ? $rm($f) : @unlink($f);

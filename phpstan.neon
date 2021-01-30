@@ -3,6 +3,7 @@ parameters:
   paths:
     - src
     - tests
+  checkMissingIterableValueType: false
   excludes_analyse:
     - %currentWorkingDirectory%/tests/tmp/*
     - %currentWorkingDirectory%/tests/Fake/*
