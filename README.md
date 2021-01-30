@@ -1,7 +1,7 @@
 # Ray.QueryModule
-[![Code Coverage](https://scrutinizer-ci.com/g/bearsunday/BEAR.QueryRepository/badges/coverage.png?b=1.x)](https://scrutinizer-ci.com/g/bearsunday/BEAR.QueryRepository/?branch=1.x)
-[![Code Coverage](https://scrutinizer-ci.com/g/bearsunday/BEAR.QueryRepository/badges/coverage.png?b=1.x)](https://scrutinizer-ci.com/g/bearsunday/BEAR.QueryRepository/?branch=1.x)
-[![Build Status](https://travis-ci.org/ray-di/Ray.QueryModule.svg?branch=1.x)](https://travis-ci.org/ray-di/Ray.QueryModule)
+
+[![codecov](https://codecov.io/gh/ray-di/Ray.QueryModule/branch/1.x/graph/badge.svg?token=60G2MFDOBR)](https://codecov.io/gh/ray-di/Ray.QueryModule)
+![Continuous Integration](https://github.com/ray-di/Ray.QueryModule/workflows/Continuous%20Integration/badge.svg)
 
 [Japanese](README.ja.md)
 
