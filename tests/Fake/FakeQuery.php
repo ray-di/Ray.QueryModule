@@ -17,6 +17,7 @@ class FakeQuery
      * @Assisted({"todo"})
      * @Named("todo=todo_item_by_id")
      */
+    #[Assisted(['todo']), Named('todo=todo_item_by_id')]
     public function get(string $uuid, QueryInterface $todo = null)
     {
         assert(is_callable($todo));
@@ -29,6 +30,7 @@ class FakeQuery
      * @Assisted({"createTodo"})
      * @Named("createTodo=todo_insert")
      */
+    #[Assisted(['createTodo']), Named('createTodo=todo_insert')]
     public function create(string $uuid, string $title, QueryInterface $createTodo = null)
     {
         assert(is_callable($createTodo));

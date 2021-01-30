@@ -24,7 +24,7 @@
 
 ### Composerインストール
 
-    $ composer require ray/query-module ^0.1
+    $ composer require ray/query-module
 
 ### Moduleインストール
 

@@ -26,6 +26,7 @@ class ExampleQuery
      * @return array<array{id: string, name: string}>
      * @psalm-suppress InvalidReturnType
      */
+    #[Query('users_by_age', type: 'row_list')]
     public function getUsers(int $age) : array
     {
         unset($age);
