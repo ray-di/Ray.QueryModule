@@ -36,7 +36,7 @@ final class Iso8601Interceptor implements MethodInterceptor
     {
         $list = $invocation->proceed();
         if (! is_array($list)) {
-            return $list;
+            return $list; // @codeCoverageIgnore
         }
 
         /** @var array<string, string> $list */

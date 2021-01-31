@@ -43,7 +43,7 @@ class SqlQueryRowList implements RowListInterface
         array_pop($sqls);
         $numQueris = count($queries);
         if (count($sqls) !== $numQueris) {
-            throw new QueryNumException($this->sql);
+            throw new QueryNumException($this->sql); // @codeCoverageIgnore
         }
 
         $result = null;
