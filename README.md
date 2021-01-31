@@ -283,7 +283,7 @@ $this->bind('')->annotatedWith('cretate_todo')->to(CreateTodo::class); // callab
 
 The usage codes are the same. The usage code of `@Query` does not change either.
 
-## ISO8601 DateTimeモジュール
+## ISO8601 DateTime Module
 
 Convert the specified column name value to the [ISO8601](https://www.iso.org/iso-8601-date-and-time-format.html) format. In PHP, it is a format defined by constants of [DateTime::ATOM](https://www.php.net/manual/en/class.datetime.php#datetime.constants.atom).
 Install date column names as an array and pass it as an argument to `Iso8601FormatModule`.
