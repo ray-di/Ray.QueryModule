@@ -1,6 +1,7 @@
 # Ray.QueryModule
 
 [![codecov](https://codecov.io/gh/ray-di/Ray.QueryModule/branch/1.x/graph/badge.svg?token=60G2MFDOBR)](https://codecov.io/gh/ray-di/Ray.QueryModule)
+[![Type Coverage](https://shepherd.dev/github/ray-di/Ray.QueryModule/coverage.svg)](https://shepherd.dev/github/ray-di/Ray.QueryModule)
 ![Continuous Integration](https://github.com/ray-di/Ray.QueryModule/workflows/Continuous%20Integration/badge.svg)
 
 [Japanese](README.ja.md)
