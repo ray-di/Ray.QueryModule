@@ -12,6 +12,8 @@ use Ray\Aop\ReflectionMethod;
 use Ray\Di\InjectorInterface;
 use Ray\Query\Annotation\Query;
 
+use function assert;
+use function is_string;
 use function parse_str;
 use function parse_url;
 
@@ -34,24 +36,27 @@ class QueryInterceptor implements MethodInterceptor
         $method = $invocation->getMethod();
         /** @var Query $query */
         $query = $method->getAnnotation(Query::class);
+        /** @var array<string, mixed> $namedArguments */
         $namedArguments = (array) $invocation->getNamedArguments();
         [$queryId, $params] = $query->templated ? $this->templated($query, $namedArguments) : [$query->id, $namedArguments];
         $interface = $query->type === 'row' ? RowInterface::class : RowListInterface::class;
+        assert(is_string($queryId));
+        /** @var RowInterface|RowListInterface|object  $query */
         $query = $this->injector->getInstance($interface, $queryId);
-        if ($query instanceof QueryInterface) {
-            return $this->getQueryResult($invocation, $query, $params);
-        }
+        assert($query instanceof QueryInterface);
 
-        return $invocation->proceed();
+        /** @var array<string, mixed> $params */
+        return $this->getQueryResult($invocation, $query, $params);
     }
 
     /**
-     * @param array<string, scalar> $param
+     * @param array<string, mixed> $param
      *
      * @return mixed
      */
     private function getQueryResult(MethodInvocation $invocation, QueryInterface $query, array $param)
     {
+        /** @psalm-suppress MixedAssignment */
         $result = $query($param);
         $object = $invocation->getThis();
         if ($object instanceof ResourceObject) {
@@ -71,8 +76,10 @@ class QueryInterceptor implements MethodInterceptor
         }
 
         $ro->body = $result;
+        /** @var ResourceObject $ro */
+        $ro = $invocation->proceed();
 
-        return $invocation->proceed();
+        return $ro;
     }
 
     private function return404(ResourceObject $ro): ResourceObject
@@ -86,7 +93,7 @@ class QueryInterceptor implements MethodInterceptor
     /**
      * @param array<string, mixed> $namedArguments
      *
-     * @return array{0: string, 1: array<string, scalar>}
+     * @return array<int, mixed>
      */
     private function templated(Query $query, array $namedArguments): array
     {

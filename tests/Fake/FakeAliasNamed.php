@@ -19,4 +19,12 @@ class FakeAliasNamed
     public function get(string $a)
     {
     }
+
+    /**
+     * @Query(id="?id={b}", templated=true)
+     */
+    #[Query(id: '?id={b}', templated: true)]
+    public function templteError(string $a)
+    {
+    }
 }

@@ -8,6 +8,8 @@ use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use Ray\Query\Exception\WebQueryException;
 
+use function assert;
+use function is_iterable;
 use function json_decode;
 
 final class WebQuery implements QueryInterface
@@ -29,17 +31,19 @@ final class WebQuery implements QueryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param array<string, mixed> $queries
      */
     public function __invoke(array ...$queries): iterable
     {
-        /** @psalm-suppress InvalidCatch */
+        /** @var array<string, mixed> $query */
         $query = $queries[0];
         try {
             $response = $this->client->request($this->method, $this->uri, ['query' => $query]);
             $body = $response->getBody()->getContents();
+            $array = json_decode($body, true);
+            assert(is_iterable($array));
 
-            return json_decode($body, true);
+            return $array;
         } catch (GuzzleException $e) {
             throw new WebQueryException($e->getMessage(), 0, $e);
         }

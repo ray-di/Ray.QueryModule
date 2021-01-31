@@ -7,9 +7,9 @@ namespace Ray\Query;
 interface RowListInterface extends QueryInterface
 {
     /**
-     * @param array<string, scalar> ...$query
+     * @param array<string, mixed> $query
      *
-     * @return array<iterable<string, scalar>>
+     * @return iterable<mixed>
      */
     public function __invoke(array ...$query): iterable;
 }

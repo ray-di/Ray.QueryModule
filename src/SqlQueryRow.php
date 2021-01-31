@@ -7,7 +7,9 @@ namespace Ray\Query;
 use Aura\Sql\ExtendedPdoInterface;
 
 use function array_pop;
+use function assert;
 use function count;
+use function is_iterable;
 
 class SqlQueryRow implements RowInterface
 {
@@ -24,15 +26,20 @@ class SqlQueryRow implements RowInterface
     }
 
     /**
-     * @param array<string, scalar> ...$queries
-     *
-     * @return iterable<mixed>
+     * @param array<string, mixed> $queries
      */
     public function __invoke(array ...$queries): iterable
     {
+        /** @var array<string, mixed> $query */
         $query = $queries[0];
         $item = $this->pdo->fetchAssoc($this->sql, $query);
+        if (! count($item)) {
+            return [];
+        }
 
-        return count($item) ? array_pop($item) : [];
+        $list = array_pop($item);
+        assert(is_iterable($list));
+
+        return $list;
     }
 }

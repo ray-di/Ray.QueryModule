@@ -8,3 +8,4 @@
 /.php_cs.cache
 /.phpunit.result.cache
 /.phpcs-cache
+/coverage.xml

@@ -6,6 +6,7 @@ namespace Ray\Query;
 
 use Aura\Sql\ExtendedPdo;
 use Aura\Sql\ExtendedPdoInterface;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Ray\Di\AbstractModule;
 use Ray\Di\Injector;
@@ -114,10 +115,10 @@ class SqlQueryModuleTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function testSqlAliasInterceptorWithNamed(): void
+    public function testSqlAliasInterceptorWithNamed(): FakeAliasNamed
     {
         $injector = new Injector($this->module, __DIR__ . '/tmp');
-        /** @var FakeAlias $fakeAlias */
+        /** @var FakeAliasNamed $fakeAlias */
         $fakeAlias = $injector->getInstance(FakeAliasNamed::class);
         $actual = $fakeAlias->get('1');
         $expected = [
@@ -125,5 +126,38 @@ class SqlQueryModuleTest extends TestCase
             'title' => 'run',
         ];
         $this->assertSame($expected, $actual);
+
+        return $fakeAlias;
+    }
+
+    /**
+     * @depends testSqlAliasInterceptorWithNamed
+     */
+    public function testTempalteError(FakeAliasNamed $ro): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $ro->templteError('1');
+    }
+
+    public function testResourceObject200(): void
+    {
+        $injector = new Injector($this->module, __DIR__ . '/tmp');
+        /** @var FakeRo $ro */
+        $ro = $injector->getInstance(FakeRo::class);
+        $response = $ro->onGet('1');
+        $this->assertSame(200, $response->code);
+        $this->assertSame(['id' => '1', 'title' => 'run'], $response->body);
+        $this->assertSame('{"id":"1","title":"run"}', (string) $response);
+    }
+
+    public function testResourceObject404(): void
+    {
+        $injector = new Injector($this->module, __DIR__ . '/tmp');
+        /** @var FakeRo $ro */
+        $ro = $injector->getInstance(FakeRo::class);
+        $response = $ro->onGet('2');
+        $this->assertSame(404, $response->code);
+        $this->assertSame([], $response->body);
+        $this->assertSame('[]', (string) $response);
     }
 }

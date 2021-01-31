@@ -34,8 +34,8 @@ class SqlQueryModule extends AbstractModule
      */
     protected function configure()
     {
+        /** @var SplFileInfo $fileInfo */
         foreach ($this->files($this->sqlDir) as $fileInfo) {
-            /** @var SplFileInfo $fileInfo */
             $fullPath = $fileInfo->getPathname();
             $name = pathinfo((string) $fileInfo->getRealPath())['filename'];
             $sqlId = 'sql-' . $name;
@@ -84,6 +84,9 @@ class SqlQueryModule extends AbstractModule
         );
     }
 
+    /**
+     * @psalm-suppress ArgumentTypeCoercion
+     */
     private function files(string $dir): RegexIterator
     {
         return new RegexIterator(
