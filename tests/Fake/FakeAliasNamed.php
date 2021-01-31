@@ -21,7 +21,7 @@ class FakeAliasNamed
     }
 
     /**
-     * @Query(id="", templated=true)
+     * @Query(id="?id={b}", templated=true)
      */
     #[Query(id: '?id={b}', templated: true)]
     public function templteError(string $a)
