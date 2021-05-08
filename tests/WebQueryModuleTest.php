@@ -20,7 +20,6 @@ class WebQueryModuleTest extends TestCase
             'bar' => ['GET', 'https://httpbin.org/anything/bar'],
         ];
         $guzzleConfig = [];
-        /** @var array<string, string> $webQueryConfig */
         $this->module = new WebQueryModule($webQueryConfig, $guzzleConfig);
     }
 

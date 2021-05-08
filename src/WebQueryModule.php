@@ -15,12 +15,12 @@ class WebQueryModule extends AbstractModule
     /** @var array<string, mixed> */
     private $guzzleConfig;
 
-    /** @var array<string, string> */
+    /** @var array<string, array{0: string, 1:string}> */
     private $webQueryConfig;
 
     /**
-     * @param array<string, string> $webQueryConfig
-     * @param array<string, mixed>  $guzzleConfig
+     * @param array<string, array{0: string, 1:string}> $webQueryConfig
+     * @param array<string, mixed>                      $guzzleConfig
      */
     public function __construct(array $webQueryConfig, array $guzzleConfig, ?AbstractModule $module = null)
     {
@@ -36,7 +36,6 @@ class WebQueryModule extends AbstractModule
     {
         $this->configureClient();
         foreach ($this->webQueryConfig as $name => $value) {
-            /** @var array{0: string, 1: string} $value */
             [$method, $uri] = $value;
             $this->configureWebQuery($name, $method, $uri);
         }

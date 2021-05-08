@@ -8,7 +8,6 @@ use BEAR\Resource\ResourceObject;
 use InvalidArgumentException;
 use Ray\Aop\MethodInterceptor;
 use Ray\Aop\MethodInvocation;
-use Ray\Aop\ReflectionMethod;
 use Ray\Di\InjectorInterface;
 use Ray\Query\Annotation\Query;
 
@@ -32,7 +31,6 @@ class QueryInterceptor implements MethodInterceptor
      */
     public function invoke(MethodInvocation $invocation)
     {
-        /** @var ReflectionMethod $method */
         $method = $invocation->getMethod();
         /** @var Query $query */
         $query = $method->getAnnotation(Query::class);

@@ -16,7 +16,7 @@
         "aura/sql": "^3.0",
         "bear/resource": "^1.15",
         "doctrine/annotations": "^1.11",
-        "guzzlehttp/guzzle": "^6.3",
+        "guzzlehttp/guzzle": "^6.3 || ^7.0",
         "koriym/query-locator": "^1.4",
         "ray/aop": "^2.10.3",
         "ray/aura-sql-module": "^1.10.0",
