@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Ray\Query\Annotation;
 
 use Attribute;
-use Doctrine\Common\Annotations\NamedArgumentConstructorAnnotation;
+use Doctrine\Common\Annotations\Annotation\NamedArgumentConstructor;
 use Ray\Query\Exception\QueryTypeException;
 
 /**
@@ -14,9 +14,10 @@ use Ray\Query\Exception\QueryTypeException;
  * @Annotation
  * @Target("METHOD")
  * @psalm-suppress MissingConstructor
+ * @NamedArgumentConstructor
  */
 #[Attribute(Attribute::TARGET_METHOD)]
-final class Query implements NamedArgumentConstructorAnnotation
+final class Query
 {
     /**
      * Query ID
