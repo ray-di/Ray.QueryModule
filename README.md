@@ -293,6 +293,23 @@ Install date column names as an array and pass it as an argument to `Iso8601Form
 $this->install(new Iso8601FormatModule(['created_at', 'updated_at']));
 ```
 
+## SQL file name log
+
+The SQL file name can be appended to the SQL statement as a comment. This is useful for query logging.
+
+```php
+use Ray\Query\SqlFileName;
+use Ray\Query\SqlQueryModule;
+
+$this->install(new SqlQueryModule(__DIR__ . '/Fake/sql', null, new SqlFileName()));
+````
+
+Execute SQL
+
+```sql
+/* todo_item_by_id.sql */ SELECT * FROM todo WHERE id = :id
+````
+
 ## Demo
 
 ```

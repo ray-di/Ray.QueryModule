@@ -294,6 +294,22 @@ $this->bind('')->annotatedWith('cretate_todo')->to(CreateTodo::class); // callab
 ```php
 $this->install(new Iso8601FormatModule(['created_at', 'updated_at']));
 ```
+## SQL file name log
+
+SQLファイル名をコメントとしてSQL文に付加する事ができます。クエリーログに有用です。
+
+```php
+use Ray\Query\SqlFileName;
+use Ray\Query\SqlQueryModule;
+
+$this->install(new SqlQueryModule(__DIR__ . '/Fake/sql', null, new SqlFileName()));
+```
+
+実行SQL
+
+```sql
+/* todo_item_by_id.sql */ SELECT * FROM todo WHERE id = :id
+```
 
 ## デモ
 
