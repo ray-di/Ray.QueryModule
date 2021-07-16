@@ -15,7 +15,7 @@ class FakeTodo
     /**
      * @var callable
      */
-    private $todoGet;
+    public $todoGet;
 
     /**
      * @var callable
