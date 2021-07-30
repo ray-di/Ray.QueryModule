@@ -6,10 +6,14 @@ namespace Ray\Query;
 
 use Aura\Sql\ExtendedPdo;
 use Aura\Sql\ExtendedPdoInterface;
+use Aura\Sql\PdoInterface;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Ray\Di\AbstractModule;
 use Ray\Di\Injector;
+
+use function assert;
+use function print_r;
 
 class SqlQueryModuleTest extends TestCase
 {
@@ -159,5 +163,38 @@ class SqlQueryModuleTest extends TestCase
         $this->assertSame(404, $response->code);
         $this->assertSame([], $response->body);
         $this->assertSame('[]', (string) $response);
+    }
+
+    public function testDevSqlModule(): void
+    {
+        $pdo = new ExtendedPdo('sqlite::memory:');
+        $pdo->query('CREATE TABLE IF NOT EXISTS todo (
+          id INTEGER,
+          title TEXT
+)');
+        $pdo->perform('INSERT INTO todo (id, title) VALUES (:id, :title)', ['id' => '1', 'title' => 'run']);
+        $module = new class ($pdo) extends AbstractModule {
+            /** @var ExtendedPdo */
+            private $pdo;
+
+            public function __construct(ExtendedPdo $pdo)
+            {
+                $this->pdo = $pdo;
+            }
+
+            protected function configure()
+            {
+                $this->bind(ExtendedPdoInterface::class)->toInstance($this->pdo);
+                $this->install(new SqlQueryModule(__DIR__ . '/Fake/sql', null, new SqlFileName()));
+            }
+        };
+        $injector = (new Injector($module));
+        $todo = $injector->getInstance(FakeTodo::class);
+        assert($todo instanceof FakeTodo);
+        $pdo = $injector->getInstance(ExtendedPdoInterface::class);
+        assert($pdo instanceof PdoInterface);
+        $todo->create('1', 'a');
+        $todo->get('1');
+        $this->assertStringContainsString('/* todo_item_by_id.sql */ SELECT * FROM todo WHERE id = :id', print_r($todo, true));
     }
 }
