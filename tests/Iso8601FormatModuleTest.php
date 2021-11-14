@@ -6,6 +6,7 @@ namespace Ray\Query;
 
 use Aura\Sql\ExtendedPdo;
 use Aura\Sql\ExtendedPdoInterface;
+use PDO;
 use PHPUnit\Framework\TestCase;
 use Ray\Di\AbstractModule;
 use Ray\Di\Injector;
@@ -21,6 +22,7 @@ class Iso8601FormatModuleTest extends TestCase
     protected function setUp(): void
     {
         $pdo = new ExtendedPdo('sqlite::memory:');
+        $pdo->setAttribute(PDO::ATTR_STRINGIFY_FETCHES, true);
         $pdo->query('CREATE TABLE IF NOT EXISTS todo (
           id INTEGER,
           title TEXT,
