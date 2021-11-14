@@ -31,7 +31,7 @@ class SqlQueryRowList implements RowListInterface
     }
 
     /**
-     * @param array<string, mixed> $queries
+     * @param array<string, mixed> ...$queries
      */
     public function __invoke(array ...$queries): iterable
     {

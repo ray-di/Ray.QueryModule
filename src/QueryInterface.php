@@ -7,7 +7,7 @@ namespace Ray\Query;
 interface QueryInterface
 {
     /**
-     * @param array<string, mixed> $query
+     * @param array<string, mixed> ...$query
      *
      * @return mixed
      */

@@ -31,7 +31,7 @@ final class WebQuery implements QueryInterface
     }
 
     /**
-     * @param array<string, mixed> $queries
+     * @param array<string, mixed> ...$queries
      */
     public function __invoke(array ...$queries): iterable
     {
