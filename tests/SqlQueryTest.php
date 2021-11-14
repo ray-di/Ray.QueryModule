@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Ray\Query;
 
 use Aura\Sql\ExtendedPdo;
+use PDO;
 use PHPUnit\Framework\TestCase;
 
 use function file_get_contents;

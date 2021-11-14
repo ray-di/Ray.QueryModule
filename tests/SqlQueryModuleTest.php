@@ -8,6 +8,7 @@ use Aura\Sql\ExtendedPdo;
 use Aura\Sql\ExtendedPdoInterface;
 use Aura\Sql\PdoInterface;
 use InvalidArgumentException;
+use PDO;
 use PHPUnit\Framework\TestCase;
 use Ray\Di\AbstractModule;
 use Ray\Di\Injector;
