@@ -8,6 +8,7 @@ use Aura\Sql\ExtendedPdo;
 use Aura\Sql\ExtendedPdoInterface;
 use Aura\Sql\PdoInterface;
 use InvalidArgumentException;
+use PDO;
 use PHPUnit\Framework\TestCase;
 use Ray\Di\AbstractModule;
 use Ray\Di\Injector;
@@ -26,6 +27,8 @@ class SqlQueryModuleTest extends TestCase
     protected function setUp(): void
     {
         $pdo = new ExtendedPdo('sqlite::memory:');
+        $pdo->setAttribute(PDO::ATTR_STRINGIFY_FETCHES, true);
+        $pdo->setAttribute(PDO::ATTR_STRINGIFY_FETCHES, true);
         $pdo->query('CREATE TABLE IF NOT EXISTS todo (
           id INTEGER,
           title TEXT
@@ -168,6 +171,7 @@ class SqlQueryModuleTest extends TestCase
     public function testDevSqlModule(): void
     {
         $pdo = new ExtendedPdo('sqlite::memory:');
+        $pdo->setAttribute(PDO::ATTR_STRINGIFY_FETCHES, true);
         $pdo->query('CREATE TABLE IF NOT EXISTS todo (
           id INTEGER,
           title TEXT

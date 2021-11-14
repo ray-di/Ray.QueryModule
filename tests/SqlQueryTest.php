@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Ray\Query;
 
 use Aura\Sql\ExtendedPdo;
+use PDO;
 use PHPUnit\Framework\TestCase;
 
 use function file_get_contents;
@@ -17,6 +18,7 @@ class SqlQueryTest extends TestCase
     protected function setUp(): void
     {
         $pdo = new ExtendedPdo('sqlite::memory:');
+        $pdo->setAttribute(PDO::ATTR_STRINGIFY_FETCHES, true);
         $pdo->query('CREATE TABLE IF NOT EXISTS todo (
           id INTEGER,
           title TEXT
