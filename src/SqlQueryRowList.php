@@ -31,7 +31,7 @@ class SqlQueryRowList implements RowListInterface
     }
 
     /**
-     * @param array<string, mixed> $queries
+     * @param array<string, mixed> ...$queries
      */
     public function __invoke(array ...$queries): iterable
     {
@@ -49,7 +49,6 @@ class SqlQueryRowList implements RowListInterface
         $result = null;
         for ($i = 0; $i < $numQueris; $i++) {
             $sql = $sqls[$i];
-            /** @var array<string, mixed> $query */
             $query = $queries[$i];
             $result = $this->pdo->perform($sql, $query);
         }

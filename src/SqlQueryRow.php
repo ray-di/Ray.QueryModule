@@ -26,11 +26,10 @@ class SqlQueryRow implements RowInterface
     }
 
     /**
-     * @param array<string, mixed> $queries
+     * @param array<string, mixed> ...$queries
      */
     public function __invoke(array ...$queries): iterable
     {
-        /** @var array<string, mixed> $query */
         $query = $queries[0];
         $item = $this->pdo->fetchAssoc($this->sql, $query);
         if (! count($item)) {

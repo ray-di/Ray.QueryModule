@@ -15,12 +15,13 @@
         "ext-pdo": "*",
         "aura/sql": "^3.0",
         "bear/resource": "^1.15",
-        "doctrine/annotations": "^1.11",
+        "doctrine/annotations": "^1.12",
         "guzzlehttp/guzzle": "^6.3 || ^7.0",
         "koriym/query-locator": "^1.4",
         "ray/aop": "^2.10.3",
         "ray/aura-sql-module": "^1.10.0",
-        "ray/di": "^2.11"
+        "ray/di": "^2.11",
+        "nikic/php-parser": "^v4.13"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",
