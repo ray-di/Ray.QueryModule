@@ -20,7 +20,8 @@
         "koriym/query-locator": "^1.4",
         "ray/aop": "^2.10.3",
         "ray/aura-sql-module": "^1.10.0",
-        "ray/di": "^2.11"
+        "ray/di": "^2.11",
+        "nikic/php-parser": "^v4.13"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",
