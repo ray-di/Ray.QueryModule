@@ -49,7 +49,6 @@ class SqlQueryRowList implements RowListInterface
         $result = null;
         for ($i = 0; $i < $numQueris; $i++) {
             $sql = $sqls[$i];
-            /** @var array<string, mixed> $query */
             $query = $queries[$i];
             $result = $this->pdo->perform($sql, $query);
         }

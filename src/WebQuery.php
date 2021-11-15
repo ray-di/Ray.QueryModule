@@ -35,7 +35,6 @@ final class WebQuery implements QueryInterface
      */
     public function __invoke(array ...$queries): iterable
     {
-        /** @var array<string, mixed> $query */
         $query = $queries[0];
         try {
             $response = $this->client->request($this->method, $this->uri, ['query' => $query]);
