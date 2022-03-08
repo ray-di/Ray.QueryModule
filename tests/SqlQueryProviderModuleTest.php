@@ -17,6 +17,8 @@ use function count;
 
 class SqlQueryProviderModuleTest extends TestCase
 {
+    /** @var AbstractModule  */
+    private $module;
     protected function setUp(): void
     {
         $pdo = new ExtendedPdo('sqlite::memory:');
@@ -61,7 +63,7 @@ class SqlQueryProviderModuleTest extends TestCase
         $this->todoTest($todo);
     }
 
-    public function todoTest($todo)
+    public function todoTest(object $todo): void
     {
         /** @var FakeTodoRepository $todo */
         ($todo->todoCreate)(['id' => 1, 'title' => 'think']);
@@ -72,14 +74,14 @@ class SqlQueryProviderModuleTest extends TestCase
         $this->assertSame('travel', $item['title']);
     }
 
-    public function testSqlFileNotFoundException()
+    public function testSqlFileNotFoundException(): void
     {
         $this->expectException(SqlFileNotFoundException::class);
         $injector = new Injector($this->module, __DIR__ . '/tmp');
         $injector->getInstance(FakeTodoProviderSqlNotFound::class);
     }
 
-    public function testSqlNotAnnotated()
+    public function testSqlNotAnnotated(): void
     {
         $this->expectException(SqlNotAnnotatedException::class);
         $injector = new Injector($this->module, __DIR__ . '/tmp');

@@ -16,12 +16,15 @@ use function sprintf;
 
 final class SqlFinder
 {
-    /** @var ParamReaderInterface */
+    /** @var ParamReaderInterface<object> */
     private $reader;
 
     /** @var SqlDir */
     private $sqlDir;
 
+    /**
+     * @param ParamReaderInterface<object> $reader
+     */
     public function __construct(
         ParamReaderInterface $reader,
         SqlDir $sqlDir
@@ -32,6 +35,7 @@ final class SqlFinder
 
     public function __invoke(ReflectionParameter $param): string
     {
+        /** @var ?Sql $sqlAnnotation */
         $sqlAnnotation = $this->reader->getParametrAnnotation($param, Sql::class);
         if ($sqlAnnotation === null) {
             throw new SqlNotAnnotatedException((string) $param);
