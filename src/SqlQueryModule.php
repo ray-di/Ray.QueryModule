@@ -39,6 +39,7 @@ class SqlQueryModule extends AbstractModule
      */
     protected function configure()
     {
+        $this->bind(SqlDir::class)->toInstance(new SqlDir($this->sqlDir));
         /** @var SplFileInfo $fileInfo */
         foreach ($this->files($this->sqlDir) as $fileInfo) {
             $name = pathinfo((string) $fileInfo->getRealPath())['filename'];
