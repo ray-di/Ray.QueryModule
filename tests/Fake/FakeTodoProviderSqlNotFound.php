@@ -14,7 +14,7 @@ class FakeTodoProviderSqlNotFound
     public $todoCreate;
 
     public function __construct(
-        InvokeInterface $todoCreate,
+        InvokeInterface $todoCreate
     ){
         $this->todoCreate = $todoCreate;
     }
