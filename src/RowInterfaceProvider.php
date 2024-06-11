@@ -10,7 +10,9 @@ use Ray\Di\InjectionPointInterface;
 use Ray\Di\InjectorInterface;
 use Ray\Di\ProviderInterface;
 use Ray\Query\Exception\SqlFileNotFoundException;
-use Throwable;
+
+use function error_log;
+use function sprintf;
 
 /** @implements ProviderInterface<QueryInterface> */
 final class RowInterfaceProvider implements ProviderInterface
@@ -23,6 +25,8 @@ final class RowInterfaceProvider implements ProviderInterface
 
     /** @var SqlFinder */
     private $finder;
+
+    /** @var InjectorInterface  */
     private $injector;
 
     public function __construct(
@@ -41,14 +45,19 @@ final class RowInterfaceProvider implements ProviderInterface
     {
         try {
             $sql = ($this->finder)($this->ip->getParameter());
-        } catch (SqlFileNotFoundException | Throwable $e) {
+            // For development
+            // @codeCoverageIgnoreStart
+        } catch (SqlFileNotFoundException $e) {
             try {
                 $named = $e->sql;
+                $instance = $this->injector->getInstance(RowInterface::class, $named);
+                error_log(sprintf('Warning: #[Sql(\'%s\')] is not vald. Change to #[\\Ray\\Di\\Di\\Named(\'%s\')]', $named, $named));
 
-                return $this->injector->getInstance(RowInterface::class, $named);
+                return $instance;
             } catch (Unbound $unbound) {
                 throw $e;
             }
+            // @codeCoverageIgnoreEnd
         }
 
         return new SqlQueryRow($this->pdo, $sql);

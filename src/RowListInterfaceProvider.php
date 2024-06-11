@@ -11,6 +11,10 @@ use Ray\Di\InjectorInterface;
 use Ray\Di\ProviderInterface;
 use Ray\Query\Exception\SqlFileNotFoundException;
 
+use function assert;
+use function error_log;
+use function sprintf;
+
 /** @implements ProviderInterface<QueryInterface> */
 final class RowListInterfaceProvider implements ProviderInterface
 {
@@ -22,6 +26,8 @@ final class RowListInterfaceProvider implements ProviderInterface
 
     /** @var SqlFinder */
     private $finder;
+
+    /** @var InjectorInterface  */
     private $injector;
 
     public function __construct(
@@ -43,14 +49,28 @@ final class RowListInterfaceProvider implements ProviderInterface
         } catch (SqlFileNotFoundException $e) {
             try {
                 $named = $e->sql;
+                // Try "RowListInterface"
+                $instance = $this->injector->getInstance(RowListInterface::class, $named);
+                // For development
+                // @codeCoverageIgnoreStart
+                assert($instance instanceof QueryInterface);
+                error_log(sprintf('Warning: #[Sql(\'%s\')] is not vald. Change to #[\\Ray\\Di\\Di\\Named(\'%s\')]', $named, $named));
 
-                return $this->injector->getInstance(RowListInterface::class, $named);
+                return $instance;
             } catch (Unbound $unbound) {
                 try {
-                    return $this->injector->getInstance('', $named);
+                    assert(isset($named)); // @phpstan-ignore-line
+                    // try "callable"
+                    /** @var QueryInterface $instance */
+                    $instance = $this->injector->getInstance('', $named);
+                    assert($instance instanceof QueryInterface);
+                    error_log(sprintf('Warning: #[Sql(\'%s\')] is not vald. Change to #[\\Ray\\Di\\Di\\Named(\'%s\')]', $named, $named));
+
+                    return $instance;
                 } catch (Unbound $unbound) {
                     throw $e;
                 }
+            // @codeCoverageIgnoreEnd
             }
         }
 
