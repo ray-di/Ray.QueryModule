@@ -23,7 +23,7 @@ final class RowInterfaceProvider implements ProviderInterface
     /** @var ExtendedPdoInterface */
     private $pdo;
 
-    /** @var SqlFinder */
+    /** @var SqlFinderInterface */
     private $finder;
 
     /** @var InjectorInterface  */
@@ -32,7 +32,7 @@ final class RowInterfaceProvider implements ProviderInterface
     public function __construct(
         InjectionPointInterface $ip,
         ExtendedPdoInterface $pdo,
-        SqlFinder $finder,
+        SqlFinderInterface $finder,
         InjectorInterface $injector
     ) {
         $this->ip = $ip;

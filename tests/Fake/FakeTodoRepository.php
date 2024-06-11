@@ -24,7 +24,7 @@ class FakeTodoRepository
     public $todoList;
 
     public function __construct(
-        InvokeInterface  $todoCreate,
+        QueryInterface  $todoCreate,
         RowInterface     $todoItem,
         RowListInterface $todoList
     ){

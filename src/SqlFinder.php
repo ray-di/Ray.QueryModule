@@ -14,7 +14,7 @@ use function file_exists;
 use function file_get_contents;
 use function sprintf;
 
-final class SqlFinder
+final class SqlFinder implements SqlFinderInterface
 {
     /** @var ParamReaderInterface<object> */
     private $reader;
