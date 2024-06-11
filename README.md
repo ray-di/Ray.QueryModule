@@ -36,7 +36,7 @@ class AppModule extends AbstractModule
     protected function configure(): void
     {
         // SqlQueryModule install
-        $this->install(new SqlQueryProviderModule($sqlDir));
+        $this->install(new SqlQueryModule($sqlDir));
     }
 }
 ```
@@ -129,17 +129,16 @@ class Todos
 
 Entire method invocation can be override with callable object in specified with `#[Query]`.
 
-
 ```php
 use Ray\Di\AbstractModule;
-use Ray\Query\SqlQueryProviderModule;
+use Ray\Query\SqlQueryModule;
 use Ray\Query\SqlQueryInterceptModule;
 
 class AppModule extends AbstractModule
 {
     protected function configure(): void
     {
-        $this->install(new SqlQueryProviderModule($sqlDir));
+        $this->install(new SqlQueryModule($sqlDir));
         $this->SqlQueryInterceptModule();
     }
 }
@@ -189,7 +188,7 @@ In the following example, an invocation object of `$createTodo` which makes` POS
 
 ```php
 use Ray\Di\AbstractModule;
-use Ray\Query\SqlQueryModule;
+use Ray\Query\CallableQueryModule;
 
 class AppModule extends AbstractModule
 {
@@ -280,13 +279,13 @@ $this->install(new Iso8601FormatModule(['created_at', 'updated_at']));
 
 ## SQL file name log
 
-The SQL file name can be appended to the SQL statement as a comment. This is useful for query logging.
+Binding to `#[Named]`, which was supported until `0.9`, is possible with `CallableQueryModule`.
 
 ```php
 use Ray\Query\SqlFileName;
-use Ray\Query\SqlQueryModule;
+use Ray\Query\CallableQueryModule;
 
-$this->install(new SqlQueryModule(__DIR__ . '/Fake/sql', null, new SqlFileName()));
+$this->install(new CallableQueryModule(__DIR__ . '/Fake/sql'));
 ```
 
 Execute SQL
