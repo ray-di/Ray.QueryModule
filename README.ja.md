@@ -24,9 +24,9 @@
 
 ### Composerインストール
 
-    $ composer require ray/query-module
+    composer require ray/query-module
 
-### Moduleインストール
+### モジュールのインストール
 
 ```php
 use Ray\Di\AbstractModule;
@@ -34,8 +34,8 @@ use Ray\Query\SqlQueryModule;
 
 class AppModule extends AbstractModule
 {
-    protected function configure()
-    {
+protected function configure()
+{
         // SqlQueryModule インストール
         $this->install(new SqlQueryModule($sqlDir));
 
@@ -77,26 +77,10 @@ SELECT * FROM todo WHERE id = :id
 ```php
 class Todo
 {
-    /**
-     * @var callable
-     */
-    private $createTodo;
-    
-    /**
-     * @var callable
-     */
-    private $todo;
-    
-    /**
-     * @Named("createTodo=todo_insert, todo=todo_item_by_id")
-     */
     public function __construct(
-        callable $createTodo,
-        callable $todo
-    ){
-        $this->createTodo = $createTodo;
-        $this->todo = $todo;
-    }
+        private #[Sql("createTodo") QUereInterface $createTodo、
+        private #[Sql("createTodo") QUereInterface $todo
+    ){}
     
     public function get(string $uuid)
     {
@@ -112,26 +96,25 @@ class Todo
     }
 }
 ```
-## 単一行と複数行
+## 行または行リスト
 
-得られる値が`単一行(Row)`か`複数行(Rowのリスト`)に応じて`RowInterface`か`RowListInterface`を指定することができます。
+RowInterface` または `RowListInterface` を使用すると、戻り値の型を `Row` または `RowList` に指定することができます。
+RowInterface` は単一の行を返す SQL を指定するのに便利です。
 
 ```php
 use Ray\Query\RowInterface;
 
 class Todo
 {
-    /**
-     * @Named("todo_item_by_id")
-     */
-    public function __construct(RowInterface $todo)
+    public function __construct(
+        #[Sql('todo_item_by_id') RowInterface $todo)
     {
         $this->todo = $todo;
     }
-    
+
     public function get(string $uuid)
     {
-        $todo = ($this->todo)(['id' => $uuid]); // 単一行
+        $todo = ($this->todo)(['id' => $uuid]); // 一行分のデータ
     }
 }
 ```
@@ -141,45 +124,37 @@ use Ray\Query\RowListInterface;
 
 class Todos
 {
-    /**
-     * @Named("todos")
-     */
-    public function __construct(RowListInterface $todos)
-    {
-        $this->todos = $todos;
-    }
+    public function __construct(
+        #[Sql("todos") private readonly RowListInterface $todos
+    ){}
     
     public function get(string $uuid)
     {
-        $todos = ($this->todos)(); // 複数行
+        $todos = ($this->todos)(); // 複数行のデータ
     }
 }
 ```
 
-## メソッドをオーバーライド
+## メソッドをオーバーライドする
 
-`@Query`でメソッド全体をSQLの実行に置き換えることができます。
+メソッド全体を `#[Query]` で指定した callable オブジェクトでオーバーライドすることができます。
 
 ```php
-class Foo
+use Ray\Query\Annotation\Query;class Foo
 {
-    /**
-     * @Query(id="todo_item_by_id")
-     */
+    #[Query("todo_item_by_id")]
     public function get(string $id)
     {
     }
 }
 ```
 
-メソッド引数とSQLのバインドする変数名が違う時は`templated=true`を指定すると`uri_template`と同じように変数名を変えることができます。
+パラメータ名がメソッドの引数とQueryオブジェクトの引数で異なる場合は、uri_template式で解決できます。
 
 ```php
-class FooTempalted
+use Ray\Query\Annotation\Query;class FooTempalted
 {
-    /**
-     * @Query(id="todo_item_by_id?id={a}", templated=true)
-     */
+    #[Query(id:"todo_item_by_id?id={a}", templated:true)]
     public function get(string $a)
     {
     }
@@ -189,20 +164,18 @@ class FooTempalted
 単一行の時は`type='row'`を指定します。
 
 ```php
-class FooRow
+use Ray\Query\Annotation\Query;class FooRow
+
+#[Query("ticket_item_by_id", type: "row")]
+public function onGet(string $id)： static
 {
-    /**
-     * @Query(id="ticket_item_by_id", type="row")
-     */
-    public function onGet(string $id) : ResourceObject
-    {
-    }
+}
 }
 ```
 
 SELETした結果が無い場合にはcode 404が返ります。
 
-## URIを実行オブジェクトに
+## URI を Web リクエストオブジェクトに変換
 
 `WebQueryModule`は設定で束縛したURIをWebアクセスする実行関数がインジェクトされます。
 例えば以下の例なら、`https://httpbin.org/todo`を`POST`リクエストする`$createTodo`の実行オブジェクトに変換されインジェクトされます
@@ -226,19 +199,16 @@ class AppModule extends AbstractModule
 }
 ```
 
-利用コードは`SqlQueryModule`の時と同じです。
+使い方は `SqlQueryModule` と同じです。
 
 ```php
-/**
- * @Named("createTodo=todo_post, todo=todo_get")
- */
-public function __construct(
-    callable $createTodo,
-    callable $todo
-){
-    $this->createTodo = $createTodo;
-    $this->todo = $todo;
-}
+    public function __construct(
+        callable $createTodo,
+        callable $todo
+    ){
+        $this->createTodo = $createTodo;
+        $this->todo = $todo;
+  }
 ```
 
 ```php
@@ -263,13 +233,13 @@ class CreateTodo implements QueryInterface
 {
     private $pdo;
     private $builder;
-    
+
     public function __construct(PdoInterface $pdo, QueryBuilderInferface $builder)
     {
         $this->pdo = $pdo;
         $this->builder = $builder;
     }
-    
+
     public function __invoke(array $query)
     {
         // $pdoと$builderを使ったクエリ実行

@@ -71,28 +71,15 @@ SELECT * FROM todo WHERE id = :id
 A callable object injected into the constructor. Those object was made in specified sql with `@Named` binding.
 
 ```php
+use Ray\Query\Annotation\Sql;
+use Ray\Query\InvokeInterface;
+
 class Todo
 {
-    /**
-     * @var callable
-     */
-    private $createTodo;
-    
-    /**
-     * @var callable
-     */
-    private $todo;
-    
-    /**
-     * @Named("createTodo=todo_insert, todo=todo_item_by_id")
-     */
     public function __construct(
-        callable $createTodo,
-        callable $todo
-    ){
-        $this->createTodo = $createTodo;
-        $this->todo = $todo;
-    }
+        #[Sql('todo_insert') private readonly InvokeInterface $createTodo,
+        #[Sql('todo_by_id') private readonly InvokeInterface $todo
+    ){}
     
     public function get(string $uuid)
     {
@@ -118,17 +105,13 @@ use Ray\Query\RowInterface;
 
 class Todo
 {
-    /**
-     * @Named("todo_item_by_id")
-     */
-    public function __construct(RowInterface $todo)
-    {
-        $this->todo = $todo;
-    }
+    public function __construct(
+        #[Sql('todo_by_id') private readonly RowInterface $todo
+    ){}
     
     public function get(string $uuid)
     {
-        $todo = ($this->todo)(['id' => $uuid]); // single row data
+        $todo = ($this->todo)(['id' => $uuid]); // single row data
     }
 }
 ```
@@ -138,17 +121,13 @@ use Ray\Query\RowListInterface;
 
 class Todos
 {
-    /**
-     * @Named("todos")
-     */
-    public function __construct(RowListInterface $todos)
-    {
-        $this->todos = $todos;
-    }
+    public function __construct(
+        #[Sql('todos') private readonly RowListInterface $todos
+    }{}
     
     public function get(string $uuid)
     {
-        $todos = ($this->todos)(); // multiple row data
+        $todos = ($this->todos)(); // multiple row data
     }
 }
 ```
@@ -160,9 +139,7 @@ Entire method invocation can be override with callable object in specified with 
 ```php
 class Foo
 {
-    /**
-     * @Query(id="todo_item_by_id")
-     */
+    #[Query("todo_item_by_id")
     public function get(string $id)
     {
     }
@@ -172,11 +149,9 @@ class Foo
 When parameter name is different method arguments and Query object arguments, uri_template style expression can solve it.
 
 ```php
-class FooTempalted
+use Ray\Query\Annotation\Query;class FooTempalted
 {
-    /**
-     * @Query(id="todo_item_by_id?id={a}", templated=true)
-     */
+    #[Query("todo_item_by_id?id={a}", templated: true)]
     public function get(string $a)
     {
     }
@@ -188,9 +163,7 @@ Specify `type='row'` when single row result is expected to return.
 ```php
 class FooRow
 {
-    /**
-     * @Query(id="ticket_item_by_id", type="row")
-     */
+    #[Query("ticket_item_by_id", type: "row")]
     public function onGet(string $id) : ResourceObject
     {
     }
@@ -225,14 +198,16 @@ class AppModule extends AbstractModule
 
 The usage code is the same as for `SqlQueryModule`.
 
-
 ```php
-/**
- * @Named("createTodo=todo_post, todo=todo_get")
- */
+
+use Ray\Di\Di\Named;
+
+private $createTodo;
+private $todo;
+
 public function __construct(
-    callable $createTodo,
-    callable $todo
+    #[Named('todo_post') callable $createTodo,
+    #[Named('todo_get') callable $todo,
 ){
     $this->createTodo = $createTodo;
     $this->todo = $todo;
