@@ -11,7 +11,7 @@ use Ray\Di\InjectorInterface;
 use Ray\Di\ProviderInterface;
 use Ray\Query\Exception\SqlFileNotFoundException;
 
-/** @implements ProviderInterface<RowListInterface> */
+/** @implements ProviderInterface<QueryInterface> */
 final class RowListInterfaceProvider implements ProviderInterface
 {
     /** @var InjectionPointInterface */

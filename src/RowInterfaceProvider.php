@@ -12,7 +12,7 @@ use Ray\Di\ProviderInterface;
 use Ray\Query\Exception\SqlFileNotFoundException;
 use Throwable;
 
-/** @implements ProviderInterface<RowInterface> */
+/** @implements ProviderInterface<QueryInterface> */
 final class RowInterfaceProvider implements ProviderInterface
 {
     /** @var InjectionPointInterface */
@@ -37,7 +37,7 @@ final class RowInterfaceProvider implements ProviderInterface
         $this->injector = $injector;
     }
 
-    public function get(): SqlQueryRow
+    public function get(): QueryInterface
     {
         try {
             $sql = ($this->finder)($this->ip->getParameter());
