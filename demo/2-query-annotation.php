@@ -17,7 +17,7 @@ $injector = new Injector(new class extends AbstractModule {
     protected function configure()
     {
         $this->install(new AuraSqlModule('sqlite::memory:'));
-        $this->install(new CallableQueryModule(dirname(__DIR__ . '/sql')));
+        $this->install(new SqlQueryModule(__DIR__ . '/sql'));
         $this->bind(Todo::class);
     }
 });
