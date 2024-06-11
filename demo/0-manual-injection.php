@@ -3,25 +3,16 @@
 declare(strict_types=1);
 
 use Aura\Sql\ExtendedPdo;
+use Ray\Query\QueryInterface;
 use Ray\Query\SqlQueryRowList;
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
 class Todo
 {
-    /**
-     * @var callable
-     */
-    private $createTodo;
-
-    /**
-     * @var callable
-     */
-    private $todoItem;
-
     public function __construct(
-        callable $createTodo,
-        callable $todoItem
+        private QueryInterface  $createTodo,
+        private QueryInterface $todoItem
     ) {
         $this->createTodo = $createTodo;
         $this->todoItem = $todoItem;

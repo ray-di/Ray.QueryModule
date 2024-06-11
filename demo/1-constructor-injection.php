@@ -6,28 +6,17 @@ use Aura\Sql\ExtendedPdoInterface;
 use Ray\Di\AbstractModule;
 use Ray\Di\Di\Named;
 use Ray\Di\Injector;
+use Ray\Query\Annotation\Sql;
+use Ray\Query\QueryInterface;
 use Ray\Query\SqlQueryModule;
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
 class Todo
 {
-    /**
-     * @var callable
-     */
-    private $createTodo;
-
-    /**
-     * @var callable
-     */
-    private $todoItem;
-
-    /**
-     * @Named("createTodo=todo_insert, todoItem=todo_item_by_id")
-     */
     public function __construct(
-        callable $createTodo,
-        callable $todoItem
+        #[Sql('todo_insert') QueryInterface $createTodo,
+        #[Sql('todo_item_by_id') QueryInterface $todoItem,
     ) {
         $this->createTodo = $createTodo;
         $this->todoItem = $todoItem;
