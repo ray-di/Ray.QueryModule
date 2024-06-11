@@ -30,7 +30,7 @@ class SqlQueryRow implements RowInterface
     {
         $query = $queries[0];
         $item = $this->pdo->fetchAssoc($this->sql, $query);
-        if (! count($item)) {
+        if (count($item) === 0) {
             return [];
         }
 
