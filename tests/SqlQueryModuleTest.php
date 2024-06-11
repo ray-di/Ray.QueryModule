@@ -13,7 +13,9 @@ use Ray\Di\Injector;
 use Ray\Query\Exception\SqlFileNotFoundException;
 use Ray\Query\Exception\SqlNotAnnotatedException;
 
+use function assert;
 use function count;
+use function print_r;
 
 class SqlQueryModuleTest extends TestCase
 {
@@ -83,5 +85,37 @@ class SqlQueryModuleTest extends TestCase
         $this->expectException(SqlNotAnnotatedException::class);
         $injector = new Injector($this->module, __DIR__ . '/tmp');
         $injector->getInstance(FakeTodoProviderSqlNotAnnotated::class);
+    }
+
+    public function testDevSqlModule(): void
+    {
+        $pdo = new ExtendedPdo('sqlite::memory:');
+        $pdo->setAttribute(PDO::ATTR_STRINGIFY_FETCHES, true);
+        $pdo->query('CREATE TABLE IF NOT EXISTS todo (
+          id INTEGER,
+          title TEXT
+)');
+        $pdo->perform('INSERT INTO todo (id, title) VALUES (:id, :title)', ['id' => '1', 'title' => 'run']);
+        $module = new class ($pdo) extends AbstractModule {
+            /** @var ExtendedPdo */
+            private $pdo;
+
+            public function __construct(ExtendedPdo $pdo)
+            {
+                $this->pdo = $pdo;
+            }
+
+            protected function configure()
+            {
+                $this->bind(ExtendedPdoInterface::class)->toInstance($this->pdo);
+                $this->install(new SqlQueryModule(__DIR__ . '/Fake/sql', null));
+                $this->override(new DevSqlQueryModule());
+            }
+        };
+        $injector = (new Injector($module));
+        $todo = $injector->getInstance(FakeTodoRepository::class);
+        assert($todo instanceof FakeTodoRepository);
+        ($todo->todoCreate)(['id' => 2, 'title' => 'think']);
+        $this->assertStringContainsString('/* todo_item_by_id.sql */ SELECT * FROM todo WHERE id = :id', print_r($todo, true));
     }
 }

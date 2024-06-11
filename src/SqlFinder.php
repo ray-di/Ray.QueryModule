@@ -11,7 +11,6 @@ use Ray\Query\Exception\SqlNotAnnotatedException;
 use ReflectionParameter;
 
 use function file_exists;
-use function file_get_contents;
 use function sprintf;
 
 final class SqlFinder implements SqlFinderInterface
@@ -22,13 +21,18 @@ final class SqlFinder implements SqlFinderInterface
     /** @var SqlDir */
     private $sqlDir;
 
+    /** @var GetSqlInterface */
+    private $getSql;
+
     /** @param ParamReaderInterface<object> $reader */
     public function __construct(
         ParamReaderInterface $reader,
-        SqlDir $sqlDir
+        SqlDir $sqlDir,
+        GetSqlInterface $getSql
     ) {
         $this->reader = $reader;
         $this->sqlDir = $sqlDir;
+        $this->getSql = $getSql;
     }
 
     public function __invoke(ReflectionParameter $param): string
@@ -46,6 +50,6 @@ final class SqlFinder implements SqlFinderInterface
             throw new SqlFileNotFoundException($msg, $sqlAnnotation->sql);
         }
 
-        return (string) file_get_contents($file);
+        return ($this->getSql)($file);
     }
 }

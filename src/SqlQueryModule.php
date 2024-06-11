@@ -26,6 +26,7 @@ class SqlQueryModule extends AbstractModule
      */
     protected function configure()
     {
+        $this->bind(GetSqlInterface::class)->to(GetSql::class)->in(Scope::SINGLETON);
         $this->bind(SqlDir::class)->toInstance(new SqlDir($this->sqlDir));
         $this->bind(SqlFinderInterface::class)->to(SqlFinder::class)->in(Scope::SINGLETON);
         $this->bind(ParamReaderInterface::class)->to(ParamReader::class)->in(Scope::SINGLETON);

@@ -6,6 +6,7 @@ namespace Ray\Query;
 
 use FilesystemIterator;
 use Ray\Di\AbstractModule;
+use Ray\Di\Scope;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use RecursiveRegexIterator;
@@ -38,6 +39,7 @@ class CallableQueryModule extends AbstractModule
      */
     protected function configure()
     {
+        $this->bind(GetSqlInterface::class)->to(GetSql::class)->in(Scope::SINGLETON);
         $this->bind(SqlDir::class)->toInstance(new SqlDir($this->sqlDir));
         /** @var SplFileInfo $fileInfo */
         foreach ($this->files($this->sqlDir) as $fileInfo) {
