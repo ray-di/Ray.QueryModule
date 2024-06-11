@@ -10,23 +10,23 @@
 
 `Ray.QueryModule` makes a query to an external media such as a database or Web API with a function object to be injected.
 
- * `SqlQueryModule` is for DB. Convert the SQL file to a simple function object that executes that SQL.
- * `WebQueryModule` is for the Web API. Convert the URI and method set into a simple function object that Web requests to that URI.
- * `PhpQueryModule` is a generic module. It provides storage access which can not be provided by static conversion by PHP function object.
+* `SqlQueryModule` is for DB. Convert the SQL file to a simple function object that executes that SQL.
+* `WebQueryModule` is for the Web API. Convert the URI and method set into a simple function object that Web requests to that URI.
+* `PhpQueryModule` is a generic module. It provides storage access which can not be provided by static conversion by PHP function object.
 
 
 ## Motivation
 
- * You can have a clear boundary between domain layer (usage code) and infrastructure layer (injected function) in code.
- * Execution objects are generated automatically so you do not need to write procedural code for execution.
- * Since usage codes are indifferent to the actual state of external media, storage can be changed later. Easy parallel development and stabbing.
+* You can have a clear boundary between domain layer (usage code) and infrastructure layer (injected function) in code.
+* Execution objects are generated automatically so you do not need to write procedural code for execution.
+* Since usage codes are indifferent to the actual state of external media, storage can be changed later. Easy parallel development and stabbing.
 
 ## Installation
 
 ### Composer install
 
     $ composer require ray/query-module
- 
+
 ### Module install
 
 ```php
@@ -68,17 +68,17 @@ SELECT * FROM todo WHERE id = :id
 ## Convert SQL to SQL invocation object
 
 
-A callable object injected into the constructor. Those object was made in specified sql with `@Named` binding.
+A callable object injected into the constructor. Those object was made in specified sql with `#[Sql]` binding.
 
 ```php
 use Ray\Query\Annotation\Sql;
-use Ray\Query\InvokeInterface;
+use Ray\Query\InvokeInterface;use Ray\Query\QueryInterface;
 
 class Todo
 {
     public function __construct(
-        #[Sql('todo_insert') private readonly InvokeInterface $createTodo,
-        #[Sql('todo_by_id') private readonly InvokeInterface $todo
+        #[Sql('todo_insert') private readonly QueryInterface $createTodo,
+        #[Sql('todo_by_id') private readonly QueryInterface $todo
     ){}
     
     public function get(string $uuid)
@@ -97,7 +97,7 @@ class Todo
 ```
 ## Row or RowList
 
-You can specify expected return value type is either `Row` or `RowList` with `RowInterface` or `RowListInterface`. 
+You can specify expected return value type is either `Row` or `RowList` with `RowInterface` or `RowListInterface`.
 `RowInterface` is handy to specify SQL which return single row.
 
 ```php
@@ -185,7 +185,7 @@ class AppModule extends AbstractModule
 {
     protected function configure()
     {
-        // WebQueryModuleインストール
+        // WebQueryModule install
         $webQueryConfig = [
             'todo_post' => ['POST', 'https://httpbin.org/todo'],
             'todo_get' => ['GET', 'https://httpbin.org/todo']
@@ -225,7 +225,7 @@ public function __construct(
 ($this->todo)(['id' => $uuid]);
 ```
 
-The usage code of `@Query` does not change either.
+The usage code of `#[Query]` does not change either.
 
 ## Bind to PHP class
 
@@ -254,7 +254,7 @@ class CreateTodo implements QueryInterface
 Bind to `callable`.
 
 ```php
-$this->bind('')->annotatedWith('cretate_todo')->to(CreateTodo::class); // callableはインターフェイスなし
+$this->bind(QueryInterface::class)->annotatedWith('cretate_todo')->to(CreateTodo::class);
 ```
 
 The usage codes are the same. The usage code of `@Query` does not change either.
@@ -293,5 +293,5 @@ php demo/run.php
 
 ## BEAR.Sunday example
 
- * [Koriym.Ticketsan](https://github.com/koriym/Koriym.TicketSan/blob/master/src/Resource/App/Ticket.php)
+* [Koriym.Ticketsan](https://github.com/koriym/Koriym.TicketSan/blob/master/src/Resource/App/Ticket.php)
 

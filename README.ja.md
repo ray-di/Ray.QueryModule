@@ -231,11 +231,10 @@ class AppModule extends AbstractModule
 ```php
 class CreateTodo implements QueryInterface
 {
-    private $pdo;
-    private $builder;
-
-    public function __construct(PdoInterface $pdo, QueryBuilderInferface $builder)
-    {
+    public function __construct(
+        private PdoInterface $pdo,
+        private QueryBuilderInferface $builder
+    ) {
         $this->pdo = $pdo;
         $this->builder = $builder;
     }
@@ -248,13 +247,11 @@ class CreateTodo implements QueryInterface
 }
 ```
 
-`callable`に束縛します。
-
 ```php
-$this->bind('')->annotatedWith('cretate_todo')->to(CreateTodo::class); // callableはインターフェイスなし
+$this->bind(QueryInterface::class)->annotatedWith('cretate_todo')->to(CreateTodo::class);
 ```
 
-利用コードは同じです。`@Query`の利用コードも変わりません。
+利用コードは同じです。`#[Query]`の利用コードも変わりません。
 
 ## ISO8601 DateTimeモジュール
 
