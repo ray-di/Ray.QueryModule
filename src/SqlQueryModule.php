@@ -6,8 +6,6 @@ namespace Ray\Query;
 
 use FilesystemIterator;
 use Ray\Di\AbstractModule;
-use Ray\Query\Annotation\AliasQuery;
-use Ray\Query\Annotation\Query;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use RecursiveRegexIterator;
@@ -55,19 +53,6 @@ class SqlQueryModule extends AbstractModule
             $sql = (string) ($this->getSql)($fileInfo);
             $this->bind()->annotatedWith($sqlId)->toInstance($sql);
         }
-
-        $this->bindInterceptor(
-            $this->matcher->any(),
-            $this->matcher->annotatedWith(Query::class),
-            [QueryInterceptor::class],
-        );
-        // <=0.4.0
-        /** @psalm-suppress DeprecatedClass */
-        $this->bindInterceptor(
-            $this->matcher->any(),
-            $this->matcher->annotatedWith(AliasQuery::class),
-            [SqlAliasInterceptor::class],
-        );
     }
 
     protected function bindCallableItem(string $name, string $sqlId): void

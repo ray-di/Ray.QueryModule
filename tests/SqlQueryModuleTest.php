@@ -47,6 +47,7 @@ class SqlQueryModuleTest extends TestCase
             {
                 $this->bind(ExtendedPdoInterface::class)->toInstance($this->pdo);
                 $this->install(new SqlQueryModule(__DIR__ . '/Fake/sql'));
+                $this->install(new SqlQueryInterceptModule());
             }
         };
     }

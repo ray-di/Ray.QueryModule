@@ -11,8 +11,13 @@ use Ray\Di\Scope;
 
 class SqlQueryProviderModule extends AbstractModule
 {
-    public function __construct(?AbstractModule $module = null)
+    /** @var string  */
+    private $sqlDir;
+
+    public function __construct(string $sqlDir, ?AbstractModule $module = null)
     {
+        $this->sqlDir = $sqlDir;
+
         parent::__construct($module);
     }
 
@@ -21,6 +26,7 @@ class SqlQueryProviderModule extends AbstractModule
      */
     protected function configure()
     {
+        $this->bind(SqlDir::class)->toInstance(new SqlDir($this->sqlDir));
         $this->bind(SqlFinder::class)->in(Scope::SINGLETON);
         $this->bind(ParamReaderInterface::class)->to(ParamReader::class)->in(Scope::SINGLETON);
         $this->bind(RowInterface::class)->toProvider(RowInterfaceProvider::class);
