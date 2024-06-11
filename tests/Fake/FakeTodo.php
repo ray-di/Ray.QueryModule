@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ray\Query;
 
 use Ray\Di\Di\Named;
+use Ray\Query\Annotation\Query;
 
 class FakeTodo
 {
@@ -60,4 +61,14 @@ class FakeTodo
             'title' => $title
         ]);
     }
+
+    /**
+     * @Query(id="todo_item_by_id", type="row")
+     */
+    #[Query('todo_item_by_id', type: 'row')]
+    public function getIntercepted(string $id)
+    {
+        return $this;
+    }
+
 }

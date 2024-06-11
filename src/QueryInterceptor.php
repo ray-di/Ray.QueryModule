@@ -6,9 +6,9 @@ namespace Ray\Query;
 
 use Aura\Sql\ExtendedPdoInterface;
 use BEAR\Resource\ResourceObject;
-use InvalidArgumentException;
 use Ray\Aop\MethodInterceptor;
 use Ray\Aop\MethodInvocation;
+use Ray\Aop\ReflectionMethod;
 use Ray\Query\Annotation\Query;
 use Ray\Query\Exception\SqlFileNotFoundException;
 
@@ -19,8 +19,6 @@ use function is_string;
 use function parse_str;
 use function parse_url;
 use function sprintf;
-use function strpos;
-use function strstr;
 
 class QueryInterceptor implements MethodInterceptor
 {
@@ -44,26 +42,12 @@ class QueryInterceptor implements MethodInterceptor
         $method = $invocation->getMethod();
         /** @var Query $query */
         $query = $method->getAnnotation(Query::class);
-
-        $queryId = $query->id;
-        if (strpos($queryId, '?') !== false) {
-            $queryId = strstr($queryId, '?', true);
-        }
-
-        $file = sprintf('%s/%s.sql', $this->sqlDir->value, $queryId);
-        if (! file_exists($file)) {
-            throw new SqlFileNotFoundException($query->id, $query->id);
-        }
-
-        $sql = (string) file_get_contents($file);
-        $query = $invocation->getMethod()->getAnnotation(Query::class);
-        assert($query instanceof Query);
         /** @var array<string, mixed> $namedArguments */
         $namedArguments = (array) $invocation->getNamedArguments();
         [$queryId, $params] = $query->templated ? $this->templated($query, $namedArguments) : [$query->id, $namedArguments];
-        $sqlQuery = $query->type === 'row' ? new SqlQueryRow($this->pdo, $sql) : new SqlQueryRowList($this->pdo, $sql);
         assert(is_string($queryId));
-        assert($sqlQuery instanceof QueryInterface);
+        $sql = $this->getsql($queryId, $method);
+        $sqlQuery = $query->type === 'row' ? new SqlQueryRow($this->pdo, $sql) : new SqlQueryRowList($this->pdo, $sql);
 
         /** @var array<string, mixed> $params */
         return $this->getQueryResult($invocation, $sqlQuery, $params);
@@ -79,6 +63,7 @@ class QueryInterceptor implements MethodInterceptor
         /** @psalm-suppress MixedAssignment */
         $result = $query($param);
         $object = $invocation->getThis();
+
         if ($object instanceof ResourceObject) {
             return $this->returnRo($object, $invocation, $result);
         }
@@ -111,18 +96,26 @@ class QueryInterceptor implements MethodInterceptor
     /**
      * @param array<string, mixed> $namedArguments
      *
-     * @return array<int, mixed>
+     * @return array<mixed>
      */
     private function templated(Query $query, array $namedArguments): array
     {
         $url = parse_url(uri_template($query->id, $namedArguments));
-        if (! isset($url['path'])) {
-            throw new InvalidArgumentException($query->id);
-        }
+        assert(isset($url['path']));
 
         $queryId = $url['path'];
         isset($url['query']) ? parse_str($url['query'], $params) : $params = $namedArguments;
 
         return [$queryId, $params + $namedArguments];
+    }
+
+    private function getsql(string $queryId, ReflectionMethod $method): string
+    {
+        $file = sprintf('%s/%s.sql', $this->sqlDir->value, $queryId);
+        if (! file_exists($file)) {
+            throw new SqlFileNotFoundException((string) $method, $queryId);
+        }
+
+        return (string) file_get_contents($file);
     }
 }
