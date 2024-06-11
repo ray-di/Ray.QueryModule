@@ -23,8 +23,8 @@ class SqlQueryProviderModule extends AbstractModule
     {
         $this->bind(SqlFinder::class)->in(Scope::SINGLETON);
         $this->bind(ParamReaderInterface::class)->to(ParamReader::class)->in(Scope::SINGLETON);
-        $this->bind(RowInterface::class)->toProvider(RowInterfaceProvider::class)->in(Scope::SINGLETON);
-        $this->bind(RowListInterface::class)->toProvider(RowListInterfaceProvider::class)->in(Scope::SINGLETON);
-        $this->bind(InvokeInterface::class)->toProvider(RowListInterfaceProvider::class)->in(Scope::SINGLETON);
+        $this->bind(RowInterface::class)->toProvider(RowInterfaceProvider::class);
+        $this->bind(RowListInterface::class)->toProvider(RowListInterfaceProvider::class);
+        $this->bind(InvokeInterface::class)->toProvider(RowListInterfaceProvider::class);
     }
 }
