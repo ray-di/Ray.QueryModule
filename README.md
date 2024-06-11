@@ -4,8 +4,6 @@
 [![Type Coverage](https://shepherd.dev/github/ray-di/Ray.QueryModule/coverage.svg)](https://shepherd.dev/github/ray-di/Ray.QueryModule)
 ![Continuous Integration](https://github.com/ray-di/Ray.QueryModule/workflows/Continuous%20Integration/badge.svg)
 
-[Japanese](README.ja.md)
-
 ## Overview
 
 `Ray.QueryModule` makes a query to an external media such as a database or Web API with a function object to be injected.
@@ -14,12 +12,12 @@
 * `WebQueryModule` is for the Web API. Convert the URI and method set into a simple function object that Web requests to that URI.
 * `PhpQueryModule` is a generic module. It provides storage access which can not be provided by static conversion by PHP function object.
 
-
 ## Motivation
 
 * You can have a clear boundary between domain layer (usage code) and infrastructure layer (injected function) in code.
 * Execution objects are generated automatically so you do not need to write procedural code for execution.
 * Since usage codes are indifferent to the actual state of external media, storage can be changed later. Easy parallel development and stabbing.
+
 
 ## Installation
 
@@ -27,7 +25,7 @@
 
     $ composer require ray/query-module
 
-### Module install
+### Module install (SQL)
 
 ```php
 use Ray\Di\AbstractModule;
@@ -35,37 +33,31 @@ use Ray\Query\SqlQueryModule;
 
 class AppModule extends AbstractModule
 {
-    protected function configure()
+    protected function configure(): void
     {
         // SqlQueryModule install
-        $this->install(new SqlQueryModule($sqlDir));
-
-        // WebQueryModule install
-        $webQueryConfig = [
-            'post_todo' => ['POST', 'https://httpbin.org/todo'], // bind-name => [method, uri]
-            'get_todo' => ['GET', 'https://httpbin.org/todo']
-        ];
-        $guzzleConfig = []; // @see http://docs.guzzlephp.org/en/stable/request-options.html
-        $this->install(new WebQueryModule($webQueryConfig, $guzzleConfig));
+        $this->install(new SqlQueryProviderModule($sqlDir));
     }
 }
 ```
+## Usage
 
-### SQL files
+Store SQL files in one directory.
 
-$sqlDir/**todo_insert.sql**
+
+$sqlDir/todo_insert.sql
 
 ```sql
 INSERT INTO todo (id, title) VALUES (:id, :title)
 ```
 
-$sqlDir/**todo_item_by_id.sql**
+$sqlDir/todo_item_by_id.sql
 
 ```sql
 SELECT * FROM todo WHERE id = :id
 ```
 
-## Convert SQL to SQL invocation object
+#### Convert SQL to SQL invocation object
 
 
 A callable object injected into the constructor. Those object was made in specified sql with `#[Sql]` binding.
@@ -95,7 +87,8 @@ class Todo
     }
 }
 ```
-## Row or RowList
+
+### Row or RowList
 
 You can specify expected return value type is either `Row` or `RowList` with `RowInterface` or `RowListInterface`.
 `RowInterface` is handy to specify SQL which return single row.
@@ -134,7 +127,24 @@ class Todos
 
 ## Override the method with callable object
 
-Entire method invocation can be override with callable object in specified with `@Query`.
+Entire method invocation can be override with callable object in specified with `#[Query]`.
+
+
+```php
+use Ray\Di\AbstractModule;
+use Ray\Query\SqlQueryProviderModule;
+use Ray\Query\SqlQueryInterceptModule;
+
+class AppModule extends AbstractModule
+{
+    protected function configure(): void
+    {
+        $this->install(new SqlQueryProviderModule($sqlDir));
+        $this->SqlQueryInterceptModule();
+    }
+}
+```
+
 
 ```php
 class Foo
@@ -251,7 +261,7 @@ class CreateTodo implements QueryInterface
 }
 ```
 
-Bind to `callable`.
+Bind to `QueryInterface `.
 
 ```php
 $this->bind(QueryInterface::class)->annotatedWith('cretate_todo')->to(CreateTodo::class);
@@ -277,21 +287,17 @@ use Ray\Query\SqlFileName;
 use Ray\Query\SqlQueryModule;
 
 $this->install(new SqlQueryModule(__DIR__ . '/Fake/sql', null, new SqlFileName()));
-````
+```
 
 Execute SQL
 
 ```sql
 /* todo_item_by_id.sql */ SELECT * FROM todo WHERE id = :id
-````
+```
 
 ## Demo
 
 ```
 php demo/run.php
 ```
-
-## BEAR.Sunday example
-
-* [Koriym.Ticketsan](https://github.com/koriym/Koriym.TicketSan/blob/master/src/Resource/App/Ticket.php)
 
