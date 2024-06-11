@@ -43,7 +43,7 @@ final class SqlFinder
         if (! file_exists($file)) {
             $msg = sprintf('%s:%s', (string) $param, $file);
 
-            throw new SqlFileNotFoundException($msg);
+            throw new SqlFileNotFoundException($msg, $sqlAnnotation->sql);
         }
 
         return (string) file_get_contents($file);

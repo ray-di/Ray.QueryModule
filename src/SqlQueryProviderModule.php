@@ -26,5 +26,6 @@ class SqlQueryProviderModule extends AbstractModule
         $this->bind(RowInterface::class)->toProvider(RowInterfaceProvider::class);
         $this->bind(RowListInterface::class)->toProvider(RowListInterfaceProvider::class);
         $this->bind(InvokeInterface::class)->toProvider(RowListInterfaceProvider::class);
+        $this->bind(QueryInterface::class)->toProvider(RowListInterfaceProvider::class);
     }
 }

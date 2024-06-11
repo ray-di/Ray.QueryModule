@@ -8,4 +8,13 @@ use LogicException;
 
 class SqlFileNotFoundException extends LogicException
 {
+    /** @var string */
+    public $sql;
+
+    public function __construct(string $message, string $sql)
+    {
+        $this->sql = $sql;
+
+        parent::__construct($message);
+    }
 }
