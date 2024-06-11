@@ -8,6 +8,7 @@ use Ray\Di\Di\Named;
 use Ray\Di\Injector;
 use Ray\Query\Annotation\Sql;
 use Ray\Query\QueryInterface;
+use Ray\Query\CallableQueryModule;
 use Ray\Query\SqlQueryModule;
 
 require dirname(__DIR__) . '/vendor/autoload.php';
@@ -15,12 +16,9 @@ require dirname(__DIR__) . '/vendor/autoload.php';
 class Todo
 {
     public function __construct(
-        #[Sql('todo_insert') QueryInterface $createTodo,
-        #[Sql('todo_item_by_id') QueryInterface $todoItem,
-    ) {
-        $this->createTodo = $createTodo;
-        $this->todoItem = $todoItem;
-    }
+        #[Sql('todo_insert')] private QueryInterface $createTodo,
+        #[Sql('todo_item_by_id')] private QueryInterface $todoItem,
+    ) {}
 
     public function get(string $uuid) : array
     {
@@ -40,6 +38,7 @@ $injector = new Injector(new class extends AbstractModule {
     protected function configure()
     {
         $this->install(new Ray\AuraSqlModule\AuraSqlModule('sqlite::memory:'));
+        $this->install(new CallableQueryModule(dirname(__DIR__ . '/sql')));
         $this->install(new SqlQueryModule(dirname(__DIR__ . '/sql')));
     }
 });
