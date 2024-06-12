@@ -22,13 +22,16 @@ class FakeRo extends ResourceObject
         return $this;
     }
 
+    /**
+     * @Query(id="_non_exists_", type="row")
+     */
     #[Query('_non_exists_')]
     public function noSql(): void
     {
     }
 
     /**
-     * @Query(id="todo_item_by_id?id=num", type="row", templated=true)
+     * @Query(id="todo_item_by_id?id={num}", type="row", templated=true)
      */
     #[Query('todo_item_by_id?id={num}', type: 'row', templated: true)]
     public function withQuery(string $num): ResourceObject
