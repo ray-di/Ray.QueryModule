@@ -11,10 +11,9 @@ use Ray\Aop\MethodInvocation;
 use Ray\Aop\ReflectionMethod;
 use Ray\Query\Annotation\Query;
 use Ray\Query\Exception\SqlFileNotFoundException;
+use Ray\Query\Exception\SqlFileNotReadableException;
 
 use function assert;
-use function file_exists;
-use function file_get_contents;
 use function is_string;
 use function parse_str;
 use function parse_url;
@@ -28,12 +27,17 @@ class QueryInterceptor implements MethodInterceptor
     /** @var ExtendedPdoInterface */
     private $pdo;
 
+    /** @var FileGetContentsInterface */
+    private $fileGetContents;
+
     public function __construct(
         ExtendedPdoInterface $pdo,
-        SqlDir $sqlDir
+        SqlDir $sqlDir,
+        FileGetContentsInterface $fileGetContents
     ) {
         $this->sqlDir = $sqlDir;
         $this->pdo = $pdo;
+        $this->fileGetContents = $fileGetContents;
     }
 
     /** @return ResourceObject|mixed */
@@ -111,11 +115,12 @@ class QueryInterceptor implements MethodInterceptor
 
     private function getsql(string $queryId, ReflectionMethod $method): string
     {
-        $file = sprintf('%s/%s.sql', $this->sqlDir->value, $queryId);
-        if (! file_exists($file)) {
+        $filePath = sprintf('%s/%s.sql', $this->sqlDir->value, $queryId);
+
+        try {
+            return ($this->fileGetContents)($filePath);
+        } catch (SqlFileNotReadableException $e) {
             throw new SqlFileNotFoundException((string) $method, $queryId);
         }
-
-        return (string) file_get_contents($file);
     }
 }

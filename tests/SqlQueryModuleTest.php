@@ -87,7 +87,7 @@ class SqlQueryModuleTest extends TestCase
         $injector->getInstance(FakeTodoProviderSqlNotAnnotated::class);
     }
 
-    public function testDevSqlModule(): void
+    public function testSqlFileNameModule(): void
     {
         $pdo = new ExtendedPdo('sqlite::memory:');
         $pdo->setAttribute(PDO::ATTR_STRINGIFY_FETCHES, true);

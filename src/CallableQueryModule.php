@@ -13,7 +13,6 @@ use RecursiveRegexIterator;
 use RegexIterator;
 use SplFileInfo;
 
-use function file_get_contents;
 use function pathinfo;
 use function trim;
 
@@ -29,7 +28,9 @@ class CallableQueryModule extends AbstractModule
     {
         $this->sqlDir = $sqlDir;
         $this->getSql = $getSql ?? static function (SplFileInfo $fileInfo): string {
-            return trim((string) file_get_contents($fileInfo->getPathname()));
+            $getContents = new FileGetContents();
+
+            return $getContents($fileInfo->getPathname());
         };
 
         parent::__construct($module);
@@ -40,7 +41,7 @@ class CallableQueryModule extends AbstractModule
      */
     protected function configure()
     {
-        $this->bind(GetSqlInterface::class)->to(GetSql::class)->in(Scope::SINGLETON);
+        $this->bind(FileGetContentsInterface::class)->to(FileGetContents::class)->in(Scope::SINGLETON);
         $this->bind(SqlDir::class)->toInstance(new SqlDir($this->sqlDir));
         /** @var SplFileInfo $fileInfo */
         foreach ($this->files($this->sqlDir) as $fileInfo) {

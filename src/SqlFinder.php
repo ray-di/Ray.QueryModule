@@ -21,14 +21,14 @@ final class SqlFinder implements SqlFinderInterface
     /** @var SqlDir */
     private $sqlDir;
 
-    /** @var GetSqlInterface */
+    /** @var FileGetContentsInterface */
     private $getSql;
 
     /** @param ParamReaderInterface<object> $reader */
     public function __construct(
         ParamReaderInterface $reader,
         SqlDir $sqlDir,
-        GetSqlInterface $getSql
+        FileGetContentsInterface $getSql
     ) {
         $this->reader = $reader;
         $this->sqlDir = $sqlDir;

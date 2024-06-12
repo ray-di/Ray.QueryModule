@@ -42,7 +42,7 @@ class Iso8601FormatModuleTest extends TestCase
             protected function configure()
             {
                 $this->bind(ExtendedPdoInterface::class)->toInstance($this->pdo);
-                $this->install(new CallableQueryModule(__DIR__ . '/Fake/sql', null, new SqlFileName()));
+                $this->install(new CallableQueryModule(__DIR__ . '/Fake/sql', null));
                 $this->install(new Iso8601FormatModule(['created_at']));
             }
         };
@@ -76,5 +76,38 @@ class Iso8601FormatModuleTest extends TestCase
             ],
         ];
         $this->assertSame($expected, $actural);
+    }
+
+    public function testSqlFileName(): void
+    {
+        $pdo = new ExtendedPdo('sqlite::memory:');
+        $pdo->setAttribute(PDO::ATTR_STRINGIFY_FETCHES, true);
+        $pdo->query('CREATE TABLE IF NOT EXISTS todo (
+          id INTEGER,
+          title TEXT,
+          created_at TIMESTAMP)');
+        $pdo->perform('INSERT INTO todo (id, title, created_at) VALUES (:id, :title, :created_at)', ['id' => '1', 'title' => 'run', 'created_at' => '1970-01-01 00:00:00']);
+
+        $module = new class ($pdo) extends AbstractModule {
+            /** @var ExtendedPdo */
+            private $pdo;
+
+            public function __construct(ExtendedPdo $pdo)
+            {
+                $this->pdo = $pdo;
+
+                parent::__construct();
+            }
+
+            protected function configure()
+            {
+                $this->bind(ExtendedPdoInterface::class)->toInstance($this->pdo);
+                $this->install(new CallableQueryModule(__DIR__ . '/Fake/sql', null, new SqlFileName()));
+                $this->install(new Iso8601FormatModule(['created_at']));
+            }
+        };
+        $injector = new Injector($this->module, __DIR__ . '/tmp');
+        $todo = $injector->getInstance(FakeTodo::class);
+        $this->assertInstanceOf(FakeTodo::class, $todo);
     }
 }

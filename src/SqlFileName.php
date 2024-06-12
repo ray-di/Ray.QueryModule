@@ -6,10 +6,6 @@ namespace Ray\Query;
 
 use SplFileInfo;
 
-use function file_get_contents;
-use function sprintf;
-use function trim;
-
 final class SqlFileName
 {
     /**
@@ -17,6 +13,9 @@ final class SqlFileName
      */
     public function __invoke(SplFileInfo $fileInfo): string
     {
-        return sprintf('/* %s */ %s', $fileInfo->getFilename(), trim((string) file_get_contents($fileInfo->getPathname())));
+        $getFileContents = new FileGetContentsWithFileName(new FileGetContents());
+        $filePath = $fileInfo->getPathname();
+
+        return $getFileContents($filePath);
     }
 }

@@ -14,6 +14,6 @@ class SqlFileNameModule extends AbstractModule
      */
     protected function configure(): void
     {
-        $this->bind(GetSqlInterface::class)->to(GetSqlWithFileName::class)->in(Scope::SINGLETON);
+        $this->bind(FileGetContentsInterface::class)->to(FileGetContentsWithFileName::class)->in(Scope::SINGLETON);
     }
 }
