@@ -8,6 +8,7 @@ use SplFileInfo;
 
 use function file_get_contents;
 use function sprintf;
+use function trim;
 
 final class DevGetSql implements GetSqlInterface
 {
@@ -18,6 +19,6 @@ final class DevGetSql implements GetSqlInterface
     {
         $fileInfo = new SplFileInfo($filePath);
 
-        return sprintf('/* %s */ %s', $fileInfo->getFilename(), (string) file_get_contents($filePath));
+        return sprintf('/* %s */ %s', $fileInfo->getFilename(), trim((string) file_get_contents($filePath)));
     }
 }

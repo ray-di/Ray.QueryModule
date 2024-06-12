@@ -12,6 +12,7 @@ use Ray\Query\Exception\QueryNumException;
 use function array_pop;
 use function count;
 use function explode;
+use function preg_replace;
 use function strpos;
 use function strtolower;
 use function trim;
@@ -53,7 +54,9 @@ class SqlQueryRowList implements RowListInterface
 
         $lastQuery = $result
             ? strtolower(trim((string) $result->queryString, "\\ \t\n\r\0\x0B")) : '';
-        if ($result instanceof PDOStatement && strpos($lastQuery, 'select') === 0) {
+        // Remove leading comment
+        $sqlQuery = trim(preg_replace('/^\/\*.*\*\//', '', $lastQuery));
+        if ($result instanceof PDOStatement && strpos($sqlQuery, 'select') === 0) {
             return (array) $result->fetchAll(PDO::FETCH_ASSOC);
         }
 

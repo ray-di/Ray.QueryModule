@@ -15,6 +15,7 @@ use SplFileInfo;
 
 use function file_get_contents;
 use function pathinfo;
+use function trim;
 
 class CallableQueryModule extends AbstractModule
 {
@@ -28,7 +29,7 @@ class CallableQueryModule extends AbstractModule
     {
         $this->sqlDir = $sqlDir;
         $this->getSql = $getSql ?? static function (SplFileInfo $fileInfo): string {
-            return (string) file_get_contents($fileInfo->getPathname());
+            return trim((string) file_get_contents($fileInfo->getPathname()));
         };
 
         parent::__construct($module);
@@ -52,7 +53,7 @@ class CallableQueryModule extends AbstractModule
             $this->bindCallableItem($name, $sqlId);
             $this->bindCallableList($name, $sqlId);
 
-            $sql = (string) ($this->getSql)($fileInfo);
+            $sql = trim((string) ($this->getSql)($fileInfo));
             $this->bind()->annotatedWith($sqlId)->toInstance($sql);
         }
     }

@@ -42,7 +42,7 @@ class Iso8601FormatModuleTest extends TestCase
             protected function configure()
             {
                 $this->bind(ExtendedPdoInterface::class)->toInstance($this->pdo);
-                $this->install(new CallableQueryModule(__DIR__ . '/Fake/sql'));
+                $this->install(new CallableQueryModule(__DIR__ . '/Fake/sql', null, new SqlFileName()));
                 $this->install(new Iso8601FormatModule(['created_at']));
             }
         };
