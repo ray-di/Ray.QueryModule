@@ -1,6 +1,6 @@
 {
     "name": "ray/query-module",
-    "description": "An external media access framework",
+    "description": "Converts SQL files, Web API URIs into injectable function objects.",
     "keywords": ["repository"],
     "homepage": "https://github.com/koriym/Koriym.PhpSkeleton",
     "license": "MIT",
