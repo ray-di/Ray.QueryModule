@@ -276,8 +276,21 @@ Install date column names as an array and pass it as an argument to `Iso8601Form
 ```php
 $this->install(new Iso8601FormatModule(['created_at', 'updated_at']));
 ```
+## SQL file name
 
-## SQL file name log
+Install `SqlFileNameModule` to run queries with file name comments in the query as follows.
+Use it to see which SQL was executed when you log SQL.
+
+```php
+$this->install(new SqlFileNameModule());
+```
+The SQL is executed with file name comments as follows.
+
+```sql
+/* todo_list.sql */ SELECT * FROM todo
+```
+
+## #[Named] bindings
 
 Binding to `#[Named]`, which was supported until `0.9`, is possible with `CallableQueryModule`.
 
@@ -286,6 +299,10 @@ use Ray\Query\SqlFileName;
 use Ray\Query\CallableQueryModule;
 
 $this->install(new CallableQueryModule(__DIR__ . '/Fake/sql'));
+$this->install(new CallableQueryModule(__DIR__ . '/Fake/sql'), null new SqlFileName()); // query with sql file name
+```
+
+```php
 ```
 
 Execute SQL
