@@ -55,7 +55,7 @@ class SqlQueryRowList implements RowListInterface
         $lastQuery = $result
             ? strtolower(trim((string) $result->queryString, "\\ \t\n\r\0\x0B")) : '';
         // Remove leading comment
-        $sqlQuery = trim(preg_replace('/^\/\*.*\*\//', '', $lastQuery));
+        $sqlQuery = trim((string) preg_replace('/^\/\*.*\*\//', '', $lastQuery));
         if ($result instanceof PDOStatement && strpos($sqlQuery, 'select') === 0) {
             return (array) $result->fetchAll(PDO::FETCH_ASSOC);
         }
