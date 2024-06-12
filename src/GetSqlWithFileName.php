@@ -10,7 +10,7 @@ use function file_get_contents;
 use function sprintf;
 use function trim;
 
-final class DevGetSql implements GetSqlInterface
+final class GetSqlWithFileName implements GetSqlInterface
 {
     /**
      * {@inheritDoc}

@@ -109,7 +109,7 @@ class SqlQueryModuleTest extends TestCase
             {
                 $this->bind(ExtendedPdoInterface::class)->toInstance($this->pdo);
                 $this->install(new SqlQueryModule(__DIR__ . '/Fake/sql', null));
-                $this->override(new DevSqlQueryModule());
+                $this->override(new SqlFileNameModule());
             }
         };
         $injector = (new Injector($module));
