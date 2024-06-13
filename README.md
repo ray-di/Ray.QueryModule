@@ -27,7 +27,7 @@ Converts SQL files, Web API URIs into injectable function objects.
 
     $ composer require ray/query-module
 
-### Module install (SQL)
+### How to Install the SQL Module
 
 ```php
 use Ray\Di\AbstractModule;
