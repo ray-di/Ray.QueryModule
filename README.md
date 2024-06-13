@@ -278,7 +278,7 @@ Bind to `QueryInterface `.
 $this->bind(QueryInterface::class)->annotatedWith('cretate_todo')->to(CreateTodo::class);
 ```
 
-The usage codes are the same. The usage code of `@Query` does not change either.
+The usage codes are the same. The usage code of `#[Query]` does not change either.
 
 ## ISO8601 DateTime Module
 
