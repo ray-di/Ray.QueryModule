@@ -8,9 +8,9 @@ use Aura\Sql\ExtendedPdoInterface;
 use BEAR\Resource\ResourceObject;
 use Ray\Aop\MethodInterceptor;
 use Ray\Aop\MethodInvocation;
-use Ray\Aop\ReflectionMethod;
+use Ray\Di\Exception\Unbound;
+use Ray\Di\InjectorInterface;
 use Ray\Query\Annotation\Query;
-use Ray\Query\Exception\SqlFileNotFoundException;
 use Ray\Query\Exception\SqlFileNotReadableException;
 
 use function assert;
@@ -30,14 +30,19 @@ class QueryInterceptor implements MethodInterceptor
     /** @var FileGetContentsInterface */
     private $fileGetContents;
 
+    /** @var InjectorInterface */
+    private $injector;
+
     public function __construct(
         ExtendedPdoInterface $pdo,
         SqlDir $sqlDir,
-        FileGetContentsInterface $fileGetContents
+        FileGetContentsInterface $fileGetContents,
+        InjectorInterface $injector
     ) {
         $this->sqlDir = $sqlDir;
         $this->pdo = $pdo;
         $this->fileGetContents = $fileGetContents;
+        $this->injector = $injector;
     }
 
     /** @return ResourceObject|mixed */
@@ -50,7 +55,24 @@ class QueryInterceptor implements MethodInterceptor
         $namedArguments = (array) $invocation->getNamedArguments();
         [$queryId, $params] = $query->templated ? $this->templated($query, $namedArguments) : [$query->id, $namedArguments];
         assert(is_string($queryId));
-        $sql = $this->getsql($queryId, $method);
+        $filePath = sprintf('%s/%s.sql', $this->sqlDir->value, $queryId);
+        try {
+            $sql = ($this->fileGetContents)($filePath);
+        } catch (SqlFileNotReadableException $e) {
+            // For BC
+            // @codeCoverageIgnoreStart
+            try {
+                $sqlQuery = $this->injector->getInstance(RowListInterface::class, $queryId);
+                // @codeCoverageIgnoreEnd
+                assert($sqlQuery instanceof QueryInterface);
+            } catch (Unbound $e) {
+                throw new SqlFileNotReadableException($filePath);
+            }
+
+            /** @var array<string, mixed> $params */
+            return $this->getQueryResult($invocation, $sqlQuery, $params);
+        }
+
         $sqlQuery = $query->type === 'row' ? new SqlQueryRow($this->pdo, $sql) : new SqlQueryRowList($this->pdo, $sql);
 
         /** @var array<string, mixed> $params */
@@ -111,16 +133,5 @@ class QueryInterceptor implements MethodInterceptor
         isset($url['query']) ? parse_str($url['query'], $params) : $params = $namedArguments;
 
         return [$queryId, $params + $namedArguments];
-    }
-
-    private function getsql(string $queryId, ReflectionMethod $method): string
-    {
-        $filePath = sprintf('%s/%s.sql', $this->sqlDir->value, $queryId);
-
-        try {
-            return ($this->fileGetContents)($filePath);
-        } catch (SqlFileNotReadableException $e) {
-            throw new SqlFileNotFoundException((string) $method, $queryId);
-        }
     }
 }

@@ -10,7 +10,7 @@ use PDO;
 use PHPUnit\Framework\TestCase;
 use Ray\Di\AbstractModule;
 use Ray\Di\Injector;
-use Ray\Query\Exception\SqlFileNotFoundException;
+use Ray\Query\Exception\SqlFileNotReadableException;
 
 class SqlQueryInterceptModuleTest extends TestCase
 {
@@ -68,7 +68,7 @@ class SqlQueryInterceptModuleTest extends TestCase
 
     public function testNoSqlFile(): void
     {
-        $this->expectException(SqlFileNotFoundException::class);
+        $this->expectException(SqlFileNotReadableException::class);
         $this->fakeRo->noSql();
     }
 
