@@ -48,18 +48,23 @@ final class RowInterfaceProvider implements ProviderInterface
             // For development
             // @codeCoverageIgnoreStart
         } catch (SqlFileNotFoundException $e) {
-            try {
-                $named = $e->sql;
-                $instance = $this->injector->getInstance(RowInterface::class, $named);
-                error_log(sprintf('Warning: #[Sql(\'%s\')] is not vald. Change to #[\\Ray\\Di\\Di\\Named(\'%s\')]', $named, $named));
-
-                return $instance;
-            } catch (Unbound $unbound) {
-                throw $e;
-            }
-            // @codeCoverageIgnoreEnd
+            return $this->handleSqlNotFound($e);
         }
 
         return new SqlQueryRow($this->pdo, $sql);
+    }
+
+    private function handleSqlNotFound(SqlFileNotFoundException $e): RowInterface
+    {
+        try {
+            $named = $e->sql;
+            $instance = $this->injector->getInstance(RowInterface::class, $named);
+            error_log(sprintf('Warning: #[Sql(\'%s\')] is not vald. Change to #[\\Ray\\Di\\Di\\Named(\'%s\')]', $named, $named));
+
+            return $instance;
+        } catch (Unbound $unbound) {
+            throw $e;
+        }
+        // @codeCoverageIgnoreEnd
     }
 }
