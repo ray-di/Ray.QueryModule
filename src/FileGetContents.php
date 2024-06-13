@@ -6,6 +6,7 @@ namespace Ray\Query;
 
 use Ray\Query\Exception\SqlFileNotReadableException;
 
+use function file_exists;
 use function file_get_contents;
 
 final class FileGetContents implements FileGetContentsInterface
@@ -15,6 +16,10 @@ final class FileGetContents implements FileGetContentsInterface
      */
     public function __invoke(string $filePath): string
     {
+        if (! file_exists($filePath)) {
+            throw new SqlFileNotReadableException($filePath);
+        }
+
         $content =  file_get_contents($filePath);
         if ($content === false) {
             // @codeCoverageIgnoreStart
