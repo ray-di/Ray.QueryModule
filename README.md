@@ -183,6 +183,16 @@ class FooRow
 
 If there is no SELECT result, it returns `404 Not Found`.
 
+### PHP class binding
+
+This Query can also be a dependency on a PHP class rather than specifying an SQL file.
+
+```php
+ #[Query("ticket_item_by_id"]
+```
+
+If the SQL file `ticket_item_by_id.sql` does not exist with such an attribute, the Query interface bound by `RowListInterfce` and `ticket_item_by_id` is executed with the arguments passed to the method The method is executed with the arguments passed to the method.
+
 ## Convert URI to Web request object
 
 With `WebQueryModule`, it converts the URI bound in the configuration into an invocation object for web access and injects it.

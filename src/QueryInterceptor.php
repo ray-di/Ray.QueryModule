@@ -59,7 +59,6 @@ class QueryInterceptor implements MethodInterceptor
         try {
             $sql = ($this->fileGetContents)($filePath);
         } catch (SqlFileNotReadableException $e) {
-            // For BC
             // @codeCoverageIgnoreStart
             try {
                 $sqlQuery = $this->injector->getInstance(RowListInterface::class, $queryId);
