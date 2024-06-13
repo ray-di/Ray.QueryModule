@@ -1,6 +1,6 @@
 # Ray.QueryModule
 
-Converts SQL files, Web API URIs into injectable function objects.
+Converts SQL files and Web API URIs into injectable function objects
 
 [![codecov](https://codecov.io/gh/ray-di/Ray.QueryModule/branch/1.x/graph/badge.svg?token=60G2MFDOBR)](https://codecov.io/gh/ray-di/Ray.QueryModule)
 [![Type Coverage](https://shepherd.dev/github/ray-di/Ray.QueryModule/coverage.svg)](https://shepherd.dev/github/ray-di/Ray.QueryModule)
