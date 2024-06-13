@@ -19,8 +19,12 @@ use function print_r;
 
 class SqlQueryModuleTest extends TestCase
 {
+    /** @var ExtendedPdo  */
+    private $pdo;
+
     /** @var AbstractModule  */
     private $module;
+
     protected function setUp(): void
     {
         $pdo = new ExtendedPdo('sqlite::memory:');
@@ -45,6 +49,14 @@ class SqlQueryModuleTest extends TestCase
                 $this->install(new SqlQueryModule(__DIR__ . '/Fake/sql'));
             }
         };
+        $this->pdo = $pdo;
+    }
+
+    protected function tearDown(): void
+    {
+        unset($this->pdo); // This effectively closes the SQLite connection
+
+        parent::tearDown();
     }
 
     public function testProviderInject(): void

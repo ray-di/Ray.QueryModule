@@ -14,6 +14,9 @@ use Ray\Query\Exception\SqlFileNotReadableException;
 
 class SqlQueryInterceptModuleTest extends TestCase
 {
+    /** @var ExtendedPdo  */
+    private $pdo;
+
     /** @var FakeRo */
     private $fakeRo;
 
@@ -45,9 +48,17 @@ class SqlQueryInterceptModuleTest extends TestCase
                 $this->bind(FakeBar::class);
             }
         };
+        $this->pdo = $pdo;
         $injector = new Injector($module, __DIR__ . '/tmp');
         $this->fakeRo = $injector->getInstance(FakeRo::class);
         $this->fakeBar = $injector->getInstance(FakeBar::class);
+    }
+
+    protected function tearDown(): void
+    {
+        unset($this->pdo); // This effectively closes the SQLite connection
+
+        parent::tearDown();
     }
 
     public function testResourceObject200(): void

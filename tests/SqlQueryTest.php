@@ -29,6 +29,13 @@ class SqlQueryTest extends TestCase
         $this->pdo = $pdo;
     }
 
+    protected function tearDown(): void
+    {
+        unset($this->pdo); // This effectively closes the SQLite connection
+
+        parent::tearDown();
+    }
+
     public function testInvoke(): void
     {
         $sql = (string) file_get_contents(__DIR__ . '/Fake/sql/todo_item_by_id.sql');
