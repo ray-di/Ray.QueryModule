@@ -66,4 +66,16 @@ class SqlQueryTest extends TestCase
         $this->assertSame('test', $row['title']);
         $this->assertSame('2', $row['id']);
     }
+
+    public function testWithComment(): void
+    {
+        $sql = (string) file_get_contents(__DIR__ . '/Fake/sql/todo_item_by_id_with_comment.sql');
+        $query = new SqlQueryRowList($this->pdo, $sql);
+        $row = ((array) $query(['id' => 1]))[0];
+        assert(is_array($row));
+        assert(isset($row['title']));
+        assert(isset($row['id']));
+        $this->assertSame('run', $row['title']);
+        $this->assertSame('1', $row['id']);
+    }
 }
