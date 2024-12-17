@@ -32,13 +32,7 @@ class SqlQueryTest extends TestCase
     public function testInvoke(): void
     {
         $sql = (string) file_get_contents(__DIR__ . '/Fake/sql/todo_item_by_id.sql');
-        $query = new SqlQueryRowList($this->pdo, $sql);
-        $row = ((array) $query(['id' => 1]))[0];
-        assert(is_array($row));
-        assert(isset($row['title']));
-        assert(isset($row['id']));
-        $this->assertSame('run', $row['title']);
-        $this->assertSame('1', $row['id']);
+        $this->testSql($sql);
     }
 
     public function testNotFound(): void
@@ -70,6 +64,23 @@ class SqlQueryTest extends TestCase
     public function testWithComment(): void
     {
         $sql = (string) file_get_contents(__DIR__ . '/Fake/sql/todo_item_by_id_with_comment.sql');
+        $this->testSql($sql);
+    }
+
+    public function testWithLineComment(): void
+    {
+        $sql = (string) file_get_contents(__DIR__ . '/Fake/sql/todo_item_by_id_with_line_comment.sql');
+        $this->testSql($sql);
+    }
+
+    public function testWithMultipleComment(): void
+    {
+        $sql = (string) file_get_contents(__DIR__ . '/Fake/sql/todo_item_by_id_with_multiple_comment.sql');
+        $this->testSql($sql);
+    }
+
+    private function testSql(string $sql): void
+    {
         $query = new SqlQueryRowList($this->pdo, $sql);
         $row = ((array) $query(['id' => 1]))[0];
         assert(is_array($row));

@@ -55,7 +55,7 @@ class SqlQueryRowList implements RowListInterface
 
         $lastQuery = $result
             ? strtolower(trim(
-                (string) preg_replace('/\/\*.*?\*\//', '', (string) $result->queryString),
+                (string) preg_replace('/\/\*.*?\*\/|--.*$/m', '', (string) $result->queryString),
                 "\\ \t\n\r\0\x0B",
             )) : '';
         if ($result instanceof PDOStatement && str_starts_with($lastQuery, 'select')) {
