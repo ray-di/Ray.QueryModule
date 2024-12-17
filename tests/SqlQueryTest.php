@@ -82,10 +82,12 @@ class SqlQueryTest extends TestCase
     private function testSql(string $sql): void
     {
         $query = new SqlQueryRowList($this->pdo, $sql);
-        $row = ((array) $query(['id' => 1]))[0];
-        assert(is_array($row));
-        assert(isset($row['title']));
-        assert(isset($row['id']));
+        $result = (array) $query(['id' => 1]);
+        $this->assertNotEmpty($result);
+        $row = $result[0];
+        $this->assertIsArray($row);
+        $this->assertArrayHasKey('title', $row);
+        $this->assertArrayHasKey('id', $row);
         $this->assertSame('run', $row['title']);
         $this->assertSame('1', $row['id']);
     }
