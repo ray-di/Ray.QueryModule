@@ -1,0 +1,1 @@
+/* todo_item_by_id_with_multiple_comment.sql */ SELECT * FROM todo WHERE id = :id  -- conditions
