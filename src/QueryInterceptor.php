@@ -57,6 +57,7 @@ class QueryInterceptor implements MethodInterceptor
         $result = $query($param);
         $object = $invocation->getThis();
         if ($object instanceof ResourceObject) {
+            /** @var array<array-key, mixed>|object|scalar|null $result */
             return $this->returnRo($object, $invocation, $result);
         }
 
@@ -65,7 +66,7 @@ class QueryInterceptor implements MethodInterceptor
 
     /**
      * @param MethodInvocation<object> $invocation
-     * @param array|object|scalar|null $result
+     * @param mixed                    $result
      */
     private function returnRo(ResourceObject $ro, MethodInvocation $invocation, $result): ResourceObject
     {
