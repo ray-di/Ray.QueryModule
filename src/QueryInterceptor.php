@@ -47,7 +47,7 @@ class QueryInterceptor implements MethodInterceptor
 
     /**
      * @param MethodInvocation<object> $invocation
-     * @param array<string, mixed> $param
+     * @param array<string, mixed>     $param
      *
      * @return mixed
      */
@@ -64,9 +64,8 @@ class QueryInterceptor implements MethodInterceptor
     }
 
     /**
-     * @param MethodInvocation $invocation
+     * @param MethodInvocation<object> $invocation
      * @param array|object|scalar|null $result
-     * @return ResourceObject
      */
     private function returnRo(ResourceObject $ro, MethodInvocation $invocation, $result): ResourceObject
     {
