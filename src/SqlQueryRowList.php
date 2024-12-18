@@ -19,6 +19,9 @@ use function trim;
 
 class SqlQueryRowList implements RowListInterface
 {
+    public const QUERY_CLEANUP_REGEX = '/\/\*.*?\*\/|--.*$/m';
+    public const TRIM_CHARACTERS_REGEX = "\\ \t\n\r\0\x0B";
+
     /** @var ExtendedPdoInterface */
     private $pdo;
 
@@ -38,7 +41,7 @@ class SqlQueryRowList implements RowListInterface
             $this->sql .= ';';
         }
 
-        $sqls = explode(';', trim($this->sql, "\\ \t\n\r\0\x0B"));
+        $sqls = explode(';', trim($this->sql, self::TRIM_CHARACTERS_REGEX));
         array_pop($sqls);
         $numQueris = count($queries);
         if (count($sqls) !== $numQueris) {
@@ -54,8 +57,8 @@ class SqlQueryRowList implements RowListInterface
 
         $lastQuery = $result
             ? strtolower(trim(
-                (string) preg_replace('/\/\*.*?\*\/|--.*$/m', '', (string) $result->queryString),
-                "\\ \t\n\r\0\x0B",
+                (string) preg_replace(self::QUERY_CLEANUP_REGEX, '', (string) $result->queryString),
+                self::TRIM_CHARACTERS_REGEX,
             )) : '';
         if ($result instanceof PDOStatement && strpos($lastQuery, 'select') === 0) {
             return (array) $result->fetchAll(PDO::FETCH_ASSOC);
