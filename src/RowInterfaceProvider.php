@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Ray\Query;
 
 use Aura\Sql\ExtendedPdoInterface;
-use Override;
 use Ray\Di\InjectionPointInterface;
 use Ray\Di\ProviderInterface;
 
@@ -34,7 +33,6 @@ final class RowInterfaceProvider implements ProviderInterface
         $this->finder = $finder;
     }
 
-    #[Override]
     public function get(): SqlQueryRow
     {
         return new SqlQueryRow($this->pdo, ($this->finder)($this->ip->getParameter()));

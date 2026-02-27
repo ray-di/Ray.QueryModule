@@ -6,7 +6,6 @@ namespace Ray\Query;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
-use Override;
 use Ray\Di\AbstractModule;
 use Ray\Di\Scope;
 use Ray\Query\Annotation\GuzzleConfig;
@@ -35,7 +34,6 @@ final class WebQueryModule extends AbstractModule
     /**
      * {@inheritdoc}
      */
-    #[Override]
     protected function configure(): void
     {
         $this->configureClient();

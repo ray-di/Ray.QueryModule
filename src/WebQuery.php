@@ -6,7 +6,6 @@ namespace Ray\Query;
 
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
-use Override;
 use Ray\Query\Exception\WebQueryException;
 
 use function assert;
@@ -37,7 +36,6 @@ final class WebQuery implements QueryInterface
      *
      * @return iterable<mixed>
      */
-    #[Override]
     public function __invoke(array ...$queries): iterable
     {
         $query = $queries[0];

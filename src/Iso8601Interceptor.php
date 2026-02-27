@@ -6,7 +6,6 @@ namespace Ray\Query;
 
 use DateTime;
 use DateTimeImmutable;
-use Override;
 use Ray\Aop\MethodInterceptor;
 use Ray\Aop\MethodInvocation;
 use Ray\Di\Di\Named;
@@ -31,7 +30,6 @@ final class Iso8601Interceptor implements MethodInterceptor
     }
 
     /** @return mixed */
-    #[Override]
     public function invoke(MethodInvocation $invocation)
     {
         $list = $invocation->proceed();

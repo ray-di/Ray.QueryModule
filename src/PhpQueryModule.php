@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Ray\Query;
 
-use Override;
 use Ray\Di\AbstractModule;
 use ReflectionClass;
 
@@ -25,7 +24,6 @@ final class PhpQueryModule extends AbstractModule
         parent::__construct($module);
     }
 
-    #[Override]
     protected function configure(): void
     {
         /** @var class-string $binding */

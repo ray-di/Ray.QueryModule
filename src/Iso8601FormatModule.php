@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Ray\Query;
 
-use Override;
 use Ray\Di\AbstractModule;
 
 /** @psalm-api */
@@ -21,7 +20,6 @@ final class Iso8601FormatModule extends AbstractModule
         parent::__construct($module);
     }
 
-    #[Override]
     protected function configure()
     {
         $this->bind()->annotatedWith('iso8601_date_time_columns')->toInstance($this->datetimeColumns);

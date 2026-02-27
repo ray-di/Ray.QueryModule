@@ -6,7 +6,6 @@ namespace Ray\Query;
 
 use Koriym\ParamReader\ParamReader;
 use Koriym\ParamReader\ParamReaderInterface;
-use Override;
 use Ray\Di\AbstractModule;
 use Ray\Di\Scope;
 
@@ -21,7 +20,6 @@ final class SqlQueryProviderModule extends AbstractModule
     /**
      * {@inheritdoc}
      */
-    #[Override]
     protected function configure()
     {
         $this->bind(SqlFinder::class)->in(Scope::SINGLETON);

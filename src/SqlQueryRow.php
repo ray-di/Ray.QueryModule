@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Ray\Query;
 
 use Aura\Sql\ExtendedPdoInterface;
-use Override;
 
 use function array_pop;
 use function assert;
@@ -28,7 +27,6 @@ class SqlQueryRow implements RowInterface
     }
 
     /** @param array<string, mixed> ...$queries */
-    #[Override]
     public function __invoke(array ...$queries): iterable
     {
         $query = $queries[0];

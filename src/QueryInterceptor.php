@@ -6,7 +6,6 @@ namespace Ray\Query;
 
 use BEAR\Resource\ResourceObject;
 use InvalidArgumentException;
-use Override;
 use Ray\Aop\MethodInterceptor;
 use Ray\Aop\MethodInvocation;
 use Ray\Di\InjectorInterface;
@@ -29,7 +28,6 @@ final class QueryInterceptor implements MethodInterceptor
     }
 
     /** @return ResourceObject|mixed */
-    #[Override]
     public function invoke(MethodInvocation $invocation)
     {
         $method = $invocation->getMethod();

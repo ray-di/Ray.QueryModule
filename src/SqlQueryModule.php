@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Ray\Query;
 
 use FilesystemIterator;
-use Override;
 use Ray\Di\AbstractModule;
 use Ray\Query\Annotation\AliasQuery;
 use Ray\Query\Annotation\Query;
@@ -40,7 +39,6 @@ class SqlQueryModule extends AbstractModule
     /**
      * {@inheritdoc}
      */
-    #[Override]
     protected function configure()
     {
         $this->bind(SqlDir::class)->toInstance(new SqlDir($this->sqlDir));

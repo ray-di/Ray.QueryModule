@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Ray\Query;
 
 use Aura\Sql\ExtendedPdoInterface;
-use Override;
 use PDO;
 use PDOStatement;
 use Ray\Query\Exception\QueryNumException;
@@ -37,7 +36,6 @@ class SqlQueryRowList implements RowListInterface
     }
 
     /** @param array<string, mixed> ...$queries */
-    #[Override]
     public function __invoke(array ...$queries): iterable
     {
         if (strpos($this->sql, ';') === false) {
