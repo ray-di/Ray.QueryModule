@@ -13,7 +13,7 @@
         "php": "^8.1",
         "ext-json": "*",
         "ext-pdo": "*",
-        "aura/sql": "^5.0 | ^6.0",
+        "aura/sql": "^6.0",
         "bear/resource": "^1.15",
         "guzzlehttp/guzzle": "^6.3 || ^7.0",
         "koriym/param-reader": "^1.0",
