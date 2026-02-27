@@ -12,9 +12,6 @@ use Ray\Query\Annotation\Query;
 
 class FakeAlias
 {
-    /**
-     * @Query(id="todo_item_by_id", type="row")
-     */
     #[Query('todo_item_by_id', type: 'row')]
     public function get(string $id)
     {

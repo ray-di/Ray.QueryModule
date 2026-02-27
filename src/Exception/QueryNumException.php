@@ -6,6 +6,6 @@ namespace Ray\Query\Exception;
 
 use InvalidArgumentException;
 
-class QueryNumException extends InvalidArgumentException
+final class QueryNumException extends InvalidArgumentException
 {
 }

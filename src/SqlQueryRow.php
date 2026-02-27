@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace Ray\Query;
 
 use Aura\Sql\ExtendedPdoInterface;
+use Override;
 
 use function array_pop;
 use function assert;
 use function count;
 use function is_iterable;
 
+/** @psalm-api */
 class SqlQueryRow implements RowInterface
 {
     /** @var ExtendedPdoInterface */
@@ -26,6 +28,7 @@ class SqlQueryRow implements RowInterface
     }
 
     /** @param array<string, mixed> ...$queries */
+    #[Override]
     public function __invoke(array ...$queries): iterable
     {
         $query = $queries[0];

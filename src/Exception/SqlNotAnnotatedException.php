@@ -6,6 +6,6 @@ namespace Ray\Query\Exception;
 
 use LogicException;
 
-class SqlNotAnnotatedException extends LogicException
+final class SqlNotAnnotatedException extends LogicException
 {
 }

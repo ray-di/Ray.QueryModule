@@ -6,6 +6,7 @@ namespace Ray\Query;
 
 use BEAR\Resource\ResourceObject;
 use InvalidArgumentException;
+use Override;
 use Ray\Aop\MethodInterceptor;
 use Ray\Aop\MethodInvocation;
 use Ray\Di\InjectorInterface;
@@ -16,7 +17,8 @@ use function is_string;
 use function parse_str;
 use function parse_url;
 
-class QueryInterceptor implements MethodInterceptor
+/** @psalm-api */
+final class QueryInterceptor implements MethodInterceptor
 {
     /** @var InjectorInterface */
     private $injector;
@@ -27,6 +29,7 @@ class QueryInterceptor implements MethodInterceptor
     }
 
     /** @return ResourceObject|mixed */
+    #[Override]
     public function invoke(MethodInvocation $invocation)
     {
         $method = $invocation->getMethod();

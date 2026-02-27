@@ -17,11 +17,7 @@ class FakeList implements QueryInterface
      */
     private $func;
 
-    /**
-     * @Named("todo_item_by_id")
-     */
-    #[Named('todo_item_by_id')]
-    public function __construct(RowListInterface $func)
+    public function __construct(#[Named('todo_item_by_id')] RowListInterface $func)
     {
         $this->func = $func;
     }

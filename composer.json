@@ -10,12 +10,11 @@
         }
     ],
     "require": {
-        "php": "^7.3 || ^8.0",
+        "php": "^8.1",
         "ext-json": "*",
         "ext-pdo": "*",
-        "aura/sql": "^3.0 | ^4.0 | ^5.0",
+        "aura/sql": "^5.0 | ^6.0",
         "bear/resource": "^1.15",
-        "doctrine/annotations": "^1.12",
         "guzzlehttp/guzzle": "^6.3 || ^7.0",
         "koriym/param-reader": "^1.0",
         "koriym/query-locator": "^1.4",
@@ -44,10 +43,10 @@
     "scripts": {
         "post-install-cmd": ["@composer bin all install --ansi"],
         "post-update-cmd": ["@composer bin all update --ansi"],
-        "test": ["./vendor/bin/phpunit"],
+        "test": ["./vendor/phpunit/phpunit/phpunit"],
         "tests": ["@cs", "@sa", "@test"],
-        "coverage": ["php -dzend_extension=xdebug.so -dxdebug.mode=coverage ./vendor/bin/phpunit --coverage-text --coverage-html=build/coverage"],
-        "pcov": ["php -dextension=pcov.so -d pcov.enabled=1 ./vendor/bin/phpunit --coverage-text --coverage-html=build/coverage  --coverage-clover=coverage.xml"],
+        "coverage": ["php -dzend_extension=xdebug.so -dxdebug.mode=coverage ./vendor/phpunit/phpunit/phpunit --coverage-text --coverage-html=build/coverage"],
+        "pcov": ["php -dextension=pcov.so -d pcov.enabled=1 ./vendor/phpunit/phpunit/phpunit --coverage-text --coverage-html=build/coverage  --coverage-clover=coverage.xml"],
         "cs": ["phpcs --standard=./phpcs.xml src tests"],
         "cs-fix": ["./vendor/bin/phpcbf src tests"],
         "clean": ["./vendor/bin/phpstan clear-result-cache", "./vendor/bin/psalm --clear-cache", "rm -rf tests/tmp/*.php"],

@@ -4,18 +4,20 @@ declare(strict_types=1);
 
 namespace Ray\Query;
 
+use Override;
 use Ray\Di\AbstractModule;
 use ReflectionClass;
 
 use function class_exists;
 use function is_string;
 
-class PhpQueryModule extends AbstractModule
+/** @psalm-api */
+final class PhpQueryModule extends AbstractModule
 {
-    /** @var iterable<string, mixed> */
+    /** @var iterable<non-empty-string, mixed> */
     private $configs;
 
-    /** @param iterable<string, mixed> $configs */
+    /** @param iterable<non-empty-string, mixed> $configs */
     public function __construct(iterable $configs, ?AbstractModule $module = null)
     {
         $this->configs = $configs;
@@ -23,6 +25,7 @@ class PhpQueryModule extends AbstractModule
         parent::__construct($module);
     }
 
+    #[Override]
     protected function configure(): void
     {
         /** @var class-string $binding */
@@ -32,7 +35,10 @@ class PhpQueryModule extends AbstractModule
         }
     }
 
-    /** @param mixed $binding */
+    /**
+     * @param non-empty-string $name
+     * @param mixed            $binding
+     */
     private function bindQuery(string $name, $binding): void
     {
         if (is_string($binding) && class_exists($binding) && (new ReflectionClass($binding))->implementsInterface(QueryInterface::class)) {

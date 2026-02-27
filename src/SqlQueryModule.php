@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Ray\Query;
 
 use FilesystemIterator;
+use Override;
 use Ray\Di\AbstractModule;
 use Ray\Query\Annotation\AliasQuery;
 use Ray\Query\Annotation\Query;
@@ -17,6 +18,7 @@ use SplFileInfo;
 use function file_get_contents;
 use function pathinfo;
 
+/** @psalm-api */
 class SqlQueryModule extends AbstractModule
 {
     /** @var string */
@@ -38,11 +40,13 @@ class SqlQueryModule extends AbstractModule
     /**
      * {@inheritdoc}
      */
+    #[Override]
     protected function configure()
     {
         $this->bind(SqlDir::class)->toInstance(new SqlDir($this->sqlDir));
         /** @var SplFileInfo $fileInfo */
         foreach ($this->files($this->sqlDir) as $fileInfo) {
+            /** @var non-empty-string $name */
             $name = pathinfo((string) $fileInfo->getRealPath())['filename'];
             $sqlId = 'sql-' . $name;
             $this->bind(QueryInterface::class)->annotatedWith($name)->toConstructor(
@@ -70,6 +74,7 @@ class SqlQueryModule extends AbstractModule
         );
     }
 
+    /** @param non-empty-string $name */
     protected function bindCallableItem(string $name, string $sqlId): void
     {
         $this->bind(RowInterface::class)->annotatedWith($name)->toConstructor(
@@ -78,6 +83,7 @@ class SqlQueryModule extends AbstractModule
         );
     }
 
+    /** @param non-empty-string $name */
     protected function bindCallableList(string $name, string $sqlId): void
     {
         $this->bind()->annotatedWith($name)->toConstructor(

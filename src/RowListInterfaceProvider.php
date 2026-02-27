@@ -5,10 +5,14 @@ declare(strict_types=1);
 namespace Ray\Query;
 
 use Aura\Sql\ExtendedPdoInterface;
+use Override;
 use Ray\Di\InjectionPointInterface;
 use Ray\Di\ProviderInterface;
 
-/** @implements ProviderInterface<RowListInterface> */
+/**
+ * @psalm-api
+ * @implements ProviderInterface<RowListInterface>
+ */
 final class RowListInterfaceProvider implements ProviderInterface
 {
     /** @var InjectionPointInterface */
@@ -30,6 +34,7 @@ final class RowListInterfaceProvider implements ProviderInterface
         $this->finder = $finder;
     }
 
+    #[Override]
     public function get(): SqlQueryRowList
     {
         return new SqlQueryRowList($this->pdo, ($this->finder)($this->ip->getParameter()));

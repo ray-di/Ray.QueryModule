@@ -6,6 +6,7 @@ namespace Ray\Query;
 
 use DateTime;
 use DateTimeImmutable;
+use Override;
 use Ray\Aop\MethodInterceptor;
 use Ray\Aop\MethodInvocation;
 use Ray\Di\Di\Named;
@@ -21,15 +22,16 @@ final class Iso8601Interceptor implements MethodInterceptor
     /**
      * @param string[] $datetimeColumns
      *
-     * @Named("datetimeColumns=iso8601_date_time_columns")
+     * @psalm-api
      */
-    #[Named('datetimeColumns=iso8601_date_time_columns')]
-    public function __construct(array $datetimeColumns)
+    public function __construct(#[Named('iso8601_date_time_columns')]
+    array $datetimeColumns)
     {
         $this->datetimeColumns = $datetimeColumns;
     }
 
     /** @return mixed */
+    #[Override]
     public function invoke(MethodInvocation $invocation)
     {
         $list = $invocation->proceed();

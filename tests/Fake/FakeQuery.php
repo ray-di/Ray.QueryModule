@@ -13,12 +13,7 @@ use Ray\Di\Di\Named;
 
 class FakeQuery
 {
-    /**
-     * @Assisted({"todo"})
-     * @Named("todo=todo_item_by_id")
-     */
-    #[Assisted(['todo']), Named('todo=todo_item_by_id')]
-    public function get(string $uuid, QueryInterface $todo = null)
+    public function get(string $uuid, #[Assisted, Named('todo_item_by_id')] ?QueryInterface $todo = null)
     {
         assert(is_callable($todo));
         return $todo([
@@ -26,12 +21,7 @@ class FakeQuery
         ]);
     }
 
-    /**
-     * @Assisted({"createTodo"})
-     * @Named("createTodo=todo_insert")
-     */
-    #[Assisted(['createTodo']), Named('createTodo=todo_insert')]
-    public function create(string $uuid, string $title, QueryInterface $createTodo = null)
+    public function create(string $uuid, string $title, #[Assisted, Named('todo_insert')] ?QueryInterface $createTodo = null)
     {
         assert(is_callable($createTodo));
         return $createTodo([

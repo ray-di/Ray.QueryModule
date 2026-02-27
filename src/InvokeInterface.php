@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Ray\Query;
 
+use Override;
+
 interface InvokeInterface extends QueryInterface
 {
     /**
@@ -11,5 +13,6 @@ interface InvokeInterface extends QueryInterface
      *
      * @return iterable<mixed>
      */
+    #[Override]
     public function __invoke(array ...$query): iterable;
 }

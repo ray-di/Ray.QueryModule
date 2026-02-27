@@ -6,6 +6,6 @@ namespace Ray\Query\Exception;
 
 use LogicException;
 
-class SqlFileNotFoundException extends LogicException
+final class SqlFileNotFoundException extends LogicException
 {
 }
