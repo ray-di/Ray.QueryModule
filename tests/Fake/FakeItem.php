@@ -17,11 +17,7 @@ class FakeItem implements QueryInterface
      */
     private $func;
 
-    /**
-     * @Named("todo_item_by_id")
-     */
-    #[Named('todo_item_by_id')]
-    public function __construct(RowInterface $func)
+    public function __construct(#[Named('todo_item_by_id')] RowInterface $func)
     {
         $this->func = $func;
     }

@@ -14,6 +14,7 @@ use function file_exists;
 use function file_get_contents;
 use function sprintf;
 
+/** @psalm-api */
 final class SqlFinder
 {
     /** @var ParamReaderInterface<object> */

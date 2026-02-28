@@ -6,6 +6,6 @@ namespace Ray\Query\Exception;
 
 use RuntimeException;
 
-class WebQueryException extends RuntimeException
+final class WebQueryException extends RuntimeException
 {
 }

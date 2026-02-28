@@ -9,7 +9,8 @@ use Koriym\ParamReader\ParamReaderInterface;
 use Ray\Di\AbstractModule;
 use Ray\Di\Scope;
 
-class SqlQueryProviderModule extends AbstractModule
+/** @psalm-api */
+final class SqlQueryProviderModule extends AbstractModule
 {
     public function __construct(?AbstractModule $module = null)
     {

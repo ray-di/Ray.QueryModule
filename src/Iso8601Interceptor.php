@@ -21,10 +21,10 @@ final class Iso8601Interceptor implements MethodInterceptor
     /**
      * @param string[] $datetimeColumns
      *
-     * @Named("datetimeColumns=iso8601_date_time_columns")
+     * @psalm-api
      */
-    #[Named('datetimeColumns=iso8601_date_time_columns')]
-    public function __construct(array $datetimeColumns)
+    public function __construct(#[Named('iso8601_date_time_columns')]
+    array $datetimeColumns)
     {
         $this->datetimeColumns = $datetimeColumns;
     }

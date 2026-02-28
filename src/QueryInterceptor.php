@@ -16,7 +16,8 @@ use function is_string;
 use function parse_str;
 use function parse_url;
 
-class QueryInterceptor implements MethodInterceptor
+/** @psalm-api */
+final class QueryInterceptor implements MethodInterceptor
 {
     /** @var InjectorInterface */
     private $injector;

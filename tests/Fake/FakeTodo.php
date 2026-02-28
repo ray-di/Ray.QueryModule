@@ -12,27 +12,20 @@ use Ray\Di\Di\Named;
 
 class FakeTodo
 {
-    /**
-     * @var callable
-     */
+    /** @var callable */
     private $todoGet;
 
-    /**
-     * @var callable
-     */
+    /** @var callable */
     private $todoCreate;
 
-    /**
-     * @var RowListInterface
-     */
+    /** @var RowListInterface */
     private $todoList;
 
-    /**
-     * @Named("todoGet=todo_item_by_id, todoList=todo_list, todoCreate=todo_insert")
-     */
-    #[Named('todoGet=todo_item_by_id, todoList=todo_list, todoCreate=todo_insert')]
-    public function __construct(RowInterface $todoGet, RowListInterface $todoList, callable $todoCreate)
-    {
+    public function __construct(
+        #[Named('todo_item_by_id')] RowInterface $todoGet,
+        #[Named('todo_list')] RowListInterface $todoList,
+        #[Named('todo_insert')] callable $todoCreate
+    ) {
         $this->todoGet = $todoGet;
         $this->todoCreate = $todoCreate;
         $this->todoList = $todoList;

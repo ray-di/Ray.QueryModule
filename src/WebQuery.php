@@ -23,6 +23,7 @@ final class WebQuery implements QueryInterface
     /** @var string */
     private $uri;
 
+    /** @psalm-api */
     public function __construct(ClientInterface $client, string $method, string $uri)
     {
         $this->client = $client;

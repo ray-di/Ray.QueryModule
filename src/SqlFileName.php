@@ -9,6 +9,7 @@ use SplFileInfo;
 use function file_get_contents;
 use function sprintf;
 
+/** @psalm-api */
 final class SqlFileName
 {
     /**

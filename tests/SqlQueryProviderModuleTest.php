@@ -13,8 +13,6 @@ use Ray\Di\Injector;
 use Ray\Query\Exception\SqlFileNotFoundException;
 use Ray\Query\Exception\SqlNotAnnotatedException;
 
-use function count;
-
 class SqlQueryProviderModuleTest extends TestCase
 {
     /** @var AbstractModule  */
@@ -53,22 +51,14 @@ class SqlQueryProviderModuleTest extends TestCase
         $this->todoTest($todo);
     }
 
-    /** @requires PHP 8.1 */
-    public function testProviderInjectAttr(): void
-    {
-        $injector = new Injector($this->module, __DIR__ . '/tmp');
-        $todo = $injector->getInstance(FakeTodoRepositoryAttr::class);
-        $this->todoTest($todo);
-    }
-
     public function todoTest(object $todo): void
     {
         /** @var FakeTodoRepository $todo */
         ($todo->todoCreate)(['id' => 1, 'title' => 'think']);
         ($todo->todoCreate)(['id' => 2, 'title' => 'travel']);
         $list = ($todo->todoList)([]);
-        $this->assertSame(2, count($list));
-        $item = ($todo->todoItem)(['id' => 2]);
+        $this->assertCount(2, $list);
+        $item = (array) ($todo->todoItem)(['id' => 2]);
         $this->assertSame('travel', $item['title']);
     }
 

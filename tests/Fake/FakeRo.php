@@ -13,9 +13,6 @@ use Ray\Query\Annotation\Query;
 
 class FakeRo extends ResourceObject
 {
-    /**
-     * @Query(id="todo_item_by_id", type="row")
-     */
     #[Query('todo_item_by_id', type: 'row')]
     public function onGet(string $id)
     {

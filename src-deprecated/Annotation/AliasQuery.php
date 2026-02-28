@@ -4,34 +4,27 @@ declare(strict_types=1);
 
 namespace Ray\Query\Annotation;
 
+use Attribute;
+
 /**
- * Annotates your class methods into which the Injector should inject values
- *
- * @Annotation
- * @Target("METHOD")
- *
- * @deprecated use MapQuery instead
+ * @deprecated use Query instead
  */
+#[Attribute(Attribute::TARGET_METHOD)]
 final class AliasQuery
 {
-    /**
-     * Query ID
-     *
-     * @var string
-     */
+    /** @var string */
     public $id;
 
-    /**
-     * Is ID templated ?
-     *
-     * @var bool
-     */
+    /** @var bool */
     public $templated = false;
 
-    /**
-     * @Enum({"row", "row_list"})
-     *
-     * @var string
-     */
+    /** @var 'row'|'row_list' */
     public $type = 'row_list';
+
+    public function __construct(string $id = '', string $type = 'row_list', bool $templated = false)
+    {
+        $this->id = $id;
+        $this->type = $type;
+        $this->templated = $templated;
+    }
 }

@@ -8,14 +8,8 @@ use Ray\Query\Annotation\Sql;
 
 class FakeTodoProviderSqlNotFound
 {
-    /**
-     * @Sql("__invalid")
-     */
-    public $todoCreate;
-
     public function __construct(
-        InvokeInterface $todoCreate
-    ){
-        $this->todoCreate = $todoCreate;
+        #[Sql('__invalid')] public InvokeInterface $todoCreate
+    ) {
     }
 }

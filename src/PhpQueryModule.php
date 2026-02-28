@@ -10,12 +10,13 @@ use ReflectionClass;
 use function class_exists;
 use function is_string;
 
+/** @psalm-api */
 class PhpQueryModule extends AbstractModule
 {
-    /** @var iterable<string, mixed> */
+    /** @var iterable<non-empty-string, mixed> */
     private $configs;
 
-    /** @param iterable<string, mixed> $configs */
+    /** @param iterable<non-empty-string, mixed> $configs */
     public function __construct(iterable $configs, ?AbstractModule $module = null)
     {
         $this->configs = $configs;
@@ -32,7 +33,10 @@ class PhpQueryModule extends AbstractModule
         }
     }
 
-    /** @param mixed $binding */
+    /**
+     * @param non-empty-string $name
+     * @param mixed            $binding
+     */
     private function bindQuery(string $name, $binding): void
     {
         if (is_string($binding) && class_exists($binding) && (new ReflectionClass($binding))->implementsInterface(QueryInterface::class)) {

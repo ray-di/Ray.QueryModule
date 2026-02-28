@@ -5,10 +5,102 @@ on:
   pull_request:
   workflow_dispatch:
 
+env:
+  COMPOSER_FLAGS: "--ansi --no-interaction --no-progress --prefer-dist --no-plugins"
+  COMPOSER_UPDATE_FLAGS: ""
+
 jobs:
-  ci:
-    uses: ray-di/.github/.github/workflows/continuous-integration.yml@v1
-    with:
-      old_stable: '["7.3", "7.4", "8.0", "8.1", "8.2", , "8.31"]'
-      current_stable: 8.4
-      script: demo/run.php
+  phpunit:
+    name: PHPUnit - PHP ${{ matrix.php-version }} (${{ matrix.os }}, ${{ matrix.dependencies }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # PHP 8.2
+          - {php-version: "8.2", os: ubuntu-latest, dependencies: highest}
+          - {php-version: "8.2", os: ubuntu-latest, dependencies: lowest}
+          # PHP 8.3
+          - {php-version: "8.3", os: ubuntu-latest, dependencies: highest}
+          - {php-version: "8.3", os: ubuntu-latest, dependencies: lowest}
+          # PHP 8.4 (current stable)
+          # aura/sql 5.x (lowest) is skipped on PHP 8.4: PDO::connect() static/non-static conflict (upstream bug)
+          - {php-version: "8.4", os: windows-latest, dependencies: highest}
+          - {php-version: "8.4", os: ubuntu-latest,  dependencies: highest}
+
+    steps:
+      - name: Disable autocrlf on Windows
+        if: contains(matrix.os, 'windows')
+        run: git config --global core.autocrlf false
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup PHP ${{ matrix.php-version }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          coverage: pcov
+          ini-values: |
+            zend.assertions=1
+            memory_limit=512M
+            opcache.jit=0
+            opcache.jit_buffer_size=0
+            opcache.enable=0
+            opcache.enable_cli=0
+          extensions: fileinfo,pdo,pdo_mysql,pdo_sqlite
+
+      - name: Check fileinfo extension
+        run: php --ri fileinfo
+
+      - name: Get composer cache directory
+        id: composer-cache
+        shell: bash
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-php${{ matrix.php-version }}-composer-${{ hashFiles('**/composer.json', '**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php${{ matrix.php-version }}-composer-
+            ${{ runner.os }}-composer-
+
+      - name: Set platform requirements
+        shell: bash
+        run: composer config platform.php ${{ matrix.php-version }}
+
+      - name: Handle lowest dependencies
+        if: matrix.dependencies == 'lowest'
+        shell: bash
+        run: echo COMPOSER_UPDATE_FLAGS="$COMPOSER_UPDATE_FLAGS --prefer-lowest" >> $GITHUB_ENV
+
+      - name: Remove platform config for highest resolution
+        if: matrix.dependencies == 'highest'
+        shell: bash
+        run: composer config platform --unset
+
+      - name: Update dependencies
+        shell: bash
+        run: |
+          composer validate --no-check-all --strict
+          composer update ${{ env.COMPOSER_UPDATE_FLAGS }} ${{ env.COMPOSER_FLAGS }}
+
+      - name: Run test suite
+        shell: bash
+        run: vendor/bin/phpunit --coverage-clover=coverage.xml
+        env:
+          XDEBUG_MODE: coverage
+
+      - name: Upload coverage report
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: false
+
+      - name: Run additional script
+        shell: bash
+        run: php demo/run.php

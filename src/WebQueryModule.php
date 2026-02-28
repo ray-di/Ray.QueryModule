@@ -10,17 +10,18 @@ use Ray\Di\AbstractModule;
 use Ray\Di\Scope;
 use Ray\Query\Annotation\GuzzleConfig;
 
-class WebQueryModule extends AbstractModule
+/** @psalm-api */
+final class WebQueryModule extends AbstractModule
 {
     /** @var array<string, mixed> */
     private $guzzleConfig;
 
-    /** @var array<string, array{0: string, 1:string}> */
+    /** @var array<non-empty-string, array{0: string, 1:string}> */
     private $webQueryConfig;
 
     /**
-     * @param array<string, array{0: string, 1:string}> $webQueryConfig
-     * @param array<string, mixed>                      $guzzleConfig
+     * @param array<non-empty-string, array{0: string, 1:string}> $webQueryConfig
+     * @param array<string, mixed>                                $guzzleConfig
      */
     public function __construct(array $webQueryConfig, array $guzzleConfig, ?AbstractModule $module = null)
     {
@@ -42,6 +43,7 @@ class WebQueryModule extends AbstractModule
         }
     }
 
+    /** @param non-empty-string $name */
     private function configureWebQuery(string $name, string $method, string $uri): void
     {
         $prefixedName = 'wq-' . $name;

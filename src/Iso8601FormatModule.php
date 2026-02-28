@@ -6,7 +6,8 @@ namespace Ray\Query;
 
 use Ray\Di\AbstractModule;
 
-class Iso8601FormatModule extends AbstractModule
+/** @psalm-api */
+final class Iso8601FormatModule extends AbstractModule
 {
     /** @var array<string> */
     private $datetimeColumns;

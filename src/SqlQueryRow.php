@@ -11,6 +11,7 @@ use function assert;
 use function count;
 use function is_iterable;
 
+/** @psalm-api */
 class SqlQueryRow implements RowInterface
 {
     /** @var ExtendedPdoInterface */

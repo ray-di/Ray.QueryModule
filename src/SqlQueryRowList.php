@@ -17,6 +17,7 @@ use function strpos;
 use function strtolower;
 use function trim;
 
+/** @psalm-api */
 class SqlQueryRowList implements RowListInterface
 {
     public const QUERY_CLEANUP_REGEX = '/\/\*.*?\*\/|--.*$/m';
@@ -37,7 +38,7 @@ class SqlQueryRowList implements RowListInterface
     /** @param array<string, mixed> ...$queries */
     public function __invoke(array ...$queries): iterable
     {
-        if (! strpos($this->sql, ';')) {
+        if (strpos($this->sql, ';') === false) {
             $this->sql .= ';';
         }
 
@@ -57,11 +58,11 @@ class SqlQueryRowList implements RowListInterface
 
         $lastQuery = $result
             ? strtolower(trim(
-                (string) preg_replace(self::QUERY_CLEANUP_REGEX, '', (string) $result->queryString),
+                (string) preg_replace(self::QUERY_CLEANUP_REGEX, '', $result->queryString),
                 self::TRIM_CHARACTERS_REGEX,
             )) : '';
         if ($result instanceof PDOStatement && strpos($lastQuery, 'select') === 0) {
-            return (array) $result->fetchAll(PDO::FETCH_ASSOC);
+            return $result->fetchAll(PDO::FETCH_ASSOC);
         }
 
         return [];

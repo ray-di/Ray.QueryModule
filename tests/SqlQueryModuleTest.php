@@ -190,7 +190,7 @@ class SqlQueryModuleTest extends TestCase
                 $this->install(new SqlQueryModule(__DIR__ . '/Fake/sql', null, new SqlFileName()));
             }
         };
-        $injector = (new Injector($module));
+        $injector = new Injector($module);
         $todo = $injector->getInstance(FakeTodo::class);
         assert($todo instanceof FakeTodo);
         $pdo = $injector->getInstance(ExtendedPdoInterface::class);
