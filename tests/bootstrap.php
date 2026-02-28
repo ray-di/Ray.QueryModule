@@ -15,5 +15,8 @@ $rm = static function ($dir) use (&$rm) {
 $rm(__DIR__ . '/tmp');
 
 set_error_handler(static function (int $errno, string $errstr, string $errfile) {
-    return $errno === E_DEPRECATED && str_contains($errfile, dirname(__DIR__) . '/vendor');
+    $normalizedFile = str_replace('\\', '/', $errfile);
+    $vendorPath = str_replace('\\', '/', dirname(__DIR__) . '/vendor/');
+
+    return $errno === E_DEPRECATED && str_contains($normalizedFile, $vendorPath);
 });

@@ -11,7 +11,7 @@ use function class_exists;
 use function is_string;
 
 /** @psalm-api */
-final class PhpQueryModule extends AbstractModule
+class PhpQueryModule extends AbstractModule
 {
     /** @var iterable<non-empty-string, mixed> */
     private $configs;
