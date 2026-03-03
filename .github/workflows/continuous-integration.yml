@@ -23,10 +23,12 @@ jobs:
           # PHP 8.3
           - {php-version: "8.3", os: ubuntu-latest, dependencies: highest}
           - {php-version: "8.3", os: ubuntu-latest, dependencies: lowest}
-          # PHP 8.4 (current stable)
-          # aura/sql 5.x (lowest) is skipped on PHP 8.4: PDO::connect() static/non-static conflict (upstream bug)
-          - {php-version: "8.4", os: windows-latest, dependencies: highest}
-          - {php-version: "8.4", os: ubuntu-latest,  dependencies: highest}
+          # PHP 8.4
+          # aura/sql 5.x (lowest) is skipped on PHP 8.4+: PDO::connect() static/non-static conflict (upstream bug)
+          - {php-version: "8.4", os: ubuntu-latest, dependencies: highest}
+          # PHP 8.5
+          - {php-version: "8.5", os: windows-latest, dependencies: highest}
+          - {php-version: "8.5", os: ubuntu-latest,  dependencies: highest}
 
     steps:
       - name: Disable autocrlf on Windows
