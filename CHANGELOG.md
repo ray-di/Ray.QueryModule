@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.11.1] - 2026-03-03
 
+### Added
+- PHP 8.5 support
+
 ### Removed
 - `koriym/param-reader` dependency — replaced with native `ReflectionParameter::getAttributes()`
 
