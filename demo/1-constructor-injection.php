@@ -22,12 +22,9 @@ class Todo
      */
     private $todoItem;
 
-    /**
-     * @Named("createTodo=todo_insert, todoItem=todo_item_by_id")
-     */
     public function __construct(
-        callable $createTodo,
-        callable $todoItem
+        #[Named('todo_insert')] callable $createTodo,
+        #[Named('todo_item_by_id')] callable $todoItem
     ) {
         $this->createTodo = $createTodo;
         $this->todoItem = $todoItem;
