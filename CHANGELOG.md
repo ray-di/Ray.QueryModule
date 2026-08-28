@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.11.2] - 2026-08-28
+
 ### Removed
 - `nikic/php-parser` dependency — unused in `src/`; no `PhpParser` namespace reference exists anywhere in the codebase or its git history
 
