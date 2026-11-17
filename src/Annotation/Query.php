@@ -7,18 +7,20 @@ namespace Ray\Query\Annotation;
 use Attribute;
 use Ray\Query\Exception\QueryTypeException;
 
+/**
+ * Runs the query of the ID with the method arguments and returns its result
+ * (a resource object gets the result as its body, or 404 when the result is empty)
+ *
+ * @see \Ray\Query\QueryInterceptor
+ */
 #[Attribute(Attribute::TARGET_METHOD)]
 final class Query
 {
-    /**
-     * Query ID
-     *
-     * @var string
-     */
+    /** @var string */
     public $id;
 
     /**
-     * Is ID templated ?
+     * Whether `id` is a URI template expanded with the method arguments
      *
      * @var bool
      */

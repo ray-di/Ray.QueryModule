@@ -6,10 +6,17 @@ namespace Ray\Query\Annotation;
 
 use Attribute;
 
+/**
+ * Injects a query object that runs the SQL file named by `sql`
+ */
 #[Attribute(Attribute::TARGET_PROPERTY | Attribute::TARGET_PARAMETER)]
 final class Sql
 {
-    /** @var string */
+    /**
+     * SQL file name in the SQL directory, without `.sql`
+     *
+     * @var string
+     */
     public $sql;
 
     /** @psalm-api */
