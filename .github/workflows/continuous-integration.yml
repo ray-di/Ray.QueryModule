@@ -29,6 +29,9 @@ jobs:
           # PHP 8.5
           - {php-version: "8.5", os: windows-latest, dependencies: highest}
           - {php-version: "8.5", os: ubuntu-latest,  dependencies: highest}
+          # PHP 8.6
+          - {php-version: "8.6", os: windows-latest, dependencies: highest}
+          - {php-version: "8.6", os: ubuntu-latest,  dependencies: highest}
 
     steps:
       - name: Disable autocrlf on Windows
